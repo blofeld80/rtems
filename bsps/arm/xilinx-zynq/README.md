@@ -34,11 +34,25 @@ SPDX-License-Identifier: CC-BY-SA-4.0 or BSD-2-Clause
 
 4. [Appendix](#appendix)
 
-	4.1. [DTS Files](#dtsf)
+  4.1. [`dts` folder](#dtsf)
 
-	4.2. [Scripts](#scripts)
+  * 4.1.1 picozed-zynq7.dts
 
+  * 4.1.2 zynq-7000.dtsi
 
+  4.2. [`config` folder](#cfgf)
+
+  * 4.2.1 `config.sh`
+
+  4.3. [Scripts](#scripts)
+
+  * 4.3.1 `1_3_0_install_tools.sh`
+
+  * 4.3.2 `3_1_0_build_hardware.sh`
+
+  * 4.3.3 `3_1_1_build_fsbl.sh`
+
+  * 4.3.4 `3_1_2_build_boot_file.sh`
 
 
 
@@ -219,9 +233,11 @@ The [appendix](#appendix) contains a couple of scripts to easen the build flow. 
     ├── 3_1_0_build_hardware.sh
     ├── 3_1_1_build_fsbl.sh
     ├── 3_1_2_build_boot_file.sh
-    ├── build_app.sh
-    └──  config
-        └── config.sh
+    ├── config
+    │   └── config.sh
+    └── dts
+        ├── picozed-zynq7.dts
+        └──  zynq-7000.dtsi
 ```
 Per default, the scripts will download & install all tools below `~/quick-start` (adjust this behaviour in `config.sh` if required). 
 
@@ -285,7 +301,7 @@ executing thread name: TA2
 
 Xilinx proposes to use the machine `arm-generic-fdt-7series` ([LINK](https://xilinx-wiki.atlassian.net/wiki/spaces/A/pages/821854273/Running+Bare+Metal+Applications+on+QEMU#RunningBareMetalApplicationsonQEMU-Runningabare-metalapplicationonZynq7000)). This virtual machine is described by a devicetree which can be used to model the hardware of a concrete board. 
 
-A devicetree example for the Picozed board has been added (see subfolder utils). Some notes on that:
+A devicetree example for the Picozed board has been added (see subfolder `dts`). Some notes on that:
 * The skelton `zynq-7000.dtsi` has been modified to make QEMU load a model of the PL310 cache controller. It may sound strange, but `compatible = "arm,pl310-cache";` must be replaced by `compatible = "arm,l2x0";` as the original setting only loads a dummy and you will end up with a fatal error (`ARM_FATAL_L2C_310_UNEXPECTED_ID`) as soon as RTEMS has been configured to use I/D caches.
 * The devicetree specifies two cores. Therefore, `RTEMS_SMP` needs to be enabled when building RTEMS
 
@@ -455,7 +471,7 @@ Segger J-Link works fine (https://www.segger.com/products/debug-probes/j-link/).
 ## 4. Appendix <a name="appendix"></a> 
 
 
-### 4.1. DTS Files <a name="dtsf"></a> 
+### 4.1. DTS Folder <a name="dtsf"></a> 
 
 #### 4.1.1. picozed-zynq7.dts <a name="picozed_zynq7_dts"></a>  
 ```
@@ -1090,7 +1106,7 @@ Segger J-Link works fine (https://www.segger.com/products/debug-probes/j-link/).
 
 
 
-### 4.2. Scripts <a name="scripts"></a> 
+### 4.2. `config` folder <a name="cfgf"></a> 
 
 #### 4.2.1 `config.sh`
 
@@ -1239,7 +1255,9 @@ function git_clone_commit {
 }
 ```
 
-#### 4.2.2 `1_3_0_install_tools.sh`
+### 4.3. Scripts <a name="scripts"></a> 
+
+#### 4.3.1 `1_3_0_install_tools.sh`
 
 ```
 #!/bin/bash
@@ -1253,30 +1271,16 @@ THIS_DIR=$(dirname "${THIS_SCRIPT}")
 # Read the configuration
 source ${THIS_DIR}/config/config.sh
 
+
 if [ ! -d "${TOP_DIR}" ]; then 
   mkdir -p ${TOP_DIR}
 fi
 
-#################################################
-## Fetch source
-function git_clone_branch {
-  if [ ! -d "${4}" ]; then 
-    echo ""
-    echo "###############################################################################"
-    echo "Fetch ${1}:" 
-    echo "  Clone branch / commit ${3}" 
-    echo "  from repo ${2}"
-    echo "  into folder ${4}"
-    echo "###############################################################################"
-    echo ""
-    git clone --depth=1 -b ${3} ${2} ${4}
-  fi
-}
- 
+git_clone_branch "OPENOCD"  ${OPENOCD_GIT_REPO} ${OPENOCD_VER_COMMIT} ${OPENOCD_SRC_DIR}  
 git_clone_branch "QEMU"  ${QEMU_GIT_REPO} ${QEMU_VER_COMMIT} ${QEMU_SRC_DIR} 
 git_clone_commit "RSB"   ${RTEMS_RSB_GIT_REPO} ${RTEMS_RSB_VER_COMMIT} ${RTEMS_RSB_SRC_DIR} 
-git_clone_branch "RTEMS" ${RTEMS_OS_GIT_REPO} ${RTEMS_OS_VER_COMMIT} ${RTEMS_OS_SRC_DIR} 
-git_clone_branch "OPENOCD" ${OPENOCD_GIT_REPO} ${OPENOCD_VER_COMMIT} ${OPENOCD_SRC_DIR} 
+
+
 
 #################################################
 ## Build tools
@@ -1307,28 +1311,31 @@ if [ ! -d "${OPENOCD_INSTALL_DIR}" ]; then
   echo "###############################################################################"
   echo ""
   pushd ${OPENOCD_SRC_DIR}
-  ./bootstrap
-  ./configure --prefix=${OPENOCD_INSTALL_DIR} --enable-jlink
+  ./bootstrap 
+  ./configure --enable-jlink --prefix=${OPENOCD_INSTALL_DIR}
   make -j $(nproc)
   make install -j 1
   popd
 fi
 
+
 if [ ! -d "${ECLIPSE_INSTALL_DIR}" ]; then 
   echo ""
   echo "###############################################################################"
-  echo "Build and install RTEMS toolchain"
+  echo "Install Ecipse"
   echo "###############################################################################"
   echo ""
-  
-  if [ -d "${ECLIPSE_SRC_DIR}" ]; then 
+  if [ ! -d "${ECLIPSE_SRC_DIR}" ]; then 
     rm -rf ${ECLIPSE_SRC_DIR}
   fi
-  mkdir ${ECLIPSE_SRC_DIR} 
+  mkdir ${ECLIPSE_SRC_DIR}
+
   wget ${ECLIPSE_SRC_REPO}/${ECLIPSE_TAR_NAME} -P ${ECLIPSE_SRC_DIR}
+
   mkdir ${ECLIPSE_INSTALL_DIR}
   tar -zxvf ${ECLIPSE_SRC_DIR}/${ECLIPSE_TAR_NAME} -C ${ECLIPSE_INSTALL_DIR}
 fi
+
 
 if [ ! -d "${RTEMS_TOOLCHAIN_INSTALL_DIR}" ]; then 
   echo ""
@@ -1342,7 +1349,7 @@ if [ ! -d "${RTEMS_TOOLCHAIN_INSTALL_DIR}" ]; then
 fi
 ```
 
-#### 4.2.3 `3_1_0_build_hardware.sh`
+#### 4.3.2 `3_1_0_build_hardware.sh`
 
 ```
 #!/bin/bash
@@ -1621,7 +1628,7 @@ ${THIS_DIR}/3_1_2_build_boot_file.sh -b ${BIT_FILE} -f ${FSBL_ELF} -o ${BOARD_IN
 #return 0
 ```
 
-#### 4.2.4 `3_1_1_build_fsbl.sh`
+#### 4.3.3 `3_1_1_build_fsbl.sh`
 
 ```
 #!/bin/bash
@@ -1723,7 +1730,7 @@ if [ -e ${SCRIPTING_DIR} ]     ; then rm -rf ${SCRIPTING_DIR}      ; fi
 exit 0
 ```
 
-#### 4.2.5 `3_1_2_build_boot_file.sh`
+#### 4.3.4 `3_1_2_build_boot_file.sh`
 
 ```
 #!/bin/bash
