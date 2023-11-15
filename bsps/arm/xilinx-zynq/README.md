@@ -309,7 +309,7 @@ A devicetree example for the Picozed board has been added (see subfolder `dts`).
 The devicetree blob can be build using:
 
 ```
-dtc -I dts -O dtb -o picozed-zynq7.dtb picozed-zynq7.dts
+blofeld@ubuntu:~/demo$ ~/quick-start/install/toolchain/bin/dtc  -I dts -O dtb -o dts/picozed-zynq7.dtb dts/picozed-zynq7.dts
 ```
 
 Now run the machine with:
@@ -528,7 +528,7 @@ Segger J-Link works fine (https://www.segger.com/products/debug-probes/j-link/).
 
 #### 4.1.2. zynq-7000.dtsi <a name="zynq_7000-dtsi"></a> 
 ```
-/ SPDX-License-Identifier: GPL-2.0+
+// SPDX-License-Identifier: GPL-2.0+
 /*
  * Xilinx Zynq 7000 DTSI
  * Describes the hardware common to all Zynq 7000-based boards.
