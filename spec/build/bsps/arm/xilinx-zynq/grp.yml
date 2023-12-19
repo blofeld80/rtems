@@ -55,6 +55,18 @@ links:
 - role: build-dependency
   uid: optresetvec
 - role: build-dependency
+  uid: optenmaxigp0
+- role: build-dependency
+  uid: optmaxigp0ori
+- role: build-dependency
+  uid: optmaxigp0end
+- role: build-dependency
+  uid: optenmaxigp1
+- role: build-dependency
+  uid: optmaxigp1ori
+- role: build-dependency
+  uid: optmaxigp1end
+- role: build-dependency
   uid: ../../obj
 - role: build-dependency
   uid: ../../objirq
