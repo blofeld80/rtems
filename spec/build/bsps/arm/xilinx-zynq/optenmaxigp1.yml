@@ -1,0 +1,20 @@
+SPDX-License-Identifier: CC-BY-SA-4.0 OR BSD-2-Clause
+actions:
+- get-boolean: null
+- define-condition: null
+build-type: option
+copyrights:
+- Copyright (C) 2023 Bernd Moessner
+default:
+- enabled-by:
+  - arm/zybo
+  value: true
+- enabled-by: true
+  value: false
+description: |
+  Set up MMU to access FPGA peripherals connected to GP1
+enabled-by: true
+format: '{}'
+links: []
+name: ZYNQ_M_AXI_MAP_GP1_ENABLE
+type: build

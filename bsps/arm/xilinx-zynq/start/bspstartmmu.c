@@ -10,6 +10,7 @@
  */
 
 /*
+ * Copyright (C) 2023 Bernd Moessner
  * Copyright (C) 2013 embedded brains GmbH & Co. KG
  *
  * Redistribution and use in source and binary forms, with or without
@@ -48,6 +49,20 @@ zynq_mmu_config_table[] = {
   {
     .begin = 0xffff0000U,
     .end = 0xffffffffU,
+    .flags = ARMV7_MMU_DEVICE
+  },
+#endif
+#if defined(ZYNQ_M_AXI_MAP_GP0_ENABLE)
+  {
+    .begin = ZYNQ_M_AXI_GP0_ORIGIN,
+    .end = ZYNQ_M_AXI_GP0_END,
+    .flags = ARMV7_MMU_DEVICE
+  },
+#endif
+#if defined(ZYNQ_M_AXI_MAP_GP1_ENABLE)
+  {
+    .begin = ZYNQ_M_AXI_GP1_ORIGIN,
+    .end = ZYNQ_M_AXI_GP1_END,
     .flags = ARMV7_MMU_DEVICE
   },
 #endif
