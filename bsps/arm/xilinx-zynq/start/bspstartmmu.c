@@ -42,8 +42,8 @@
 #include <bsp/arm-cp15-start.h>
 #include <bsp/arm-a9mpcore-start.h>
 
-BSP_START_DATA_SECTION static const arm_cp15_start_section_config
-zynq_mmu_config_table[] = {
+BSP_START_DATA_SECTION static const arm_cp15_start_section_config 
+__attribute__ ((weak)) zynq_mmu_config_table[] = {
   ARMV7_CP15_START_DEFAULT_SECTIONS,
 #if defined(RTEMS_SMP)
   {
