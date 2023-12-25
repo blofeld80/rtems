@@ -385,7 +385,7 @@ int flashdev_shell_type( char *dev_path )
   /* Get type */
   status = flashdev_shell_ioctl_value(
     dev_path,
-    RTEMS_FLASHDEV_IOCTL_TYPE,
+    RTEMS_FLASHDEV_IOCTL_GET_TYPE,
     &type
   );
 
@@ -416,7 +416,7 @@ int flashdev_shell_jedecid( char *dev_path ) {
   /* Get JEDEC Id */
   status = flashdev_shell_ioctl_value(
     dev_path,
-    RTEMS_FLASHDEV_IOCTL_JEDEC_ID,
+    RTEMS_FLASHDEV_IOCTL_GET_JEDEC_ID,
     &ret
   );
 
@@ -440,7 +440,7 @@ static int flashdev_shell_page_off(
     dev_path,
     argc,
     argv,
-    RTEMS_FLASHDEV_IOCTL_PAGEINFO_BY_OFFSET
+    RTEMS_FLASHDEV_IOCTL_GET_PAGEINFO_BY_OFFSET
   );
 }
 
@@ -454,7 +454,7 @@ static int flashdev_shell_page_idx(
     dev_path,
     argc,
     argv,
-    RTEMS_FLASHDEV_IOCTL_PAGEINFO_BY_INDEX
+    RTEMS_FLASHDEV_IOCTL_GET_PAGEINFO_BY_INDEX
   );
 }
 
@@ -466,7 +466,7 @@ static int flashdev_shell_pg_count( char *dev_path )
   /* Get Page Count */
   status = flashdev_shell_ioctl_value(
     dev_path,
-    RTEMS_FLASHDEV_IOCTL_PAGE_COUNT,
+    RTEMS_FLASHDEV_IOCTL_GET_PAGE_COUNT,
     &ret
   );
 
@@ -488,7 +488,7 @@ static int flashdev_shell_wb_size( char *dev_path )
   /* Get Write Block Size */
   status = flashdev_shell_ioctl_value(
     dev_path,
-    RTEMS_FLASHDEV_IOCTL_WRITE_BLOCK_SIZE,
+    RTEMS_FLASHDEV_IOCTL_GET_WRITE_BLOCK_SIZE,
     &ret
   );
 

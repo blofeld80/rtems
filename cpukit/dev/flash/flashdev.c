@@ -362,32 +362,32 @@ static int rtems_flashdev_ioctl(
       rtems_flashdev_release( flash );
       err = 0;
       break;
-    case RTEMS_FLASHDEV_IOCTL_JEDEC_ID:
+    case RTEMS_FLASHDEV_IOCTL_GET_JEDEC_ID:
       *( (uint32_t *) arg ) = rtems_flashdev_ioctl_jedec_id( flash );
       err = 0;
       break;
     case RTEMS_FLASHDEV_IOCTL_ERASE:
       err = rtems_flashdev_ioctl_erase( flash, iop, arg );
       break;
-    case RTEMS_FLASHDEV_IOCTL_REGION_SET:
+    case RTEMS_FLASHDEV_IOCTL_SET_REGION:
       err = rtems_flashdev_ioctl_set_region( flash, iop, arg );
       break;
-    case RTEMS_FLASHDEV_IOCTL_REGION_UNSET:
+    case RTEMS_FLASHDEV_IOCTL_UNSET_REGION:
       err = rtems_flashdev_ioctl_clear_region( flash, iop );
       break;
-    case RTEMS_FLASHDEV_IOCTL_TYPE:
+    case RTEMS_FLASHDEV_IOCTL_GET_TYPE:
       err = rtems_flashdev_ioctl_flash_type( flash, arg );
       break;
-    case RTEMS_FLASHDEV_IOCTL_PAGEINFO_BY_OFFSET:
+    case RTEMS_FLASHDEV_IOCTL_GET_PAGEINFO_BY_OFFSET:
       err = rtems_flashdev_ioctl_pageinfo_offset( flash, arg );
       break;
-    case RTEMS_FLASHDEV_IOCTL_PAGEINFO_BY_INDEX:
+    case RTEMS_FLASHDEV_IOCTL_GET_PAGEINFO_BY_INDEX:
       err = rtems_flashdev_ioctl_pageinfo_index( flash, arg );
       break;
-    case RTEMS_FLASHDEV_IOCTL_PAGE_COUNT:
+    case RTEMS_FLASHDEV_IOCTL_GET_PAGE_COUNT:
       err = rtems_flashdev_ioctl_page_count( flash, arg );
       break;
-    case RTEMS_FLASHDEV_IOCTL_WRITE_BLOCK_SIZE:
+    case RTEMS_FLASHDEV_IOCTL_GET_WRITE_BLOCK_SIZE:
       err = rtems_flashdev_ioctl_write_block_size( flash, arg );
       break;
   }
