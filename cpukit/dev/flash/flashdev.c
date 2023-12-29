@@ -34,6 +34,7 @@
 
 #include <errno.h>
 #include <fcntl.h>
+#include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #include <unistd.h>
@@ -490,7 +491,9 @@ static int rtems_flashdev_do_init(
   void ( *destroy )( rtems_flashdev *flash )
 )
 {
-  rtems_recursive_mutex_init( &flash->mutex, "RTEMS_FLASHDEV Flash" );
+  char mtx_name[19];
+  sprintf(mtx_name, "FDEV_MTX_%08x", (unsigned int) flash);
+  rtems_recursive_mutex_init( &flash->mutex, (const char*) &mtx_name);
   flash->destroy = destroy;
   flash->read = NULL;
   flash->write = NULL;
