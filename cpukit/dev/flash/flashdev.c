@@ -129,6 +129,11 @@ static int rtems_flashdev_ioctl_get_min_write_size(
   void *arg
 );
 
+static int rtems_flashdev_ioctl_get_erase_size(
+  rtems_flashdev *flash,
+  void *arg
+);
+
 static int rtems_flashdev_get_addr(
   rtems_flashdev *flash,
   rtems_libio_t *iop,
@@ -420,6 +425,9 @@ static int rtems_flashdev_ioctl(
     case RTEMS_FLASHDEV_IOCTL_GET_MIN_WRITE_SIZE:
       err = rtems_flashdev_ioctl_get_min_write_size( flash, arg );
       break;
+    case RTEMS_FLASHDEV_IOCTL_GET_ERASE_SIZE:
+      err = rtems_flashdev_ioctl_get_erase_size( flash, arg );
+      break;
     default:
       err = EINVAL;
   }
@@ -545,6 +553,7 @@ static int rtems_flashdev_do_init(
   flash->get_page_info_by_index = NULL;
   flash->get_page_count = NULL;
   flash->get_min_write_size = NULL;
+  flash->get_erase_size = NULL;
   flash->region_table = NULL;
   return 0;
 }
@@ -898,6 +907,21 @@ static int rtems_flashdev_ioctl_get_min_write_size(
     return 0;
   } else {
     return ( *flash->get_min_write_size )( flash, ( (size_t *) arg ) );
+  }
+}
+
+static int rtems_flashdev_ioctl_get_erase_size(
+  rtems_flashdev *flash,
+  void *arg
+)
+{
+  if ( arg == NULL ) {
+    rtems_set_errno_and_return_minus_one( EINVAL );
+  }
+  if ( flash->get_erase_size == NULL ) {
+    return 0;
+  } else {
+    return ( *flash->get_erase_size )( flash, ( (size_t *) arg ) );
   }
 }
 

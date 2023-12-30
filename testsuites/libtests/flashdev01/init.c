@@ -39,7 +39,7 @@
 #define TEST_DATA_SIZE (PAGE_SIZE * PAGE_COUNT)
 #define PAGE_COUNT 16
 #define PAGE_SIZE 128
-#define MIN_WRITE_SIZE 1
+#define ERASE_SIZE 4096
 
 const char rtems_test_name[] = "FLASHDEV 1";
 const char test_string[] = "My test string!";
@@ -62,13 +62,14 @@ static void run_test(void) {
   int page_count;
   int type;
   size_t min_write_size_in[] = {1,8,16};
-  size_t min_write_size_out;
+  size_t min_write_size_out = 0;
+  size_t erase_size = 0;
   const char flash_path[] = "/dev/flashdev0";
 
   for ( int loop = 0; loop <= 2; loop++)
   {
     /* Initalize the flash device driver and flashdev */
-    flash = test_flashdev_init(min_write_size_in[loop]);
+    flash = test_flashdev_init(min_write_size_in[loop], ERASE_SIZE);
     rtems_test_assert(flash != NULL);
 
     /* Register the flashdev as a device */
@@ -108,6 +109,11 @@ static void run_test(void) {
     rtems_test_assert(!status);
     fgets(buff, TEST_DATA_SIZE, file);
     rtems_test_assert(!strncmp(buff, test_string, sizeof(test_string)));
+
+    /* Test getting erase size */
+    status = ioctl(fd, RTEMS_FLASHDEV_IOCTL_GET_ERASE_SIZE, &erase_size);
+    rtems_test_assert(!status);
+    rtems_test_assert(ERASE_SIZE == erase_size);
 
     /* Test Erasing */
     e_args.offset = 0x0;
@@ -166,7 +172,7 @@ static void run_test(void) {
   }
 
   /* Initalize the flash device driver and flashdev */
-  flash = test_flashdev_init(min_write_size_in[1]);
+  flash = test_flashdev_init(min_write_size_in[1], ERASE_SIZE);
   rtems_test_assert(flash != NULL);
 
   /* Register the flashdev as a device */

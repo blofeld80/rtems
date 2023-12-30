@@ -41,6 +41,8 @@ static int flashdev_shell_get_page_by_off(char *dev_path, int argc, char *argv[]
 static int flashdev_shell_get_page_by_idx(char *dev_path, int argc, char *argv[]);
 static int flashdev_shell_get_pg_count(char *dev_path);
 static int flashdev_shell_get_min_write_size(char *dev_path);
+static int flashdev_shell_get_erase_size(char *dev_path);
+
 
 static int flashdev_shell_ioctl_value(
   char *dev_path,
@@ -68,6 +70,7 @@ static const char rtems_flashdev_shell_usage [] =
   "   -i <index>            Print the page information of page at index\n"
   "   -p                    Print the number of pages\n"
   "   -b                    Print the min. write size\n"
+  "   -z                    Print the erase size\n"
   "   -h                    Print this help\n";
 
 
@@ -115,6 +118,9 @@ static int rtems_flashdev_shell_main( int argc, char *argv[] ) {
       case ('b'):
         /* Get min write size */
         return flashdev_shell_get_min_write_size(dev_path);
+      case ('z'):
+        /* Get erase size */
+        return flashdev_shell_get_erase_size(dev_path);
       case ('h'):
       default:
         /* Help */
@@ -498,6 +504,28 @@ static int flashdev_shell_get_min_write_size( char *dev_path )
     return status;
   } else {
     printf("Min. Write size: 0x%zx\n", ret);
+  }
+  return 0;
+}
+
+static int flashdev_shell_get_erase_size( char *dev_path )
+{
+  size_t ret;
+  int status;
+
+  /* Get Write Block Size */
+  status = flashdev_shell_ioctl_value(
+    dev_path,
+    RTEMS_FLASHDEV_IOCTL_GET_ERASE_SIZE,
+    &ret
+  );
+
+  /* Print Write Block Size */
+  if (status) {
+    printf("Failed to get erase size\n");
+    return status;
+  } else {
+    printf("Erase size: 0x%zx\n", ret);
   }
   return 0;
 }
