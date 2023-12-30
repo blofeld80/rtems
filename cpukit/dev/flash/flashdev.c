@@ -154,6 +154,11 @@ static int rtems_flashdev_update_and_return(
   size_t count
 );
 
+static int rtems_flashdev_check_region_valid(
+  rtems_flashdev *flash,
+  rtems_flashdev_region * region
+);
+
 static uint32_t rtems_flashdev_find_unallocated_region(
   rtems_flashdev_region_table *region_table
 );
@@ -676,9 +681,14 @@ static int rtems_flashdev_ioctl_erase(
   if ( flash->erase == NULL ) {
     return 0;
   }
-
+  
   erase_args_1 = (rtems_flashdev_region *) arg;
   /* Check erasing valid region */
+  if ( 0 != rtems_flashdev_check_region_valid(flash, erase_args_1))
+  {
+    return EINVAL;
+  }
+
   new_offset = erase_args_1->offset;
   status = rtems_flashdev_get_abs_addr(flash, iop, erase_args_1->size, &new_offset);
   if ( status < 0 ) {
@@ -702,6 +712,11 @@ static int rtems_flashdev_ioctl_set_region(
 
   if (flash->region_table == NULL) {
     rtems_set_errno_and_return_minus_one( ENOMEM );
+  }
+
+  if ( 0 != rtems_flashdev_check_region_valid(flash, region_in))
+  {
+    return EINVAL;
   }
 
   if ( !rtems_flashdev_is_region_defined( iop ) ) {
@@ -923,6 +938,26 @@ static int rtems_flashdev_ioctl_get_erase_size(
   } else {
     return ( *flash->get_erase_size )( flash, ( (size_t *) arg ) );
   }
+}
+
+static int rtems_flashdev_check_region_valid(
+  rtems_flashdev *flash,
+  rtems_flashdev_region * region
+)
+{
+  size_t erase_size = 0;
+  int status = (flash)->get_erase_size(flash, &erase_size);
+
+  if (0 != status)
+  {
+    return status;
+  }
+  if (region->offset % erase_size || region->size % erase_size) 
+  {
+    return -1;
+  }
+
+  return 0;
 }
 
 static uint32_t rtems_flashdev_find_unallocated_region(

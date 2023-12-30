@@ -39,7 +39,7 @@
 #define TEST_DATA_SIZE (PAGE_SIZE * PAGE_COUNT)
 #define PAGE_COUNT 16
 #define PAGE_SIZE 128
-#define ERASE_SIZE 4096
+#define ERASE_SIZE 1024
 
 const char rtems_test_name[] = "FLASHDEV 1";
 const char test_string[] = "My test string!";
@@ -115,11 +115,25 @@ static void run_test(void) {
     rtems_test_assert(!status);
     rtems_test_assert(ERASE_SIZE == erase_size);
 
-    /* Test Erasing */
+    /* Test Erasing - this one must fail*/
     e_args.offset = 0x0;
     e_args.size = PAGE_SIZE;
     status = ioctl(fd, RTEMS_FLASHDEV_IOCTL_ERASE, &e_args);
+    rtems_test_assert(status);
+
+    /* Test Erasing - this one must fail*/
+    e_args.offset = 0x1;
+    e_args.size = 
+    ERASE_SIZE;
+    status = ioctl(fd, RTEMS_FLASHDEV_IOCTL_ERASE, &e_args);
+    rtems_test_assert(status);
+
+    /* Test Erasing*/
+    e_args.offset = 0x0;
+    e_args.size = ERASE_SIZE;
+    status = ioctl(fd, RTEMS_FLASHDEV_IOCTL_ERASE, &e_args);
     rtems_test_assert(!status);
+
 
     fseek(file, 0x0, SEEK_SET);
     fgets(buff, TEST_DATA_SIZE, file);
@@ -189,10 +203,41 @@ static void run_test(void) {
 
   fd = fileno(file);
 
-  /* Test Regions */
-  region.offset = 0x400;
+  /* Prepare the flash */
+  memset(buff,0x55,TEST_DATA_SIZE);
+  status = fwrite(buff, 1, TEST_DATA_SIZE, file);
+  rtems_test_assert(status == TEST_DATA_SIZE);
+  memset(buff,0x00,TEST_DATA_SIZE);
+
+  /* Fseek to start of flash and read again */
+  status = fseek(file, 0x0, SEEK_SET);
+  rtems_test_assert(!status);
+  bytes_read = fread(buff, 1, TEST_DATA_SIZE, file);
+  rtems_test_assert(bytes_read == TEST_DATA_SIZE);
+  memset(buff,0x00,TEST_DATA_SIZE);
+
+  /* Test Regions - this one must fail */
+  region.offset = ERASE_SIZE;
   region.size = 0x200;
   status = ioctl(fd, RTEMS_FLASHDEV_IOCTL_SET_REGION, &region);
+  rtems_test_assert(status);
+
+  /* Test Regions - this one must fail*/
+  region.offset = 0x200;
+  region.size = ERASE_SIZE;
+  status = ioctl(fd, RTEMS_FLASHDEV_IOCTL_SET_REGION, &region);
+  rtems_test_assert(status);
+
+  /* Test Regions */
+  region.offset = ERASE_SIZE;
+  region.size = ERASE_SIZE;
+  status = ioctl(fd, RTEMS_FLASHDEV_IOCTL_SET_REGION, &region);
+  rtems_test_assert(!status);
+
+  /* Test Erasing*/
+  e_args.offset = 0x0;
+  e_args.size = ERASE_SIZE;
+  status = ioctl(fd, RTEMS_FLASHDEV_IOCTL_ERASE, &e_args);
   rtems_test_assert(!status);
 
   /* Test read within then region */
@@ -203,18 +248,28 @@ static void run_test(void) {
 
   /* Test read to larger then region */
   fseek(file, 0x0, SEEK_SET);
+  rtems_test_assert(!status);
   read_data = fgets(buff, 2048, file);
   rtems_test_assert(buff[0] == 0);
 
   /* Test fseek outside of region */
-  status = fseek(file, 0x201, SEEK_SET);
+  fseek(file, 0x0, SEEK_SET);
+  rtems_test_assert(!status);
+  status = fseek(file, ERASE_SIZE+1, SEEK_SET);
   rtems_test_assert(status);
 
   /* Write to base unset region and check the writes location */
   fseek(file, 0x0, SEEK_SET);
   fwrite("HELLO WORLD!!!!!", 1, 16, file);
   ioctl(fd, RTEMS_FLASHDEV_IOCTL_UNSET_REGION, NULL);
-  fseek(file, 0x400, SEEK_SET);
+  /* Test read within then region */
+  status = fseek(file, 0x0, SEEK_SET);
+  rtems_test_assert(!status);
+  bytes_read = fread(buff, 1, 0x200, file);
+  rtems_test_assert(bytes_read == 0x200);
+  rtems_test_assert(&buff[0] == memchr(buff, 0x55, 0x200));
+
+  fseek(file, ERASE_SIZE, SEEK_SET);
   fgets(buff, 16, file);
   rtems_test_assert(strncmp(buff, "HELLO WORLD!!!!!", 16));
 
