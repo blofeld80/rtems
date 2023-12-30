@@ -33,10 +33,11 @@
 #define TEST_DATA_SIZE (PAGE_SIZE * PAGE_COUNT)
 #define PAGE_COUNT 16
 #define PAGE_SIZE 128
-#define WB_SIZE 1
 #define MAX_NUM_REGIONS 48
 #define BITALLOC_SIZE 32
 #define NUM_BITALLOC ((MAX_NUM_REGIONS + BITALLOC_SIZE - 1) / BITALLOC_SIZE)
+
+static size_t g_min_write_size = 0;
 
 /**
  * This flash device driver is for testing flashdev
@@ -68,9 +69,9 @@ int test_flashdev_get_page_count(
   int *page_count
 );
 
-int test_flashdev_get_wb_size(
+int test_flashdev_get_min_write_size(
   rtems_flashdev *flash,
-  size_t *write_block_size
+  size_t *min_write_size
 );
 
 uint32_t test_flashdev_get_jedec_id(
@@ -102,7 +103,7 @@ int test_flashdev_erase(
   size_t count
 );
 
-/* Find page info by offset handler */
+/* Get page info by offset handler */
 int test_flashdev_get_page_by_off(
   rtems_flashdev *flash,
   off_t search_offset,
@@ -115,7 +116,7 @@ int test_flashdev_get_page_by_off(
   return 0;
 }
 
-/* Find page by index handler */
+/* Get page info by index handler */
 int test_flashdev_get_page_by_index(
   rtems_flashdev *flash,
   off_t search_index,
@@ -128,7 +129,7 @@ int test_flashdev_get_page_by_index(
   return 0;
 }
 
-/* Page count handler */
+/* Get page count handler */
 int test_flashdev_get_page_count(
   rtems_flashdev *flash,
   int *page_count
@@ -138,13 +139,13 @@ int test_flashdev_get_page_count(
   return 0;
 }
 
-/* Write block size handler */
-int test_flashdev_get_wb_size(
+/* Get min. write size handler */
+int test_flashdev_get_min_write_size(
   rtems_flashdev *flash,
-  size_t *write_block_size
+  size_t *min_write_size
 )
 {
-  *write_block_size = WB_SIZE;
+  *min_write_size = g_min_write_size;
   return 0;
 }
 
@@ -230,8 +231,13 @@ int test_flashdev_erase(
 }
 
 /* Initialize Flashdev and underlying driver. */
-rtems_flashdev* test_flashdev_init(void)
+rtems_flashdev* test_flashdev_init(size_t min_write_size)
 {
+  if (0 == min_write_size) {
+    return NULL;
+  }
+
+  g_min_write_size = min_write_size;
   rtems_flashdev *flash = rtems_flashdev_alloc_and_init(sizeof(rtems_flashdev));
 
   if (flash == NULL) {
@@ -268,8 +274,32 @@ rtems_flashdev* test_flashdev_init(void)
   flash->get_page_info_by_offset = &test_flashdev_get_page_by_off;
   flash->get_page_info_by_index = &test_flashdev_get_page_by_index;
   flash->get_page_count = &test_flashdev_get_page_count;
-  flash->get_write_block_size = &test_flashdev_get_wb_size;
+  flash->get_min_write_size = &test_flashdev_get_min_write_size;
   flash->region_table = ftable;
 
   return flash;
+}
+
+/* Free Flashdev and underlying driver. */
+void test_flashdev_deinit(
+  rtems_flashdev* flash
+)
+{
+  if (NULL != flash)
+  {
+    if (NULL != flash->driver)
+    {
+      free(flash->region_table);
+    }
+    if (NULL != flash->driver)
+    {
+      test_flashdev* flash_driver = (test_flashdev*) flash->driver;
+      if (NULL != flash_driver->data)
+      {
+        free( flash_driver->data);
+      }
+      free(flash->driver);
+    }
+    rtems_flashdev_destroy_and_free(flash);
+  }
 }

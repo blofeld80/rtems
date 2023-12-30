@@ -142,7 +142,7 @@ typedef struct rtems_flashdev rtems_flashdev;
  *
  * @param[out] count Integer containing the minimum write size.
  */
-#define RTEMS_FLASHDEV_IOCTL_GET_WRITE_BLOCK_SIZE 10
+#define RTEMS_FLASHDEV_IOCTL_GET_MIN_WRITE_SIZE 10
 
 /**
  * @brief The maximum number of region limited file descriptors
@@ -354,14 +354,14 @@ struct rtems_flashdev {
    * @brief Call to device driver to return the minimum write size of the
    * flash device.
    *
-   * @param[out] write_block_size The minimum write size of the flash device.
+   * @param[out] min_write_size The minimum write size of the flash device.
    *
    * @retval 0 Success.
    * @retval non-zero Failed.
    */
-  int ( *get_write_block_size )(
+  int ( *get_min_write_size )(
     rtems_flashdev *flashdev,
-    size_t *write_block_size
+    size_t *min_write_size
   );
 
   /**
@@ -438,6 +438,20 @@ int rtems_flashdev_init(
  */
 int rtems_flashdev_register(
   rtems_flashdev *flash,
+  const char *flash_path
+);
+
+/**
+ * @brief Deregister the flash device.
+ *
+ * This function removes the node allocated for the flash device.
+ *
+ * @param[in] flash_path The path to the flash device file.
+ *
+ * @retval 0 Successful operation.
+ * @retval non-zero Failed operation.
+ */
+int rtems_flashdev_deregister(
   const char *flash_path
 );
 

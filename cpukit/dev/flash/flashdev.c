@@ -124,7 +124,7 @@ static int rtems_flashdev_ioctl_get_page_count(
   void *arg
 );
 
-static int rtems_flashdev_ioctl_get_write_block_size(
+static int rtems_flashdev_ioctl_get_min_write_size(
   rtems_flashdev *flash,
   void *arg
 );
@@ -146,8 +146,7 @@ static int rtems_flashdev_get_abs_addr(
 static int rtems_flashdev_update_and_return(
   rtems_libio_t *iop,
   int status,
-  size_t count,
-  off_t new_offset
+  size_t count
 );
 
 static uint32_t rtems_flashdev_find_unallocated_region(
@@ -225,13 +224,20 @@ static const rtems_filesystem_file_handlers_r rtems_flashdev_handler = {
   .poll_h = rtems_filesystem_default_poll,
   .readv_h = rtems_filesystem_default_readv,
   .writev_h = rtems_filesystem_default_writev };
-
+/*
 static const IMFS_node_control
   rtems_flashdev_node_control = IMFS_GENERIC_INITIALIZER(
     &rtems_flashdev_handler,
     IMFS_node_initialize_generic,
     rtems_flashdev_node_destroy
 );
+*/
+static const IMFS_node_control rtems_flashdev_node_control = {
+  .handlers = &rtems_flashdev_handler,
+  .node_initialize = IMFS_node_initialize_generic,
+  .node_remove = IMFS_node_remove_default,
+  .node_destroy = rtems_flashdev_node_destroy
+};
 
 static void rtems_flashdev_node_destroy(
   IMFS_jnode_t *node
@@ -321,7 +327,7 @@ static int rtems_flashdev_read_write(
   int status;
 
   if ( read_buff == NULL && write_buff == NULL ) {
-    return 0;
+    return EINVAL;
   }
 
   /* Get flash address */
@@ -335,12 +341,35 @@ static int rtems_flashdev_read_write(
   if ( read_buff != NULL ) {
     status = ( *flash->read )( flash, addr, count, read_buff );
   } else if ( write_buff != NULL ) {
+    size_t min_write_size = 0;
+    status = (flash)->get_min_write_size(flash, &min_write_size);
+
+    if ( status < 0 ) {
+      return status;
+    }
+
+    if (0 == min_write_size )
+    {
+      rtems_set_errno_and_return_minus_one( EIO );
+    }
+    else
+    {
+      if (count % min_write_size)
+      {
+        rtems_set_errno_and_return_minus_one( EINVAL );
+      }
+      if (addr % min_write_size)
+      {
+        rtems_set_errno_and_return_minus_one( EFAULT );
+      }
+    }
+
     status = ( *flash->write )( flash, addr, count, write_buff );
   }
   rtems_flashdev_release( flash );
 
   /* Update offset and return */
-  return rtems_flashdev_update_and_return( iop, status, count, addr + count );
+  return rtems_flashdev_update_and_return( iop, status, count );
 }
 
 static int rtems_flashdev_ioctl(
@@ -388,8 +417,8 @@ static int rtems_flashdev_ioctl(
     case RTEMS_FLASHDEV_IOCTL_GET_PAGE_COUNT:
       err = rtems_flashdev_ioctl_get_page_count( flash, arg );
       break;
-    case RTEMS_FLASHDEV_IOCTL_GET_WRITE_BLOCK_SIZE:
-      err = rtems_flashdev_ioctl_get_write_block_size( flash, arg );
+    case RTEMS_FLASHDEV_IOCTL_GET_MIN_WRITE_SIZE:
+      err = rtems_flashdev_ioctl_get_min_write_size( flash, arg );
       break;
     default:
       err = EINVAL;
@@ -486,6 +515,18 @@ int rtems_flashdev_register(
   return rv;
 }
 
+int rtems_flashdev_deregister(
+  const char *flash_path
+)
+{
+  rtems_filesystem_eval_path_context_t ctx;
+  int eval_flags = RTEMS_FS_FOLLOW_LINK;
+  const rtems_filesystem_location_info_t *currentloc =
+    rtems_filesystem_eval_path_start( &ctx , flash_path, eval_flags );
+
+  return IMFS_rmnod(NULL, currentloc);
+}
+
 static int rtems_flashdev_do_init(
   rtems_flashdev *flash,
   void ( *destroy )( rtems_flashdev *flash )
@@ -503,7 +544,7 @@ static int rtems_flashdev_do_init(
   flash->get_page_info_by_offset = NULL;
   flash->get_page_info_by_index = NULL;
   flash->get_page_count = NULL;
-  flash->get_write_block_size = NULL;
+  flash->get_min_write_size = NULL;
   flash->region_table = NULL;
   return 0;
 }
@@ -520,7 +561,6 @@ void rtems_flashdev_destroy_and_free( rtems_flashdev *flash )
   }
   rtems_recursive_mutex_destroy( &( flash->mutex ) );
   free( flash );
-  flash = NULL;
   return;
 }
 
@@ -602,13 +642,12 @@ static int rtems_flashdev_get_abs_addr(
 static int rtems_flashdev_update_and_return(
   rtems_libio_t *iop,
   int status,
-  size_t count,
-  off_t new_offset
+  size_t count
 )
 {
   /* Update offset and return */
   if ( status == 0 ) {
-    iop->offset = new_offset;
+    iop->offset += count;
     return count;
   } else {
     rtems_set_errno_and_return_minus_one( status );
@@ -847,7 +886,7 @@ static int rtems_flashdev_ioctl_get_page_count( rtems_flashdev *flash, void *arg
   }
 }
 
-static int rtems_flashdev_ioctl_get_write_block_size(
+static int rtems_flashdev_ioctl_get_min_write_size(
   rtems_flashdev *flash,
   void *arg
 )
@@ -855,10 +894,10 @@ static int rtems_flashdev_ioctl_get_write_block_size(
   if ( arg == NULL ) {
     rtems_set_errno_and_return_minus_one( EINVAL );
   }
-  if ( flash->get_write_block_size == NULL ) {
+  if ( flash->get_min_write_size == NULL ) {
     return 0;
   } else {
-    return ( *flash->get_write_block_size )( flash, ( (size_t *) arg ) );
+    return ( *flash->get_min_write_size )( flash, ( (size_t *) arg ) );
   }
 }
 
