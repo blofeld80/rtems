@@ -57,105 +57,135 @@ typedef struct rtems_flashdev rtems_flashdev;
  */
 
 /* IOCTL Calls */
+typedef enum {
+  /**
+   * @brief Obtains the flash device.
+   *
+   * This command has no argument.
+   */
+  RTEMS_FLASHDEV_IOCTL_OBTAIN = 0,
 
-/**
- * @brief Obtains the flash device.
- *
- * This command has no argument.
- */
-#define RTEMS_FLASHDEV_IOCTL_OBTAIN 0
-/**
- * @brief Releases the flash device.
- *
- * This command has no argument.
- */
-#define RTEMS_FLASHDEV_IOCTL_RELEASE 1
-/**
- * @brief Returns the JEDEC ID of the flash device. This IOCTL call
- * is informational only.
- *
- * @param[out] jedec_id Pointer to uint32_t in which the JEDEC ID is
- * returned in.
- */
-#define RTEMS_FLASHDEV_IOCTL_GET_JEDEC_ID 2
-/**
- * @brief Erases flash device.
- *
- * @param[in] erase_args Pointer to rtems_flashdev_region struct
- * containing offset and size of erase to be performed.
- */
-#define RTEMS_FLASHDEV_IOCTL_ERASE 3
-/**
- * @brief Set a region that limits read, write and erase calls to within it.
- * Regions are file descriptor specific and limited to a single region per
- * file descriptor and 32 regions total per flash device. Regions can be
- * changed or updated by calling this IOCTL again.
- *
- * @param[in] region Pointer to rtems_flashdev_region struct containing
- * base and length of defined region.
- */
-#define RTEMS_FLASHDEV_IOCTL_SET_REGION 4
-/**
- * @brief Removes the set region on the file descriptor.
- *
- * This command has no argument.
- */
-#define RTEMS_FLASHDEV_IOCTL_UNSET_REGION 5
-/**
- * @brief Returns the type of flash device (e.g. NOR or NAND).
- *
- * @param[out] flash_type Pointer to integer which is set to the flash
- * type macro value.
- */
-#define RTEMS_FLASHDEV_IOCTL_GET_TYPE 6
+  /**
+   * @brief Releases the flash device.
+   *
+   * This command has no argument.
+   */
+  RTEMS_FLASHDEV_IOCTL_RELEASE,
 
-/**
- * @brief Get the size and address of flash page at given offset
- *
- * The offset ignores the region limiting. To find page of region
- * limited offset add the base of the region to the desired offset.
- *
- * @param[in,out] rtems_flashdev_ioctl_page_info arg Pointer to struct
- * with offset and space for return values.
- */
-#define RTEMS_FLASHDEV_IOCTL_GET_PAGEINFO_BY_OFFSET 7
+  /**
+   * @brief Returns the JEDEC ID of the flash device. This IOCTL call
+   * is informational only.
+   *
+   * @param[out] jedec_id Pointer to uint32_t in which the JEDEC ID is
+   * returned in.
+   */
+  RTEMS_FLASHDEV_IOCTL_GET_JEDEC_ID,
 
-/**
- * @brief Get the size and address of nth flash page where n is index passed in.
- *
- * The index ignores the region limiting.
- *
- * @param[in,out] rtems_flashdev_ioctl_page_info arg Pointer to struct
- * with index and space for return values.
- */
-#define RTEMS_FLASHDEV_IOCTL_GET_PAGEINFO_BY_INDEX 8
+  /**
+   * @brief Erases flash device.
+   *
+   * @param[in] erase_args Pointer to rtems_flashdev_partition struct
+   * containing offset and size of erase to be performed.
+   */
+  RTEMS_FLASHDEV_IOCTL_ERASE,
 
-/**
- * @brief Get the number of pages in flash device.
- *
- * @param[out] count Integer containing the number of pages.
- */
-#define RTEMS_FLASHDEV_IOCTL_GET_PAGE_COUNT 9
+  /**
+   * @brief Create a partition that limits read, write and erase calls to 
+   * within it. Partitions are file descriptor specific and limited to a 
+   * single partition per file descriptor and 32 partitions total per 
+   * flash device. 
+   *
+   * @param[in] partition Pointer to rtems_flashdev_partition struct containing
+   * base and length of defined partition.
+   * 
+   * @return partition_idx Integer containing the partition index or error
+   */
+  RTEMS_FLASHDEV_IOCTL_CREATE_PARTITION,
 
-/**
- * @brief Get the minimum write size supported by the driver.
- *
- * @param[out] count Integer containing the minimum write size.
- */
-#define RTEMS_FLASHDEV_IOCTL_GET_MIN_WRITE_SIZE 10
+  /**
+   * @brief Delete a partition
+   *
+   * @param[in] partition_idx Integer containing the partition index
+   * 
+   */
+  RTEMS_FLASHDEV_IOCTL_DELETE_PARTITION,
 
-/**
- * @brief Get the erase size supported by the driver.
- *
- * @param[out] count Integer containing the erase size.
- */
-#define RTEMS_FLASHDEV_IOCTL_GET_ERASE_SIZE 11
+  /**
+   * @brief Resize active partition
+   *
+   * @param[in] partition Pointer to rtems_flashdev_partition struct containing
+   * base and length of defined partition.
+   * 
+   */
+  RTEMS_FLASHDEV_IOCTL_RESIZE_PARTITION,
+  
+  /**
+   * @brief Activate a partition
+   *
+   * @param[in] partition_idx Integer containing the partition index
+   * 
+   */
+  RTEMS_FLASHDEV_IOCTL_ACTIVATE_PARTITION,
 
-/**
- * @brief The maximum number of region limited file descriptors
- * allowed to be open at once.
- */
-#define RTEMS_FLASHDEV_MAX_REGIONS 32
+  /**
+   * @brief Deactivate a partition
+   *
+   * @param[in] partition_idx Integer containing the partition index
+   * 
+   */
+  RTEMS_FLASHDEV_IOCTL_DEACTIVATE_PARTITION,
+
+  /**
+   * @brief Returns the type of flash device (e.g. NOR or NAND).
+   *
+   * @param[out] flash_type Pointer to integer which is set to the flash
+   * type macro value.
+   */
+  RTEMS_FLASHDEV_IOCTL_GET_TYPE,
+
+  /**
+   * @brief Get the size and address of flash page at given offset
+   *
+   * The offset ignores the region limiting. To find page of region
+   * limited offset add the base of the region to the desired offset.
+   *
+   * @param[in,out] rtems_flashdev_ioctl_page_info arg Pointer to struct
+   * with offset and space for return values.
+   */
+  RTEMS_FLASHDEV_IOCTL_GET_PAGEINFO_BY_OFFSET,
+
+  /**
+   * @brief Get the size and address of nth flash page where n is index passed in.
+   *
+   * The index ignores the region limiting.
+   *
+   * @param[in,out] rtems_flashdev_ioctl_page_info arg Pointer to struct
+   * with index and space for return values.
+   */
+  RTEMS_FLASHDEV_IOCTL_GET_PAGEINFO_BY_INDEX,
+
+  /**
+   * @brief Get the number of pages in flash device.
+   *
+   * @param[out] count Integer containing the number of pages.
+   */
+  RTEMS_FLASHDEV_IOCTL_GET_PAGE_COUNT,
+
+  /**
+   * @brief Get the minimum write size supported by the driver.
+   *
+   * @param[out] count Integer containing the minimum write size.
+   */
+  RTEMS_FLASHDEV_IOCTL_GET_MIN_WRITE_SIZE,
+
+  /**
+   * @brief Get the erase size supported by the driver.
+   *
+   * @param[out] count Integer containing the erase size.
+   */
+  RTEMS_FLASHDEV_IOCTL_GET_ERASE_SIZE
+
+} rtems_flashdev_ioctl_token;
 
 /**
  * @brief Enum for flash type returned from IOCTL call.
@@ -174,38 +204,16 @@ typedef enum rtems_flashdev_flash_type {
 /**
  * @brief General definition for on flash device.
  */
-typedef struct rtems_flashdev_region {
+typedef struct rtems_flashdev_partition {
   /**
-   * @brief Base of region.
+   * @brief Base of partition.
    */
   off_t offset;
   /**
-   * @brief Length of region.
+   * @brief Length of partition.
    */
   size_t size;
-} rtems_flashdev_region;
-
-/**
- * @brief Struct holding region definitions
- */
-typedef struct rtems_flashdev_region_table {
-  /**
-   * @brief The maximum regions that can be defined at once.
-   */
-  int max_regions;
-
-  /**
-   * @brief Pointer to array of rtems_flashdev_region of length
-   * max_regions
-   */
-  rtems_flashdev_region* regions;
-
-  /**
-   * @brief Array of uint32_t acting as bit allocator
-   * for regions array.
-   */
-  uint32_t *bit_allocator;
-} rtems_flashdev_region_table;
+} rtems_flashdev_partition;
 
 /**
  * @brief Page information returned from IOCTL calls.
@@ -220,7 +228,7 @@ typedef struct rtems_flashdev_ioctl_page_info {
    * @brief Information returned about the page. Including the
    * base offset and size of page.
    */
-  rtems_flashdev_region page_info;
+  rtems_flashdev_partition page_info;
 } rtems_flashdev_ioctl_page_info;
 
 /**
@@ -405,9 +413,9 @@ struct rtems_flashdev {
   rtems_recursive_mutex mutex;
 
   /**
-   * @brief Region table defining size and memory for region allocations
+   * @brief Partition table 
    */
-  rtems_flashdev_region_table *region_table;
+  rtems_flashdev_partition *partition_table;
 };
 
 /**

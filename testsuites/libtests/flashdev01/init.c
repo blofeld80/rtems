@@ -55,9 +55,9 @@ static void run_test(void) {
   int status;
   char* read_data;
   size_t bytes_read;
-  rtems_flashdev_region e_args;
+  rtems_flashdev_partition e_args;
   rtems_flashdev_ioctl_page_info pg_info;
-  rtems_flashdev_region region;
+  rtems_flashdev_partition partition;
   uint32_t jedec;
   int page_count;
   int type;
@@ -133,7 +133,6 @@ static void run_test(void) {
     e_args.size = ERASE_SIZE;
     status = ioctl(fd, RTEMS_FLASHDEV_IOCTL_ERASE, &e_args);
     rtems_test_assert(!status);
-
 
     fseek(file, 0x0, SEEK_SET);
     fgets(buff, TEST_DATA_SIZE, file);
@@ -216,53 +215,107 @@ static void run_test(void) {
   rtems_test_assert(bytes_read == TEST_DATA_SIZE);
   memset(buff,0x00,TEST_DATA_SIZE);
 
-  /* Test Regions - this one must fail */
-  region.offset = ERASE_SIZE;
-  region.size = 0x200;
-  status = ioctl(fd, RTEMS_FLASHDEV_IOCTL_SET_REGION, &region);
+  /* Test Partitions - this one must fail */
+  partition.offset = ERASE_SIZE;
+  partition.size = 0x200;
+  status = ioctl(fd, RTEMS_FLASHDEV_IOCTL_CREATE_PARTITION, &partition);
   rtems_test_assert(status);
 
-  /* Test Regions - this one must fail*/
-  region.offset = 0x200;
-  region.size = ERASE_SIZE;
-  status = ioctl(fd, RTEMS_FLASHDEV_IOCTL_SET_REGION, &region);
+  /* Test Partitions - this one must fail*/
+  partition.offset = 0x200;
+  partition.size = ERASE_SIZE;
+  status = ioctl(fd, RTEMS_FLASHDEV_IOCTL_CREATE_PARTITION, &partition);
   rtems_test_assert(status);
 
-  /* Test Regions */
-  region.offset = ERASE_SIZE;
-  region.size = ERASE_SIZE;
-  status = ioctl(fd, RTEMS_FLASHDEV_IOCTL_SET_REGION, &region);
+  /* Test Partitions - create partition 0*/
+  partition.offset = 0;
+  partition.size = ERASE_SIZE;
+  status = ioctl(fd, RTEMS_FLASHDEV_IOCTL_CREATE_PARTITION, &partition);
+  rtems_test_assert(status == 0);
+
+  /* Activate Partition 0*/
+  status = 0;
+  status = ioctl(fd, RTEMS_FLASHDEV_IOCTL_ACTIVATE_PARTITION, &status);
   rtems_test_assert(!status);
 
-  /* Test Erasing*/
+  /* Try to resize partition 0 above limit*/
+  partition.offset = 1;
+  partition.size = ERASE_SIZE;
+  status = ioctl(fd, RTEMS_FLASHDEV_IOCTL_RESIZE_PARTITION, &partition);
+  rtems_test_assert(status);
+
+  /* Try to resize partition 0 within limit*/
+  partition.offset = 0;
+  partition.size = 2*ERASE_SIZE;
+  status = ioctl(fd, RTEMS_FLASHDEV_IOCTL_RESIZE_PARTITION, &partition);
+  rtems_test_assert(status == 0);
+
+  /* Try to resize partition 0 to original size*/
+  partition.size = ERASE_SIZE;
+  status = ioctl(fd, RTEMS_FLASHDEV_IOCTL_RESIZE_PARTITION, &partition);
+  rtems_test_assert(status == 0);
+
+  /* Deactivate Partition 0*/
+  status = 0;
+  status = ioctl(fd, RTEMS_FLASHDEV_IOCTL_DEACTIVATE_PARTITION, &status);
+  rtems_test_assert(!status);
+
+  /* Test Partitions - ioctl returns partition idx*/
+  partition.offset = ERASE_SIZE;
+  partition.size = ERASE_SIZE;
+  status = ioctl(fd, RTEMS_FLASHDEV_IOCTL_CREATE_PARTITION, &partition);
+  rtems_test_assert(status == 1);
+
+  /* Activate Partition - wrong partion idx*/
+  status = 3;
+  status = ioctl(fd, RTEMS_FLASHDEV_IOCTL_ACTIVATE_PARTITION, &status);
+  rtems_test_assert(status);
+
+  /* Activate Partition - ioctl returns partition idx*/
+  status = 1;
+  status = ioctl(fd, RTEMS_FLASHDEV_IOCTL_ACTIVATE_PARTITION, &status);
+  rtems_test_assert(!status);
+
+  /* Test Erasing - ioctl returns partition idx*/
   e_args.offset = 0x0;
   e_args.size = ERASE_SIZE;
   status = ioctl(fd, RTEMS_FLASHDEV_IOCTL_ERASE, &e_args);
   rtems_test_assert(!status);
 
-  /* Test read within then region */
+  /* Test read within then partition */
   status = fseek(file, 0x0, SEEK_SET);
   rtems_test_assert(!status);
   bytes_read = fread(buff, 1, 0x200, file);
   rtems_test_assert(bytes_read == 0x200);
 
-  /* Test read to larger then region */
+  /* Test read to larger then partition */
   fseek(file, 0x0, SEEK_SET);
   rtems_test_assert(!status);
   read_data = fgets(buff, 2048, file);
   rtems_test_assert(buff[0] == 0);
 
-  /* Test fseek outside of region */
+  /* Test fseek outside of partition */
   fseek(file, 0x0, SEEK_SET);
   rtems_test_assert(!status);
   status = fseek(file, ERASE_SIZE+1, SEEK_SET);
   rtems_test_assert(status);
 
-  /* Write to base unset region and check the writes location */
+  /* Write to base unset partition and check the writes location */
   fseek(file, 0x0, SEEK_SET);
   fwrite("HELLO WORLD!!!!!", 1, 16, file);
-  ioctl(fd, RTEMS_FLASHDEV_IOCTL_UNSET_REGION, NULL);
-  /* Test read within then region */
+
+  /* delete partition 0 */
+  status = 0;
+  status = ioctl(fd, RTEMS_FLASHDEV_IOCTL_DELETE_PARTITION, &status);
+  rtems_test_assert(!status);
+
+  /* delete partition 1 */
+  status = 1;
+  status = ioctl(fd, RTEMS_FLASHDEV_IOCTL_DELETE_PARTITION, &status);
+  rtems_test_assert(!status);
+
+
+  /* Test read within then partition */
   status = fseek(file, 0x0, SEEK_SET);
   rtems_test_assert(!status);
   bytes_read = fread(buff, 1, 0x200, file);

@@ -337,7 +337,7 @@ int flashdev_shell_erase(
   uint32_t bytes;
   int fd;
   int status;
-  rtems_flashdev_region args;
+  rtems_flashdev_partition args;
 
   /* Check arguments */
   if (argc < 5) {
