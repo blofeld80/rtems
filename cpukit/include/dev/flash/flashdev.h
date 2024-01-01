@@ -119,7 +119,7 @@ typedef enum {
    * 
    */
   RTEMS_FLASHDEV_IOCTL_RESIZE_PARTITION,
-  
+
   /**
    * @brief Activate a partition
    *
@@ -135,6 +135,15 @@ typedef enum {
    * 
    */
   RTEMS_FLASHDEV_IOCTL_DEACTIVATE_PARTITION,
+
+  /**
+   * @brief Get active partition idx
+   *
+   * @param[out] partition_idx Integer containing the partition index
+   * or -1 if no partition is active
+   * 
+   */
+  RTEMS_FLASHDEV_IOCTL_GET_ACTIVATE_PARTITION_IDX,
 
   /**
    * @brief Returns the type of flash device (e.g. NOR or NAND).

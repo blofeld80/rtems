@@ -98,6 +98,12 @@ static int rtems_flashdev_ioctl_deactivate_partition(
   void *arg
 );
 
+static int rtems_flashdev_ioctl_get_active_partition(
+  rtems_flashdev *flash,
+  rtems_libio_t *iop,
+  void *arg
+);
+
 static uint32_t rtems_flashdev_ioctl_get_flash_type(
   rtems_flashdev *flash,
   void *arg
@@ -603,6 +609,9 @@ static int rtems_flashdev_ioctl(
     case RTEMS_FLASHDEV_IOCTL_DEACTIVATE_PARTITION:
       err = rtems_flashdev_ioctl_deactivate_partition( flash, iop, arg );
       break;
+    case RTEMS_FLASHDEV_IOCTL_GET_ACTIVATE_PARTITION_IDX:
+      err = rtems_flashdev_ioctl_get_active_partition( flash, iop, arg );
+      break;
     case RTEMS_FLASHDEV_IOCTL_GET_TYPE:
       err = rtems_flashdev_ioctl_get_flash_type( flash, arg );
       break;
@@ -1060,6 +1069,21 @@ static int rtems_flashdev_ioctl_deactivate_partition(
 {
   uint32_t *partition_idx = (uint32_t*) arg;
   return rtems_flashdev_deactivate_partition(iop, *partition_idx);
+}
+
+static int rtems_flashdev_ioctl_get_active_partition(
+  rtems_flashdev *flash,
+  rtems_libio_t *iop,
+  void *arg
+)
+{
+  int32_t * partition_idx = (int32_t *) arg;
+  *partition_idx = -1;
+  if (rtems_flashdev_is_a_partition_active( iop ))
+  {
+    *partition_idx = rtems_flashdev_get_active_partition_index( iop );
+  }
+
 }
 
 static uint32_t rtems_flashdev_ioctl_get_flash_type(
