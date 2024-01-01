@@ -62,15 +62,18 @@ static void run_test(void) {
   uint32_t jedec;
   int page_count;
   int type;
-  size_t min_write_size_in[] = {1,8,16};
+  const size_t min_write_size_in[] = {1,8,16};
   size_t min_write_size_out = 0;
   size_t erase_size = 0;
   const char flash_path[] = "/dev/flashdev0";
+  const int page_count_in = 16;
+  const int page_size_in = 128;
+
 
   for ( int loop = 0; loop <= 2; loop++)
   {
     /* Initalize the flash device driver and flashdev */
-    flash = test_flashdev_init(min_write_size_in[loop], ERASE_SIZE);
+    flash = test_flashdev_init(page_size_in, page_count_in, min_write_size_in[loop], ERASE_SIZE);
     rtems_test_assert(flash != NULL);
 
     /* Register the flashdev as a device */
@@ -186,7 +189,7 @@ static void run_test(void) {
   }
 
   /* Initalize the flash device driver and flashdev */
-  flash = test_flashdev_init(min_write_size_in[1], ERASE_SIZE);
+  flash = test_flashdev_init(page_size_in, page_count_in, min_write_size_in[1], ERASE_SIZE);
   rtems_test_assert(flash != NULL);
 
   /* Register the flashdev as a device */
