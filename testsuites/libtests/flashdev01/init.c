@@ -103,44 +103,44 @@ static void run_test(void) {
   rtems_test_assert(buff[0] == 0);
 
   /* Test getting JEDEC ID */
-  status = ioctl(fd, RTEMS_FLASHDEV_IOCTL_JEDEC_ID, &jedec);
+  status = ioctl(fd, RTEMS_FLASHDEV_IOCTL_GET_JEDEC_ID, &jedec);
   rtems_test_assert(!status);
   rtems_test_assert(jedec == 0x00ABCDEF);
 
   /* Test getting flash type */
-  status = ioctl(fd, RTEMS_FLASHDEV_IOCTL_TYPE, &type);
+  status = ioctl(fd, RTEMS_FLASHDEV_IOCTL_GET_TYPE, &type);
   rtems_test_assert(!status);
   rtems_test_assert(type == RTEMS_FLASHDEV_NOR);
 
   /* Test getting page info from offset */
   pg_info.location = PAGE_SIZE + PAGE_SIZE/2;
 
-  status = ioctl(fd, RTEMS_FLASHDEV_IOCTL_PAGEINFO_BY_OFFSET, &pg_info);
+  status = ioctl(fd, RTEMS_FLASHDEV_IOCTL_GET_PAGEINFO_BY_OFFSET, &pg_info);
   rtems_test_assert(!status);
   rtems_test_assert(pg_info.page_info.offset == PAGE_SIZE);
   rtems_test_assert(pg_info.page_info.size == PAGE_SIZE);
 
   /* Test getting page info from index */
   pg_info.location = 2;
-  status = ioctl(fd, RTEMS_FLASHDEV_IOCTL_PAGEINFO_BY_INDEX, &pg_info);
+  status = ioctl(fd, RTEMS_FLASHDEV_IOCTL_GET_PAGEINFO_BY_INDEX, &pg_info);
   rtems_test_assert(!status);
   rtems_test_assert(pg_info.page_info.offset == 2*PAGE_SIZE);
   rtems_test_assert(pg_info.page_info.size == PAGE_SIZE);
 
   /* Test getting page count */
-  status = ioctl(fd, RTEMS_FLASHDEV_IOCTL_PAGE_COUNT, &page_count);
+  status = ioctl(fd, RTEMS_FLASHDEV_IOCTL_GET_PAGE_COUNT, &page_count);
   rtems_test_assert(!status);
   rtems_test_assert(page_count == PAGE_COUNT);
 
   /* Test getting write block size */
-  status = ioctl(fd, RTEMS_FLASHDEV_IOCTL_WRITE_BLOCK_SIZE, &wb_size);
+  status = ioctl(fd, RTEMS_FLASHDEV_IOCTL_GET_WRITE_BLOCK_SIZE, &wb_size);
   rtems_test_assert(!status);
   rtems_test_assert(wb_size == WB_SIZE);
 
   /* Test Regions */
   region.offset = 0x400;
   region.size = 0x200;
-  status = ioctl(fd, RTEMS_FLASHDEV_IOCTL_REGION_SET, &region);
+  status = ioctl(fd, RTEMS_FLASHDEV_IOCTL_SET_REGION, &region);
   rtems_test_assert(!status);
 
   /* Test read to larger then region */
@@ -155,7 +155,7 @@ static void run_test(void) {
   /* Write to base unset region and check the writes location */
   fseek(file, 0x0, SEEK_SET);
   fwrite("HELLO WORLD", 11, 1, file);
-  ioctl(fd, RTEMS_FLASHDEV_IOCTL_REGION_UNSET, NULL);
+  ioctl(fd, RTEMS_FLASHDEV_IOCTL_UNSET_REGION, NULL);
   fseek(file, 0x400, SEEK_SET);
   fgets(buff, 11, file);
   rtems_test_assert(strncmp(buff, "HELLO WORLD", 11));
