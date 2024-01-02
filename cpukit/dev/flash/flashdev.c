@@ -390,6 +390,8 @@ static int rtems_flashdev_ioctl(
     case RTEMS_FLASHDEV_IOCTL_GET_WRITE_BLOCK_SIZE:
       err = rtems_flashdev_ioctl_get_write_block_size( flash, arg );
       break;
+    default:
+      err = EINVAL;
   }
 
   rtems_flashdev_release( flash );
