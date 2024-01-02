@@ -40,7 +40,7 @@ static int flashdev_shell_get_jedec_id(char *dev_path);
 static int flashdev_shell_get_page_by_off(char *dev_path, int argc, char *argv[]);
 static int flashdev_shell_get_page_by_idx(char *dev_path, int argc, char *argv[]);
 static int flashdev_shell_get_pg_count(char *dev_path);
-static int flashdev_shell_get_wb_size(char *dev_path);
+static int flashdev_shell_get_min_write_size(char *dev_path);
 
 static int flashdev_shell_ioctl_value(
   char *dev_path,
@@ -67,7 +67,7 @@ static const char rtems_flashdev_shell_usage [] =
   "   -o <address>          Print the page information of page at address\n"
   "   -i <index>            Print the page information of page at index\n"
   "   -p                    Print the number of pages\n"
-  "   -b                    Print the write block size\n"
+  "   -b                    Print the min. write size\n"
   "   -h                    Print this help\n";
 
 
@@ -98,23 +98,23 @@ static int rtems_flashdev_shell_main( int argc, char *argv[] ) {
         /* Erase */
         return flashdev_shell_erase(dev_path, argc, &argv[i]);
       case ('t'):
-        /* Flash Type */
+        /* Get flash Type */
         return flashdev_shell_get_type(dev_path);
       case ('d'):
-        /* JEDEC Id */
+        /* Get JEDEC Id */
         return flashdev_shell_get_jedec_id(dev_path);
       case ('o'):
-        /* Page info by offset */
+        /* Get page info by offset */
         return flashdev_shell_get_page_by_off(dev_path, argc, &argv[i]);
       case ('i'):
-        /* Page info by index */
+        /* Get page info by index */
         return flashdev_shell_get_page_by_idx(dev_path, argc, &argv[i]);
       case ('p'):
-        /* Page count */
+        /* Get page count */
         return flashdev_shell_get_pg_count(dev_path);
       case ('b'):
-        /* Write block size */
-        return flashdev_shell_get_wb_size(dev_path);
+        /* Get min write size */
+        return flashdev_shell_get_min_write_size(dev_path);
       case ('h'):
       default:
         /* Help */
@@ -480,7 +480,7 @@ static int flashdev_shell_get_pg_count( char *dev_path )
   return 0;
 }
 
-static int flashdev_shell_get_wb_size( char *dev_path )
+static int flashdev_shell_get_min_write_size( char *dev_path )
 {
   size_t ret;
   int status;
@@ -488,16 +488,16 @@ static int flashdev_shell_get_wb_size( char *dev_path )
   /* Get Write Block Size */
   status = flashdev_shell_ioctl_value(
     dev_path,
-    RTEMS_FLASHDEV_IOCTL_GET_WRITE_BLOCK_SIZE,
+    RTEMS_FLASHDEV_IOCTL_GET_MIN_WRITE_SIZE,
     &ret
   );
 
   /* Print Write Block Size */
   if (status) {
-    printf("Failed to get write block size\n");
+    printf("Failed to get min write size\n");
     return status;
   } else {
-    printf("Write block size: 0x%zx\n", ret);
+    printf("Min. Write size: 0x%zx\n", ret);
   }
   return 0;
 }
