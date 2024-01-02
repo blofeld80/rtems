@@ -35,12 +35,12 @@
 static int flashdev_shell_read(char *dev_path, int argc, char *argv[]);
 static int flashdev_shell_write(char *dev_path, int argc, char *argv[]);
 static int flashdev_shell_erase(char *dev_path, int argc, char *argv[]);
-static int flashdev_shell_type(char *dev_path);
-static int flashdev_shell_jedecid(char *dev_path);
-static int flashdev_shell_page_off(char *dev_path, int argc, char *argv[]);
-static int flashdev_shell_page_idx(char *dev_path, int argc, char *argv[]);
-static int flashdev_shell_pg_count(char *dev_path);
-static int flashdev_shell_wb_size(char *dev_path);
+static int flashdev_shell_get_type(char *dev_path);
+static int flashdev_shell_get_jedec_id(char *dev_path);
+static int flashdev_shell_get_page_by_off(char *dev_path, int argc, char *argv[]);
+static int flashdev_shell_get_page_by_idx(char *dev_path, int argc, char *argv[]);
+static int flashdev_shell_get_pg_count(char *dev_path);
+static int flashdev_shell_get_wb_size(char *dev_path);
 
 static int flashdev_shell_ioctl_value(
   char *dev_path,
@@ -99,22 +99,22 @@ static int rtems_flashdev_shell_main( int argc, char *argv[] ) {
         return flashdev_shell_erase(dev_path, argc, &argv[i]);
       case ('t'):
         /* Flash Type */
-        return flashdev_shell_type(dev_path);
+        return flashdev_shell_get_type(dev_path);
       case ('d'):
         /* JEDEC Id */
-        return flashdev_shell_jedecid(dev_path);
+        return flashdev_shell_get_jedec_id(dev_path);
       case ('o'):
         /* Page info by offset */
-        return flashdev_shell_page_off(dev_path, argc, &argv[i]);
+        return flashdev_shell_get_page_by_off(dev_path, argc, &argv[i]);
       case ('i'):
         /* Page info by index */
-        return flashdev_shell_page_idx(dev_path, argc, &argv[i]);
+        return flashdev_shell_get_page_by_idx(dev_path, argc, &argv[i]);
       case ('p'):
         /* Page count */
-        return flashdev_shell_pg_count(dev_path);
+        return flashdev_shell_get_pg_count(dev_path);
       case ('b'):
         /* Write block size */
-        return flashdev_shell_wb_size(dev_path);
+        return flashdev_shell_get_wb_size(dev_path);
       case ('h'):
       default:
         /* Help */
@@ -377,7 +377,7 @@ int flashdev_shell_erase(
   return 0;
 }
 
-int flashdev_shell_type( char *dev_path )
+int flashdev_shell_get_type( char *dev_path )
 {
   int type;
   int status;
@@ -409,7 +409,7 @@ int flashdev_shell_type( char *dev_path )
   return 0;
 }
 
-int flashdev_shell_jedecid( char *dev_path ) {
+int flashdev_shell_get_jedec_id( char *dev_path ) {
   uint32_t ret;
   int status;
 
@@ -430,7 +430,7 @@ int flashdev_shell_jedecid( char *dev_path ) {
   return 0;
 }
 
-static int flashdev_shell_page_off(
+static int flashdev_shell_get_page_by_off(
   char *dev_path,
   int argc,
   char *argv[]
@@ -444,7 +444,7 @@ static int flashdev_shell_page_off(
   );
 }
 
-static int flashdev_shell_page_idx(
+static int flashdev_shell_get_page_by_idx(
   char *dev_path,
   int argc,
   char *argv[]
@@ -458,7 +458,7 @@ static int flashdev_shell_page_idx(
   );
 }
 
-static int flashdev_shell_pg_count( char *dev_path )
+static int flashdev_shell_get_pg_count( char *dev_path )
 {
   uint32_t ret;
   int status;
@@ -480,7 +480,7 @@ static int flashdev_shell_pg_count( char *dev_path )
   return 0;
 }
 
-static int flashdev_shell_wb_size( char *dev_path )
+static int flashdev_shell_get_wb_size( char *dev_path )
 {
   size_t ret;
   int status;
