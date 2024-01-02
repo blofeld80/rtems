@@ -33,9 +33,7 @@
 #define TEST_DATA_SIZE (PAGE_SIZE * PAGE_COUNT)
 #define PAGE_COUNT 16
 #define PAGE_SIZE 128
-#define MAX_NUM_REGIONS 48
-#define BITALLOC_SIZE 32
-#define NUM_BITALLOC ((MAX_NUM_REGIONS + BITALLOC_SIZE - 1) / BITALLOC_SIZE)
+#define MAX_NUM_PARTITIONS 16
 
 static size_t g_min_write_size = 0;
 static size_t g_erase_size = 0;
@@ -47,8 +45,6 @@ static size_t g_erase_size = 0;
 typedef struct test_flashdev {
   char* data;
   uint32_t jedec_id;
-  uint32_t bit_allocator[NUM_BITALLOC];
-  rtems_flashdev_region regions[MAX_NUM_REGIONS];
 } test_flashdev;
 
 int test_flashdev_get_page_by_off(
@@ -287,11 +283,6 @@ rtems_flashdev* test_flashdev_init(size_t min_write_size, size_t erase_size)
 
   flash_driver->jedec_id = 0x00ABCDEF;
 
-  rtems_flashdev_region_table *ftable = calloc(1, sizeof(rtems_flashdev_region_table));
-  ftable->max_regions = MAX_NUM_REGIONS;
-  ftable->regions = flash_driver->regions;
-  ftable->bit_allocator = flash_driver->bit_allocator;
-
   flash->driver = flash_driver;
   flash->read = &test_flashdev_read;
   flash->write = &test_flashdev_write;
@@ -303,7 +294,6 @@ rtems_flashdev* test_flashdev_init(size_t min_write_size, size_t erase_size)
   flash->get_page_count = &test_flashdev_get_page_count;
   flash->get_min_write_size = &test_flashdev_get_min_write_size;
   flash->get_erase_size = &test_flashdev_get_erase_size;
-  flash->region_table = ftable;
 
   return flash;
 }
@@ -315,10 +305,6 @@ void test_flashdev_deinit(
 {
   if (NULL != flash)
   {
-    if (NULL != flash->driver)
-    {
-      free(flash->region_table);
-    }
     if (NULL != flash->driver)
     {
       test_flashdev* flash_driver = (test_flashdev*) flash->driver;
