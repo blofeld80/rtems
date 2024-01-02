@@ -37,8 +37,14 @@ static int flashdev_shell_write(char *dev_path, int argc, char *argv[]);
 static int flashdev_shell_erase(char *dev_path, int argc, char *argv[]);
 static int flashdev_shell_get_type(char *dev_path);
 static int flashdev_shell_get_jedec_id(char *dev_path);
-static int flashdev_shell_get_page_by_off(char *dev_path, int argc, char *argv[]);
-static int flashdev_shell_get_page_by_idx(char *dev_path, int argc, char *argv[]);
+static int flashdev_shell_get_page_by_off(char *dev_path, 
+  int argc, 
+  char *argv[]
+);
+static int flashdev_shell_get_page_by_idx(char *dev_path, 
+  int argc, 
+  char *argv[]
+);
 static int flashdev_shell_get_pg_count(char *dev_path);
 static int flashdev_shell_get_min_write_size(char *dev_path);
 static int flashdev_shell_get_erase_size(char *dev_path);

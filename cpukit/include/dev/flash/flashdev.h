@@ -165,7 +165,8 @@ typedef enum {
   RTEMS_FLASHDEV_IOCTL_GET_PAGEINFO_BY_OFFSET,
 
   /**
-   * @brief Get the size and address of nth flash page where n is index passed in.
+   * @brief Get the size and address of nth flash page where n is index
+   * passed in.
    *
    * The index ignores the region limiting.
    *

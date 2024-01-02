@@ -73,7 +73,10 @@ static void run_test(void) {
   for ( int loop = 0; loop <= 2; loop++)
   {
     /* Initalize the flash device driver and flashdev */
-    flash = test_flashdev_init(page_size_in, page_count_in, min_write_size_in[loop], ERASE_SIZE);
+    flash = test_flashdev_init( page_size_in,
+                                page_count_in,
+                                min_write_size_in[loop],
+                                ERASE_SIZE);
     rtems_test_assert(flash != NULL);
 
     /* Register the flashdev as a device */
@@ -172,9 +175,12 @@ static void run_test(void) {
     rtems_test_assert(page_count == PAGE_COUNT);
 
     /* Test getting min write size */
-    status = ioctl(fd, RTEMS_FLASHDEV_IOCTL_GET_MIN_WRITE_SIZE, &min_write_size_out);
+    status = ioctl( fd, RTEMS_FLASHDEV_IOCTL_GET_MIN_WRITE_SIZE,
+                    &min_write_size_out);
     rtems_test_assert(!status);
-    rtems_test_assert(0 == memcmp(&min_write_size_out, &min_write_size_in[loop] , sizeof(size_t)));
+    rtems_test_assert(0 == memcmp(&min_write_size_out,
+                                  &min_write_size_in[loop],
+                                  sizeof(size_t)));
 
     /* Close the file handle */
     status = fclose(file);
@@ -188,7 +194,10 @@ static void run_test(void) {
   }
 
   /* Initalize the flash device driver and flashdev */
-  flash = test_flashdev_init(page_size_in, page_count_in, min_write_size_in[1], ERASE_SIZE);
+  flash = test_flashdev_init( page_size_in,
+                              page_count_in,
+                              min_write_size_in[1],
+                              ERASE_SIZE);
   rtems_test_assert(flash != NULL);
 
   /* Register the flashdev as a device */

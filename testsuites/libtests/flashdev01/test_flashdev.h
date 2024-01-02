@@ -31,7 +31,12 @@
 
 #include <dev/flash/flashdev.h>
 
-rtems_flashdev* test_flashdev_init(size_t page_size, size_t page_count, size_t min_write_size, size_t erase_size);
+rtems_flashdev* test_flashdev_init(
+  size_t page_size,
+  size_t page_count,
+  size_t min_write_size,
+  size_t erase_size
+);
 
 void test_flashdev_deinit(rtems_flashdev* flash);
 

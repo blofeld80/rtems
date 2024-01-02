@@ -415,7 +415,9 @@ static off_t rtems_flashdev_get_partition_offset(
 )
 {
   /* Region is already checked to be defined */
-  assert( rtems_flashdev_get_active_partition_index( iop ) != RTEMS_FLASHDEV_PARTITION_UNDEFINED );
+  assert( rtems_flashdev_get_active_partition_index( iop ) !=
+                                        RTEMS_FLASHDEV_PARTITION_UNDEFINED );
+
   rtems_flashdev_partition *table = flash->partition_table;
   return table[ rtems_flashdev_get_active_partition_index( iop ) ].offset;
 }
@@ -426,7 +428,9 @@ static size_t rtems_flashdev_get_partition_size(
 )
 {
   /* Region is already checked to be defined */
-  assert( rtems_flashdev_get_active_partition_index( iop ) != RTEMS_FLASHDEV_PARTITION_UNDEFINED );
+  assert( rtems_flashdev_get_active_partition_index( iop ) !=
+                                        RTEMS_FLASHDEV_PARTITION_UNDEFINED );
+
   rtems_flashdev_partition *table = flash->partition_table;
   return table[ rtems_flashdev_get_active_partition_index( iop ) ].size;
 }
@@ -557,7 +561,8 @@ static int rtems_flashdev_open(
 )
 {
   int ret = rtems_filesystem_default_open( iop, path, oflag, mode );
-  rtems_flashdev_mark_partition_defined(iop, RTEMS_FLASHDEV_PARTITION_UNDEFINED);
+  rtems_flashdev_mark_partition_defined(iop,
+                                        RTEMS_FLASHDEV_PARTITION_UNDEFINED);
   return ret;
 }
 
@@ -700,8 +705,8 @@ static bool rtems_flashdev_is_a_partition_active(
   rtems_libio_t *iop
 )
 {
-  return (rtems_flashdev_get_active_partition_index( iop )
-    != RTEMS_FLASHDEV_PARTITION_UNDEFINED);
+  return (rtems_flashdev_get_active_partition_index( iop ) !=
+                                          RTEMS_FLASHDEV_PARTITION_UNDEFINED);
 }
 
 static bool rtems_flashdev_is_partition_defined(
@@ -719,7 +724,8 @@ static int rtems_flashdev_activate_partition(
 )
 {
   if(!rtems_flashdev_is_partition_defined(iop, partition_idx)){return -1;}
-  iop->data0 = set_bit(iop->data0, partition_idx + RTEMS_FLASHDEV_MAX_PARTITIONS);
+  iop->data0 = set_bit( iop->data0,
+                        partition_idx + RTEMS_FLASHDEV_MAX_PARTITIONS);
   return 0;
 }
 
@@ -729,7 +735,8 @@ static int rtems_flashdev_deactivate_partition(
 )
 {
   if(!rtems_flashdev_is_partition_defined(iop, partition_idx)){return -1;}
-  iop->data0 = clear_bit(iop->data0, partition_idx + RTEMS_FLASHDEV_MAX_PARTITIONS);
+  iop->data0 = clear_bit( iop->data0,
+                          partition_idx + RTEMS_FLASHDEV_MAX_PARTITIONS);
   return 0;
 }
 
@@ -834,7 +841,9 @@ rtems_flashdev *rtems_flashdev_alloc_and_init( size_t size )
     flash = calloc( 1, size );
     if ( NULL != flash ) {
       int rv;
-      rtems_flashdev_partition * table = calloc( RTEMS_FLASHDEV_MAX_PARTITIONS, sizeof(rtems_flashdev_partition));
+      rtems_flashdev_partition * table = calloc( RTEMS_FLASHDEV_MAX_PARTITIONS,
+                                            sizeof(rtems_flashdev_partition));
+
       rv = rtems_flashdev_do_init( flash, rtems_flashdev_destroy_and_free );
       if ( (rv != 0) || (table == NULL) ) {
         rtems_recursive_mutex_destroy( &flash->mutex );
@@ -943,7 +952,10 @@ static int rtems_flashdev_ioctl_erase(
   }
 
   new_offset = erase_args_1->offset;
-  status = rtems_flashdev_get_abs_addr(flash, iop, erase_args_1->size, &new_offset);
+  status = rtems_flashdev_get_abs_addr( flash,
+                                        iop,
+                                        erase_args_1->size,
+                                        &new_offset);
   if ( status < 0 ) {
     return status;
   }
@@ -986,7 +998,10 @@ static int rtems_flashdev_ioctl_create_partition(
   }
 
   /* New partition to allocate and space to allocate partition */
-  return rtems_flashdev_create_partition( iop, table, partition_idx, partition_in );
+  return rtems_flashdev_create_partition( iop,
+                                          table,
+                                          partition_idx,
+                                          partition_in );
 }
 
 static int rtems_flashdev_ioctl_delete_partition(
@@ -1039,7 +1054,10 @@ static int rtems_flashdev_ioctl_resize_partition(
     }
     else
     {
-      ret = rtems_flashdev_create_partition( iop, flash->partition_table, partition_idx, &storage);
+      ret = rtems_flashdev_create_partition( iop,
+                                             flash->partition_table,
+                                             partition_idx,
+                                             &storage );
       if (ret >= 0)
       {
         rtems_flashdev_activate_partition(iop, partition_idx);
@@ -1139,7 +1157,8 @@ static int rtems_flashdev_ioctl_get_pageinfo_by_index( rtems_flashdev *flash,
   }
 }
 
-static int rtems_flashdev_ioctl_get_page_count( rtems_flashdev *flash, void *arg )
+static int rtems_flashdev_ioctl_get_page_count( rtems_flashdev *flash,
+                                              void *arg )
 {
   if ( arg == NULL ) {
     rtems_set_errno_and_return_minus_one( EINVAL );
