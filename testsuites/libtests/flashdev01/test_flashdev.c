@@ -38,6 +38,7 @@
 #define NUM_BITALLOC ((MAX_NUM_REGIONS + BITALLOC_SIZE - 1) / BITALLOC_SIZE)
 
 static size_t g_min_write_size = 0;
+static size_t g_erase_size = 0;
 
 /**
  * This flash device driver is for testing flashdev
@@ -72,6 +73,11 @@ int test_flashdev_get_page_count(
 int test_flashdev_get_min_write_size(
   rtems_flashdev *flash,
   size_t *min_write_size
+);
+
+int test_flashdev_get_erase_size(
+  rtems_flashdev *flash,
+  size_t *erase_size
 );
 
 uint32_t test_flashdev_get_jedec_id(
@@ -148,6 +154,17 @@ int test_flashdev_get_min_write_size(
   *min_write_size = g_min_write_size;
   return 0;
 }
+
+/* Get min. erase size handler */
+int test_flashdev_get_erase_size(
+  rtems_flashdev *flash,
+  size_t *erase_size
+)
+{
+  *erase_size = g_erase_size;
+  return 0;
+}
+
 
 /* JEDEC ID handler, this would normally require a READID
  * call to the physical flash device.
@@ -231,13 +248,23 @@ int test_flashdev_erase(
 }
 
 /* Initialize Flashdev and underlying driver. */
-rtems_flashdev* test_flashdev_init(size_t min_write_size)
+rtems_flashdev* test_flashdev_init(size_t min_write_size, size_t erase_size)
 {
   if (0 == min_write_size) {
     return NULL;
   }
 
+  if (0 == erase_size) {
+    return NULL;
+  }
+
+  if (erase_size % min_write_size) {
+    return NULL;
+  }
+
   g_min_write_size = min_write_size;
+  g_erase_size = erase_size;
+
   rtems_flashdev *flash = rtems_flashdev_alloc_and_init(sizeof(rtems_flashdev));
 
   if (flash == NULL) {
@@ -275,6 +302,7 @@ rtems_flashdev* test_flashdev_init(size_t min_write_size)
   flash->get_page_info_by_index = &test_flashdev_get_page_by_index;
   flash->get_page_count = &test_flashdev_get_page_count;
   flash->get_min_write_size = &test_flashdev_get_min_write_size;
+  flash->get_erase_size = &test_flashdev_get_erase_size;
   flash->region_table = ftable;
 
   return flash;

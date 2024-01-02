@@ -145,6 +145,13 @@ typedef struct rtems_flashdev rtems_flashdev;
 #define RTEMS_FLASHDEV_IOCTL_GET_MIN_WRITE_SIZE 10
 
 /**
+ * @brief Get the erase size supported by the driver.
+ *
+ * @param[out] count Integer containing the erase size.
+ */
+#define RTEMS_FLASHDEV_IOCTL_GET_ERASE_SIZE 11
+
+/**
  * @brief The maximum number of region limited file descriptors
  * allowed to be open at once.
  */
@@ -362,6 +369,20 @@ struct rtems_flashdev {
   int ( *get_min_write_size )(
     rtems_flashdev *flashdev,
     size_t *min_write_size
+  );
+
+  /**
+   * @brief Call to device driver to return the erase size of the
+   * flash device.
+   *
+   * @param[out] erase_size The erase size of the flash device.
+   *
+   * @retval 0 Success.
+   * @retval non-zero Failed.
+   */
+  int ( *get_erase_size )(
+    rtems_flashdev *flashdev,
+    size_t *erase_size
   );
 
   /**
