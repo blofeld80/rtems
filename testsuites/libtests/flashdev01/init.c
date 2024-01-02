@@ -1,6 +1,7 @@
 /*
  * SPDX-License-Identifier: BSD-2-Clause
  *
+ * Copyright (C) 2024 Bernd Moessner
  * Copyright (C) 2023 Aaron Nyholm
  *
  * Redistribution and use in source and binary forms, with or without
