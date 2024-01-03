@@ -1,0 +1,28 @@
+SPDX-License-Identifier: CC-BY-SA-4.0 OR BSD-2-Clause
+build-type: library
+cflags:
+- -Wno-pointer-sign
+copyrights:
+- Copyright (C) 2024 Bernd Moessner
+cppflags: []
+cxxflags: []
+enabled-by: true
+includes:
+- cpukit/libfs/src/lfs/src
+install:
+- destination: ${BSP_INCLUDEDIR}
+  source:
+  - cpukit/libfs/src/lfs/src/lfs.h
+  - cpukit/libfs/src/lfs/src/lfs_util.h
+  - cpukit/libfs/src/lfs/adapter/lfs_flashdev.h
+  - cpukit/libfs/src/lfs/adapter/lfs_adapter.h
+install-path: ${BSP_LIBDIR}
+links: []
+source:
+- cpukit/libfs/src/lfs/src/lfs.c
+- cpukit/libfs/src/lfs/src/lfs_util.c
+- cpukit/libfs/src/lfs/adapter/lfs_adapter_init.c
+- cpukit/libfs/src/lfs/adapter/lfs_flashdev.c
+- cpukit/libfs/src/lfs/adapter/lfs_adapter.c
+target: lfs
+type: build

@@ -2,6 +2,7 @@ SPDX-License-Identifier: CC-BY-SA-4.0 OR BSD-2-Clause
 build-type: group
 cflags: []
 copyrights:
+- Copyright (C) 2024 Bernd Moessner
 - Copyright (C) 2020 embedded brains GmbH & Co. KG
 cppflags: []
 cxxflags: []
@@ -17,6 +18,8 @@ ldflags:
 links:
 - role: build-dependency
   uid: libdosfs
+- role: build-dependency
+  uid: liblfs
 - role: build-dependency
   uid: libimfs
 - role: build-dependency
