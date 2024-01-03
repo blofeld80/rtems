@@ -1101,7 +1101,7 @@ static int rtems_flashdev_ioctl_get_active_partition(
   {
     *partition_idx = rtems_flashdev_get_active_partition_index( iop );
   }
-
+  return 0;
 }
 
 static uint32_t rtems_flashdev_ioctl_get_flash_type(
