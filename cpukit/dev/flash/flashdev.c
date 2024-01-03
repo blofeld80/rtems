@@ -40,6 +40,7 @@
 #include <string.h>
 #include <unistd.h>
 #include <assert.h>
+#include <inttypes.h>
 
 #define RTEMS_FLASHDEV_MAX_PARTITIONS 16
 #define RTEMS_FLASHDEV_PARTITION_ALLOC_FULL 0xFFFFFFFFUL
@@ -316,9 +317,8 @@ static int rtems_flashdev_do_init(
   void ( *destroy )( rtems_flashdev *flash )
 )
 {
-  char mtx_name[19];
-  sprintf(mtx_name, "FDEV_MTX_%08x", (unsigned int) flash);
-  rtems_recursive_mutex_init( &flash->mutex, (const char*) &mtx_name);
+  sprintf(flash->mtx_name, "FDEV_MTX_%" PRIXPTR, (uintptr_t) flash);
+  rtems_recursive_mutex_init( &flash->mutex, (const char*) flash->mtx_name);
   flash->destroy = destroy;
   flash->read = NULL;
   flash->write = NULL;

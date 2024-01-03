@@ -427,6 +427,12 @@ struct rtems_flashdev {
    * @brief Partition table
    */
   rtems_flashdev_partition *partition_table;
+
+  /**
+   * @brief Storage for mutex name
+   */
+  char mtx_name[10 + sizeof(uintptr_t)];
+
 };
 
 /**
