@@ -77,7 +77,7 @@ typedef struct rtems_flashdev rtems_flashdev;
  * @param[out] jedec_id Pointer to uint32_t in which the JEDEC ID is
  * returned in.
  */
-#define RTEMS_FLASHDEV_IOCTL_JEDEC_ID 2
+#define RTEMS_FLASHDEV_IOCTL_GET_JEDEC_ID 2
 /**
  * @brief Erases flash device.
  *
@@ -94,20 +94,20 @@ typedef struct rtems_flashdev rtems_flashdev;
  * @param[in] region Pointer to rtems_flashdev_region struct containing
  * base and length of defined region.
  */
-#define RTEMS_FLASHDEV_IOCTL_REGION_SET 4
+#define RTEMS_FLASHDEV_IOCTL_SET_REGION 4
 /**
  * @brief Removes the set region on the file descriptor.
  *
  * This command has no argument.
  */
-#define RTEMS_FLASHDEV_IOCTL_REGION_UNSET 5
+#define RTEMS_FLASHDEV_IOCTL_UNSET_REGION 5
 /**
  * @brief Returns the type of flash device (e.g. NOR or NAND).
  *
  * @param[out] flash_type Pointer to integer which is set to the flash
  * type macro value.
  */
-#define RTEMS_FLASHDEV_IOCTL_TYPE 6
+#define RTEMS_FLASHDEV_IOCTL_GET_TYPE 6
 
 /**
  * @brief Get the size and address of flash page at given offset
@@ -118,7 +118,7 @@ typedef struct rtems_flashdev rtems_flashdev;
  * @param[in,out] rtems_flashdev_ioctl_page_info arg Pointer to struct
  * with offset and space for return values.
  */
-#define RTEMS_FLASHDEV_IOCTL_PAGEINFO_BY_OFFSET 7
+#define RTEMS_FLASHDEV_IOCTL_GET_PAGEINFO_BY_OFFSET 7
 
 /**
  * @brief Get the size and address of nth flash page where n is index passed in.
@@ -128,21 +128,21 @@ typedef struct rtems_flashdev rtems_flashdev;
  * @param[in,out] rtems_flashdev_ioctl_page_info arg Pointer to struct
  * with index and space for return values.
  */
-#define RTEMS_FLASHDEV_IOCTL_PAGEINFO_BY_INDEX 8
+#define RTEMS_FLASHDEV_IOCTL_GET_PAGEINFO_BY_INDEX 8
 
 /**
  * @brief Get the number of pages in flash device.
  *
  * @param[out] count Integer containing the number of pages.
  */
-#define RTEMS_FLASHDEV_IOCTL_PAGE_COUNT 9
+#define RTEMS_FLASHDEV_IOCTL_GET_PAGE_COUNT 9
 
 /**
  * @brief Get the minimum write size supported by the driver.
  *
  * @param[out] count Integer containing the minimum write size.
  */
-#define RTEMS_FLASHDEV_IOCTL_WRITE_BLOCK_SIZE 10
+#define RTEMS_FLASHDEV_IOCTL_GET_WRITE_BLOCK_SIZE 10
 
 /**
  * @brief The maximum number of region limited file descriptors
