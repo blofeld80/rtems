@@ -99,31 +99,31 @@ static int rtems_flashdev_ioctl_clear_region(
   rtems_libio_t *iop
 );
 
-static uint32_t rtems_flashdev_ioctl_jedec_id(
+static uint32_t rtems_flashdev_ioctl_get_jedec_id(
   rtems_flashdev *flash
 );
 
-static uint32_t rtems_flashdev_ioctl_flash_type(
+static uint32_t rtems_flashdev_ioctl_get_flash_type(
   rtems_flashdev *flash,
   void *arg
 );
 
-static int rtems_flashdev_ioctl_pageinfo_offset(
+static int rtems_flashdev_ioctl_get_pageinfo_offset(
   rtems_flashdev *flash,
   void *arg
 );
 
-static int rtems_flashdev_ioctl_pageinfo_index(
+static int rtems_flashdev_ioctl_get_pageinfo_index(
   rtems_flashdev *flash,
   void *arg
 );
 
-static int rtems_flashdev_ioctl_page_count(
+static int rtems_flashdev_ioctl_get_page_count(
   rtems_flashdev *flash,
   void *arg
 );
 
-static int rtems_flashdev_ioctl_write_block_size(
+static int rtems_flashdev_ioctl_get_write_block_size(
   rtems_flashdev *flash,
   void *arg
 );
@@ -363,7 +363,7 @@ static int rtems_flashdev_ioctl(
       err = 0;
       break;
     case RTEMS_FLASHDEV_IOCTL_GET_JEDEC_ID:
-      *( (uint32_t *) arg ) = rtems_flashdev_ioctl_jedec_id( flash );
+      *( (uint32_t *) arg ) = rtems_flashdev_ioctl_get_jedec_id( flash );
       err = 0;
       break;
     case RTEMS_FLASHDEV_IOCTL_ERASE:
@@ -376,19 +376,19 @@ static int rtems_flashdev_ioctl(
       err = rtems_flashdev_ioctl_clear_region( flash, iop );
       break;
     case RTEMS_FLASHDEV_IOCTL_GET_TYPE:
-      err = rtems_flashdev_ioctl_flash_type( flash, arg );
+      err = rtems_flashdev_ioctl_get_flash_type( flash, arg );
       break;
     case RTEMS_FLASHDEV_IOCTL_GET_PAGEINFO_BY_OFFSET:
-      err = rtems_flashdev_ioctl_pageinfo_offset( flash, arg );
+      err = rtems_flashdev_ioctl_get_pageinfo_offset( flash, arg );
       break;
     case RTEMS_FLASHDEV_IOCTL_GET_PAGEINFO_BY_INDEX:
-      err = rtems_flashdev_ioctl_pageinfo_index( flash, arg );
+      err = rtems_flashdev_ioctl_get_pageinfo_index( flash, arg );
       break;
     case RTEMS_FLASHDEV_IOCTL_GET_PAGE_COUNT:
-      err = rtems_flashdev_ioctl_page_count( flash, arg );
+      err = rtems_flashdev_ioctl_get_page_count( flash, arg );
       break;
     case RTEMS_FLASHDEV_IOCTL_GET_WRITE_BLOCK_SIZE:
-      err = rtems_flashdev_ioctl_write_block_size( flash, arg );
+      err = rtems_flashdev_ioctl_get_write_block_size( flash, arg );
       break;
   }
 
@@ -493,12 +493,12 @@ static int rtems_flashdev_do_init(
   flash->read = NULL;
   flash->write = NULL;
   flash->erase = NULL;
-  flash->jedec_id = NULL;
-  flash->flash_type = NULL;
-  flash->page_info_by_offset = NULL;
-  flash->page_info_by_index = NULL;
-  flash->page_count = NULL;
-  flash->write_block_size = NULL;
+  flash->get_jedec_id = NULL;
+  flash->get_flash_type = NULL;
+  flash->get_page_info_by_offset = NULL;
+  flash->get_page_info_by_index = NULL;
+  flash->get_page_count = NULL;
+  flash->get_write_block_size = NULL;
   flash->region_table = NULL;
   return 0;
 }
@@ -768,29 +768,29 @@ static size_t rtems_flashdev_get_region_size(
   return table->regions[ rtems_flashdev_get_region_index( iop ) ].size;
 }
 
-static uint32_t rtems_flashdev_ioctl_jedec_id( rtems_flashdev *flash )
+static uint32_t rtems_flashdev_ioctl_get_jedec_id( rtems_flashdev *flash )
 {
-  if ( flash->jedec_id == NULL ) {
+  if ( flash->get_jedec_id == NULL ) {
     return 0;
   } else {
-    return ( *flash->jedec_id )( flash );
+    return ( *flash->get_jedec_id )( flash );
   }
 }
 
-static uint32_t rtems_flashdev_ioctl_flash_type(
+static uint32_t rtems_flashdev_ioctl_get_flash_type(
   rtems_flashdev *flash,
   void *arg
 )
 {
   rtems_flashdev_flash_type *type = (rtems_flashdev_flash_type*)arg;
-  if ( flash->flash_type == NULL ) {
+  if ( flash->get_flash_type == NULL ) {
     return 0;
   } else {
-    return ( *flash->flash_type )( flash, type );
+    return ( *flash->get_flash_type )( flash, type );
   }
 }
 
-static int rtems_flashdev_ioctl_pageinfo_offset(
+static int rtems_flashdev_ioctl_get_pageinfo_offset(
   rtems_flashdev *flash,
   void *arg
 )
@@ -800,18 +800,18 @@ static int rtems_flashdev_ioctl_pageinfo_offset(
   if ( arg == NULL ) {
     rtems_set_errno_and_return_minus_one( EINVAL );
   }
-  if ( flash->page_info_by_offset == NULL ) {
+  if ( flash->get_page_info_by_offset == NULL ) {
     return 0;
   } else {
     page_info = (rtems_flashdev_ioctl_page_info *) arg;
-    return ( *flash->page_info_by_offset )( flash,
+    return ( *flash->get_page_info_by_offset )( flash,
                                          page_info->location,
                                          &page_info->page_info.offset,
                                          &page_info->page_info.size );
   }
 }
 
-static int rtems_flashdev_ioctl_pageinfo_index( rtems_flashdev *flash,
+static int rtems_flashdev_ioctl_get_pageinfo_index( rtems_flashdev *flash,
                                                 void *arg )
 {
   rtems_flashdev_ioctl_page_info *page_info;
@@ -819,30 +819,30 @@ static int rtems_flashdev_ioctl_pageinfo_index( rtems_flashdev *flash,
   if ( arg == NULL ) {
     rtems_set_errno_and_return_minus_one( EINVAL );
   }
-  if ( flash->page_info_by_index == NULL ) {
+  if ( flash->get_page_info_by_index == NULL ) {
     return 0;
   } else {
     page_info = (rtems_flashdev_ioctl_page_info *) arg;
-    return ( *flash->page_info_by_index )( flash,
+    return ( *flash->get_page_info_by_index )( flash,
                                            page_info->location,
                                            &page_info->page_info.offset,
                                            &page_info->page_info.size );
   }
 }
 
-static int rtems_flashdev_ioctl_page_count( rtems_flashdev *flash, void *arg )
+static int rtems_flashdev_ioctl_get_page_count( rtems_flashdev *flash, void *arg )
 {
   if ( arg == NULL ) {
     rtems_set_errno_and_return_minus_one( EINVAL );
   }
-  if ( flash->page_count == NULL ) {
+  if ( flash->get_page_count == NULL ) {
     return 0;
   } else {
-    return ( *flash->page_count )( flash, ( (int *) arg ) );
+    return ( *flash->get_page_count )( flash, ( (int *) arg ) );
   }
 }
 
-static int rtems_flashdev_ioctl_write_block_size(
+static int rtems_flashdev_ioctl_get_write_block_size(
   rtems_flashdev *flash,
   void *arg
 )
@@ -850,10 +850,10 @@ static int rtems_flashdev_ioctl_write_block_size(
   if ( arg == NULL ) {
     rtems_set_errno_and_return_minus_one( EINVAL );
   }
-  if ( flash->write_block_size == NULL ) {
+  if ( flash->get_write_block_size == NULL ) {
     return 0;
   } else {
-    return ( *flash->write_block_size )( flash, ( (size_t *) arg ) );
+    return ( *flash->get_write_block_size )( flash, ( (size_t *) arg ) );
   }
 }
 

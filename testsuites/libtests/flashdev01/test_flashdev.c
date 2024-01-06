@@ -49,35 +49,35 @@ typedef struct test_flashdev {
   rtems_flashdev_region regions[MAX_NUM_REGIONS];
 } test_flashdev;
 
-int test_flashdev_page_by_off(
+int test_flashdev_get_page_by_off(
   rtems_flashdev *flash,
   off_t search_offset,
   off_t *page_offset,
   size_t *page_size
 );
 
-int test_flashdev_page_by_index(
+int test_flashdev_get_page_by_index(
   rtems_flashdev *flash,
   off_t search_index,
   off_t *page_offset,
   size_t *page_size
 );
 
-int test_flashdev_page_count(
+int test_flashdev_get_page_count(
   rtems_flashdev *flash,
   int *page_count
 );
 
-int test_flashdev_wb_size(
+int test_flashdev_get_wb_size(
   rtems_flashdev *flash,
   size_t *write_block_size
 );
 
-uint32_t test_flashdev_jedec_id(
+uint32_t test_flashdev_get_jedec_id(
   rtems_flashdev* flash
 );
 
-int test_flashdev_type(
+int test_flashdev_get_type(
   rtems_flashdev* flash,
   rtems_flashdev_flash_type* type
 );
@@ -103,7 +103,7 @@ int test_flashdev_erase(
 );
 
 /* Find page info by offset handler */
-int test_flashdev_page_by_off(
+int test_flashdev_get_page_by_off(
   rtems_flashdev *flash,
   off_t search_offset,
   off_t *page_offset,
@@ -116,7 +116,7 @@ int test_flashdev_page_by_off(
 }
 
 /* Find page by index handler */
-int test_flashdev_page_by_index(
+int test_flashdev_get_page_by_index(
   rtems_flashdev *flash,
   off_t search_index,
   off_t *page_offset,
@@ -129,7 +129,7 @@ int test_flashdev_page_by_index(
 }
 
 /* Page count handler */
-int test_flashdev_page_count(
+int test_flashdev_get_page_count(
   rtems_flashdev *flash,
   int *page_count
 )
@@ -139,7 +139,7 @@ int test_flashdev_page_count(
 }
 
 /* Write block size handler */
-int test_flashdev_wb_size(
+int test_flashdev_get_wb_size(
   rtems_flashdev *flash,
   size_t *write_block_size
 )
@@ -151,7 +151,7 @@ int test_flashdev_wb_size(
 /* JEDEC ID handler, this would normally require a READID
  * call to the physical flash device.
  */
-uint32_t test_flashdev_jedec_id(
+uint32_t test_flashdev_get_jedec_id(
   rtems_flashdev* flash
 )
 {
@@ -160,7 +160,7 @@ uint32_t test_flashdev_jedec_id(
 }
 
 /* Function to identify what kind of flash is attached. */
-int test_flashdev_type(
+int test_flashdev_get_type(
   rtems_flashdev *flash,
   rtems_flashdev_flash_type *type
 )
@@ -263,12 +263,12 @@ rtems_flashdev* test_flashdev_init(void)
   flash->read = &test_flashdev_read;
   flash->write = &test_flashdev_write;
   flash->erase = &test_flashdev_erase;
-  flash->jedec_id = &test_flashdev_jedec_id;
-  flash->flash_type = &test_flashdev_type;
-  flash->page_info_by_offset = &test_flashdev_page_by_off;
-  flash->page_info_by_index = &test_flashdev_page_by_index;
-  flash->page_count = &test_flashdev_page_count;
-  flash->write_block_size = &test_flashdev_wb_size;
+  flash->get_jedec_id = &test_flashdev_get_jedec_id;
+  flash->get_flash_type = &test_flashdev_get_type;
+  flash->get_page_info_by_offset = &test_flashdev_get_page_by_off;
+  flash->get_page_info_by_index = &test_flashdev_get_page_by_index;
+  flash->get_page_count = &test_flashdev_get_page_count;
+  flash->get_write_block_size = &test_flashdev_get_wb_size;
   flash->region_table = ftable;
 
   return flash;

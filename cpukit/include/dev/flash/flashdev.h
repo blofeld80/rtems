@@ -279,7 +279,7 @@ struct rtems_flashdev {
    *
    * @retval JEDEC ID.
    */
-  uint32_t ( *jedec_id )(
+  uint32_t ( *get_jedec_id )(
     rtems_flashdev *flash
   );
 
@@ -292,7 +292,7 @@ struct rtems_flashdev {
    * @retval 0 Success
    * @retbal Other Failure
    */
-  int ( *flash_type )(
+  int ( *get_flash_type )(
     rtems_flashdev *flash,
     rtems_flashdev_flash_type *type
   );
@@ -310,7 +310,7 @@ struct rtems_flashdev {
    * @retval 0 Success.
    * @retval non-zero Failed.
    */
-  int ( *page_info_by_offset )(
+  int ( *get_page_info_by_offset )(
     rtems_flashdev *flash,
     off_t search_offset,
     off_t *page_offset,
@@ -329,7 +329,7 @@ struct rtems_flashdev {
    * @retval 0 Success.
    * @retval non-zero Failed.
    */
-  int ( *page_info_by_index )(
+  int ( *get_page_info_by_index )(
     rtems_flashdev *flashdev,
     off_t search_index,
     off_t *page_offset,
@@ -345,7 +345,7 @@ struct rtems_flashdev {
    * @retval 0 Success.
    * @retval non-zero Failed.
    */
-  int ( *page_count )(
+  int ( *get_page_count )(
     rtems_flashdev *flashdev,
     int *page_count
   );
@@ -359,7 +359,7 @@ struct rtems_flashdev {
    * @retval 0 Success.
    * @retval non-zero Failed.
    */
-  int ( *write_block_size )(
+  int ( *get_write_block_size )(
     rtems_flashdev *flashdev,
     size_t *write_block_size
   );
