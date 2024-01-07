@@ -33,7 +33,7 @@
 #define TEST_DATA_SIZE (PAGE_SIZE * PAGE_COUNT)
 #define PAGE_COUNT 16
 #define PAGE_SIZE 128
-#define WB_SIZE 1
+#define MIN_WRITE_BLOCK_SIZE 1
 #define MAX_NUM_REGIONS 48
 #define BITALLOC_SIZE 32
 #define NUM_BITALLOC ((MAX_NUM_REGIONS + BITALLOC_SIZE - 1) / BITALLOC_SIZE)
@@ -49,7 +49,7 @@ typedef struct test_flashdev {
   rtems_flashdev_region regions[MAX_NUM_REGIONS];
 } test_flashdev;
 
-int test_flashdev_get_page_by_off(
+int test_flashdev_get_page_by_offset(
   rtems_flashdev *flash,
   off_t search_offset,
   off_t *page_offset,
@@ -68,9 +68,9 @@ int test_flashdev_get_page_count(
   int *page_count
 );
 
-int test_flashdev_get_wb_size(
+int test_flashdev_get_min_write_block_size(
   rtems_flashdev *flash,
-  size_t *write_block_size
+  size_t *min_write_block_size
 );
 
 uint32_t test_flashdev_get_jedec_id(
@@ -102,8 +102,8 @@ int test_flashdev_erase(
   size_t count
 );
 
-/* Find page info by offset handler */
-int test_flashdev_get_page_by_off(
+/* Get page info by offset handler */
+int test_flashdev_get_page_by_offset(
   rtems_flashdev *flash,
   off_t search_offset,
   off_t *page_offset,
@@ -115,7 +115,7 @@ int test_flashdev_get_page_by_off(
   return 0;
 }
 
-/* Find page by index handler */
+/* Get page by index handler */
 int test_flashdev_get_page_by_index(
   rtems_flashdev *flash,
   off_t search_index,
@@ -128,7 +128,7 @@ int test_flashdev_get_page_by_index(
   return 0;
 }
 
-/* Page count handler */
+/* Get page count handler */
 int test_flashdev_get_page_count(
   rtems_flashdev *flash,
   int *page_count
@@ -138,17 +138,17 @@ int test_flashdev_get_page_count(
   return 0;
 }
 
-/* Write block size handler */
-int test_flashdev_get_wb_size(
+/* Get min. write block size handler */
+int test_flashdev_get_min_write_block_size(
   rtems_flashdev *flash,
-  size_t *write_block_size
+  size_t *min_write_block_size
 )
 {
-  *write_block_size = WB_SIZE;
+  *min_write_block_size = MIN_WRITE_BLOCK_SIZE;
   return 0;
 }
 
-/* JEDEC ID handler, this would normally require a READID
+/* Get JEDEC ID handler, this would normally require a READID
  * call to the physical flash device.
  */
 uint32_t test_flashdev_get_jedec_id(
@@ -265,10 +265,10 @@ rtems_flashdev* test_flashdev_init(void)
   flash->erase = &test_flashdev_erase;
   flash->get_jedec_id = &test_flashdev_get_jedec_id;
   flash->get_flash_type = &test_flashdev_get_type;
-  flash->get_page_info_by_offset = &test_flashdev_get_page_by_off;
+  flash->get_page_info_by_offset = &test_flashdev_get_page_by_offset;
   flash->get_page_info_by_index = &test_flashdev_get_page_by_index;
   flash->get_page_count = &test_flashdev_get_page_count;
-  flash->get_write_block_size = &test_flashdev_get_wb_size;
+  flash->get_min_write_block_size = &test_flashdev_get_min_write_block_size;
   flash->region_table = ftable;
 
   return flash;

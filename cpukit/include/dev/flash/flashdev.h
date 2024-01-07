@@ -138,11 +138,11 @@ typedef struct rtems_flashdev rtems_flashdev;
 #define RTEMS_FLASHDEV_IOCTL_GET_PAGE_COUNT 9
 
 /**
- * @brief Get the minimum write size supported by the driver.
+ * @brief Get the minimum write block size supported by the driver.
  *
- * @param[out] count Integer containing the minimum write size.
+ * @param[out] count Integer containing the minimum write block size.
  */
-#define RTEMS_FLASHDEV_IOCTL_GET_WRITE_BLOCK_SIZE 10
+#define RTEMS_FLASHDEV_IOCTL_GET_MIN_WRITE_BLOCK_SIZE 10
 
 /**
  * @brief The maximum number of region limited file descriptors
@@ -351,17 +351,18 @@ struct rtems_flashdev {
   );
 
   /**
-   * @brief Call to device driver to return the minimum write size of the
+   * @brief Call to device driver to return the minimum write block size of the
    * flash device.
    *
-   * @param[out] write_block_size The minimum write size of the flash device.
+   * @param[out] min_write_block_size The minimum write block size of the flash
+   * device.
    *
    * @retval 0 Success.
    * @retval non-zero Failed.
    */
-  int ( *get_write_block_size )(
+  int ( *get_min_write_block_size )(
     rtems_flashdev *flashdev,
-    size_t *write_block_size
+    size_t *min_write_block_size
   );
 
   /**

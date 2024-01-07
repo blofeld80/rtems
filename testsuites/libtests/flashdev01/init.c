@@ -39,7 +39,7 @@
 #define TEST_DATA_SIZE (PAGE_SIZE * PAGE_COUNT)
 #define PAGE_COUNT 16
 #define PAGE_SIZE 128
-#define WB_SIZE 1
+#define MIN_WRTIE_BLOCK_SIZE 1
 
 const char rtems_test_name[] = "FLASHDEV 1";
 
@@ -59,7 +59,7 @@ static void run_test(void) {
   uint32_t jedec;
   int page_count;
   int type;
-  size_t wb_size;
+  size_t min_write_block_size;
   const char flash_path[] = "/dev/flashdev0";
 
   /* Initalize the flash device driver and flashdev */
@@ -134,9 +134,10 @@ static void run_test(void) {
   rtems_test_assert(page_count == PAGE_COUNT);
 
   /* Test getting write block size */
-  status = ioctl(fd, RTEMS_FLASHDEV_IOCTL_GET_WRITE_BLOCK_SIZE, &wb_size);
+  status = ioctl(fd, RTEMS_FLASHDEV_IOCTL_GET_MIN_WRITE_BLOCK_SIZE,
+                  &min_write_block_size);
   rtems_test_assert(!status);
-  rtems_test_assert(wb_size == WB_SIZE);
+  rtems_test_assert(min_write_block_size == min_write_block_size);
 
   /* Test Regions */
   region.offset = 0x400;
