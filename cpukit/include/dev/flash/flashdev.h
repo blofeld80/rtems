@@ -58,18 +58,19 @@ typedef struct rtems_flashdev rtems_flashdev;
 
 /* IOCTL Calls */
 
+typedef enum {
 /**
  * @brief Obtains the flash device.
  *
  * This command has no argument.
  */
-#define RTEMS_FLASHDEV_IOCTL_OBTAIN 0
+RTEMS_FLASHDEV_IOCTL_OBTAIN,
 /**
  * @brief Releases the flash device.
  *
  * This command has no argument.
  */
-#define RTEMS_FLASHDEV_IOCTL_RELEASE 1
+RTEMS_FLASHDEV_IOCTL_RELEASE,
 /**
  * @brief Returns the JEDEC ID of the flash device. This IOCTL call
  * is informational only.
@@ -77,14 +78,14 @@ typedef struct rtems_flashdev rtems_flashdev;
  * @param[out] jedec_id Pointer to uint32_t in which the JEDEC ID is
  * returned in.
  */
-#define RTEMS_FLASHDEV_IOCTL_GET_JEDEC_ID 2
+RTEMS_FLASHDEV_IOCTL_GET_JEDEC_ID,
 /**
  * @brief Erases flash device.
  *
  * @param[in] erase_args Pointer to rtems_flashdev_region struct
  * containing offset and size of erase to be performed.
  */
-#define RTEMS_FLASHDEV_IOCTL_ERASE 3
+RTEMS_FLASHDEV_IOCTL_ERASE,
 /**
  * @brief Set a region that limits read, write and erase calls to within it.
  * Regions are file descriptor specific and limited to a single region per
@@ -94,20 +95,20 @@ typedef struct rtems_flashdev rtems_flashdev;
  * @param[in] region Pointer to rtems_flashdev_region struct containing
  * base and length of defined region.
  */
-#define RTEMS_FLASHDEV_IOCTL_SET_REGION 4
+RTEMS_FLASHDEV_IOCTL_SET_REGION,
 /**
  * @brief Removes the set region on the file descriptor.
  *
  * This command has no argument.
  */
-#define RTEMS_FLASHDEV_IOCTL_UNSET_REGION 5
+RTEMS_FLASHDEV_IOCTL_UNSET_REGION,
 /**
  * @brief Returns the type of flash device (e.g. NOR or NAND).
  *
  * @param[out] flash_type Pointer to integer which is set to the flash
  * type macro value.
  */
-#define RTEMS_FLASHDEV_IOCTL_GET_TYPE 6
+RTEMS_FLASHDEV_IOCTL_GET_TYPE,
 
 /**
  * @brief Get the size and address of flash page at given offset
@@ -118,7 +119,7 @@ typedef struct rtems_flashdev rtems_flashdev;
  * @param[in,out] rtems_flashdev_ioctl_page_info arg Pointer to struct
  * with offset and space for return values.
  */
-#define RTEMS_FLASHDEV_IOCTL_GET_PAGEINFO_BY_OFFSET 7
+RTEMS_FLASHDEV_IOCTL_GET_PAGEINFO_BY_OFFSET,
 
 /**
  * @brief Get the size and address of nth flash page where n is index passed in.
@@ -128,21 +129,22 @@ typedef struct rtems_flashdev rtems_flashdev;
  * @param[in,out] rtems_flashdev_ioctl_page_info arg Pointer to struct
  * with index and space for return values.
  */
-#define RTEMS_FLASHDEV_IOCTL_GET_PAGEINFO_BY_INDEX 8
+RTEMS_FLASHDEV_IOCTL_GET_PAGEINFO_BY_INDEX,
 
 /**
  * @brief Get the number of pages in flash device.
  *
  * @param[out] count Integer containing the number of pages.
  */
-#define RTEMS_FLASHDEV_IOCTL_GET_PAGE_COUNT 9
+RTEMS_FLASHDEV_IOCTL_GET_PAGE_COUNT,
 
 /**
  * @brief Get the minimum write block size supported by the driver.
  *
  * @param[out] count Integer containing the minimum write block size.
  */
-#define RTEMS_FLASHDEV_IOCTL_GET_MIN_WRITE_BLOCK_SIZE 10
+RTEMS_FLASHDEV_IOCTL_GET_MIN_WRITE_BLOCK_SIZE,
+} rtems_flashdev_ioctl_token;
 
 /**
  * @brief The maximum number of region limited file descriptors
