@@ -1,0 +1,176 @@
+graph: { title: "bd/lfs_emubd.t.c"
+node: { title: "bd/lfs_emubd.t.c:lfs_emubd_decblock" label: "lfs_emubd_decblock\nbd/lfs_emubd.c:39:13\n8 bytes (static)" }
+node: { title: "free" label: "free\n/usr/include/stdlib.h:555:13" shape : ellipse }
+edge: { sourcename: "bd/lfs_emubd.t.c:lfs_emubd_decblock" targetname: "free" label: "bd/lfs_emubd.c:43:13" }
+node: { title: "bd/lfs_emubd.t.c:__pretty_assert_print_int" label: "__pretty_assert_print_int\nbd/lfs_emubd.t.c:22:13\n16 bytes (static)" }
+node: { title: "__printf_chk" label: "__printf_chk\n/usr/include/x86_64-linux-gnu/bits/stdio2.h:95:12" shape : ellipse }
+edge: { sourcename: "bd/lfs_emubd.t.c:__pretty_assert_print_int" targetname: "__printf_chk" label: "/usr/include/x86_64-linux-gnu/bits/stdio2.h:112:10" }
+node: { title: "bd/lfs_emubd.t.c:__pretty_assert_fail.constprop.0" label: "__pretty_assert_fail.constprop\nbd/lfs_emubd.t.c:53:13\n32 bytes (static)" }
+edge: { sourcename: "bd/lfs_emubd.t.c:__pretty_assert_fail.constprop.0" targetname: "__printf_chk" label: "/usr/include/x86_64-linux-gnu/bits/stdio2.h:112:10" }
+edge: { sourcename: "bd/lfs_emubd.t.c:__pretty_assert_fail.constprop.0" targetname: "bd/lfs_emubd.t.c:__pretty_assert_print_int" label: "bd/lfs_emubd.t.c:60:5" }
+edge: { sourcename: "bd/lfs_emubd.t.c:__pretty_assert_fail.constprop.0" targetname: "__printf_chk" label: "/usr/include/x86_64-linux-gnu/bits/stdio2.h:112:10" }
+edge: { sourcename: "bd/lfs_emubd.t.c:__pretty_assert_fail.constprop.0" targetname: "bd/lfs_emubd.t.c:__pretty_assert_print_int" label: "bd/lfs_emubd.t.c:62:5" }
+edge: { sourcename: "bd/lfs_emubd.t.c:__pretty_assert_fail.constprop.0" targetname: "__printf_chk" label: "/usr/include/x86_64-linux-gnu/bits/stdio2.h:112:10" }
+node: { title: "fflush" label: "fflush\n/usr/include/stdio.h:230:12" shape : ellipse }
+edge: { sourcename: "bd/lfs_emubd.t.c:__pretty_assert_fail.constprop.0" targetname: "fflush" label: "bd/lfs_emubd.t.c:64:5" }
+node: { title: "raise" label: "raise\n/usr/include/signal.h:123:12" shape : ellipse }
+edge: { sourcename: "bd/lfs_emubd.t.c:__pretty_assert_fail.constprop.0" targetname: "raise" label: "bd/lfs_emubd.t.c:65:5" }
+node: { title: "bd/lfs_emubd.t.c:lfs_emubd_rawcrc" label: "lfs_emubd_rawcrc\nbd/lfs_emubd.c:454:12\n80 bytes (static)" }
+edge: { sourcename: "bd/lfs_emubd.t.c:lfs_emubd_rawcrc" targetname: "bd/lfs_emubd.t.c:__pretty_assert_fail.constprop.0" label: "bd/lfs_emubd.c:459:5" }
+node: { title: "lfs_crc" label: "lfs_crc\n./lfs_util.h:215:10" shape : ellipse }
+edge: { sourcename: "bd/lfs_emubd.t.c:lfs_emubd_rawcrc" targetname: "lfs_crc" label: "bd/lfs_emubd.c:465:16" }
+edge: { sourcename: "bd/lfs_emubd.t.c:lfs_emubd_rawcrc" targetname: "lfs_crc" label: "bd/lfs_emubd.c:471:20" }
+node: { title: "__stack_chk_fail" label: "__stack_chk_fail\n<built-in>" shape : ellipse }
+edge: { sourcename: "bd/lfs_emubd.t.c:lfs_emubd_rawcrc" targetname: "__stack_chk_fail" }
+node: { title: "bd/lfs_emubd.t.c:lfs_emubd_mutblock.isra.0" label: "lfs_emubd_mutblock.isra\nbd/lfs_emubd.c:48:27\n48 bytes (static)" }
+node: { title: "malloc" label: "malloc\n/usr/include/stdlib.h:540:14" shape : ellipse }
+edge: { sourcename: "bd/lfs_emubd.t.c:lfs_emubd_mutblock.isra.0" targetname: "malloc" label: "bd/lfs_emubd.c:75:37" }
+edge: { sourcename: "bd/lfs_emubd.t.c:lfs_emubd_mutblock.isra.0" targetname: "bd/lfs_emubd.t.c:lfs_emubd_decblock" label: "bd/lfs_emubd.c:69:9" }
+edge: { sourcename: "bd/lfs_emubd.t.c:lfs_emubd_mutblock.isra.0" targetname: "malloc" label: "bd/lfs_emubd.c:59:37" }
+node: { title: "lfs_emubd_create" label: "lfs_emubd_create\nbd/lfs_emubd.c:97:5\n208 bytes (dynamic,bounded)" }
+node: { title: "test_trace" label: "test_trace\n./runners/test_runner.h:12:6" shape : ellipse }
+edge: { sourcename: "lfs_emubd_create" targetname: "test_trace" label: "bd/lfs_emubd.c:99:5" }
+edge: { sourcename: "lfs_emubd_create" targetname: "malloc" label: "bd/lfs_emubd.c:120:18" }
+edge: { sourcename: "lfs_emubd_create" targetname: "test_trace" label: "bd/lfs_emubd.c:122:9" }
+edge: { sourcename: "lfs_emubd_create" targetname: "malloc" label: "bd/lfs_emubd.c:135:20" }
+edge: { sourcename: "lfs_emubd_create" targetname: "test_trace" label: "bd/lfs_emubd.c:137:13" }
+node: { title: "*open" label: "__open_alias\n/usr/include/x86_64-linux-gnu/bits/fcntl2.h:27:12" shape : ellipse }
+edge: { sourcename: "lfs_emubd_create" targetname: "*open" label: "/usr/include/x86_64-linux-gnu/bits/fcntl2.h:53:14" }
+node: { title: "__errno_location" label: "__errno_location\n/usr/include/errno.h:37:13" shape : ellipse }
+edge: { sourcename: "lfs_emubd_create" targetname: "__errno_location" label: "bd/lfs_emubd.c:151:24" }
+edge: { sourcename: "lfs_emubd_create" targetname: "test_trace" label: "bd/lfs_emubd.c:152:13" }
+edge: { sourcename: "lfs_emubd_create" targetname: "malloc" label: "bd/lfs_emubd.c:159:33" }
+edge: { sourcename: "lfs_emubd_create" targetname: "test_trace" label: "bd/lfs_emubd.c:161:17" }
+node: { title: "write" label: "write\n/usr/include/unistd.h:378:16" shape : ellipse }
+edge: { sourcename: "lfs_emubd_create" targetname: "write" label: "bd/lfs_emubd.c:171:31" }
+edge: { sourcename: "lfs_emubd_create" targetname: "__errno_location" label: "bd/lfs_emubd.c:175:32" }
+edge: { sourcename: "lfs_emubd_create" targetname: "test_trace" label: "bd/lfs_emubd.c:176:21" }
+edge: { sourcename: "lfs_emubd_create" targetname: "test_trace" label: "bd/lfs_emubd.c:183:5" }
+node: { title: "lfs_emubd_destroy" label: "lfs_emubd_destroy\nbd/lfs_emubd.c:187:5\n32 bytes (static)" }
+edge: { sourcename: "lfs_emubd_destroy" targetname: "test_trace" label: "bd/lfs_emubd.c:188:5" }
+edge: { sourcename: "lfs_emubd_destroy" targetname: "bd/lfs_emubd.t.c:lfs_emubd_decblock" label: "bd/lfs_emubd.c:193:9" }
+edge: { sourcename: "lfs_emubd_destroy" targetname: "free" label: "bd/lfs_emubd.c:195:5" }
+node: { title: "close" label: "close\n/usr/include/unistd.h:358:12" shape : ellipse }
+edge: { sourcename: "lfs_emubd_destroy" targetname: "close" label: "bd/lfs_emubd.c:201:13" }
+edge: { sourcename: "lfs_emubd_destroy" targetname: "free" label: "bd/lfs_emubd.c:202:13" }
+edge: { sourcename: "lfs_emubd_destroy" targetname: "free" label: "bd/lfs_emubd.c:203:13" }
+edge: { sourcename: "lfs_emubd_destroy" targetname: "test_trace" label: "bd/lfs_emubd.c:207:5" }
+node: { title: "lfs_emubd_read" label: "lfs_emubd_read\nbd/lfs_emubd.c:215:5\n128 bytes (dynamic,bounded)" }
+edge: { sourcename: "lfs_emubd_read" targetname: "test_trace" label: "bd/lfs_emubd.c:217:5" }
+edge: { sourcename: "lfs_emubd_read" targetname: "bd/lfs_emubd.t.c:__pretty_assert_fail.constprop.0" label: "bd/lfs_emubd.c:223:5" }
+edge: { sourcename: "lfs_emubd_read" targetname: "bd/lfs_emubd.t.c:__pretty_assert_fail.constprop.0" label: "bd/lfs_emubd.c:224:5" }
+edge: { sourcename: "lfs_emubd_read" targetname: "bd/lfs_emubd.t.c:__pretty_assert_fail.constprop.0" label: "bd/lfs_emubd.c:225:5" }
+edge: { sourcename: "lfs_emubd_read" targetname: "bd/lfs_emubd.t.c:__pretty_assert_fail.constprop.0" label: "bd/lfs_emubd.c:226:5" }
+edge: { sourcename: "lfs_emubd_read" targetname: "test_trace" label: "bd/lfs_emubd.c:234:13" }
+node: { title: "nanosleep" label: "nanosleep\n/usr/include/time.h:272:12" shape : ellipse }
+edge: { sourcename: "lfs_emubd_read" targetname: "nanosleep" label: "bd/lfs_emubd.c:250:19" }
+edge: { sourcename: "lfs_emubd_read" targetname: "__errno_location" label: "bd/lfs_emubd.c:255:20" }
+edge: { sourcename: "lfs_emubd_read" targetname: "test_trace" label: "bd/lfs_emubd.c:256:13" }
+edge: { sourcename: "lfs_emubd_read" targetname: "test_trace" label: "bd/lfs_emubd.c:261:5" }
+edge: { sourcename: "lfs_emubd_read" targetname: "__stack_chk_fail" }
+node: { title: "lfs_emubd_prog" label: "lfs_emubd_prog\nbd/lfs_emubd.c:265:5\n144 bytes (dynamic,bounded)" }
+edge: { sourcename: "lfs_emubd_prog" targetname: "test_trace" label: "bd/lfs_emubd.c:267:5" }
+edge: { sourcename: "lfs_emubd_prog" targetname: "bd/lfs_emubd.t.c:__pretty_assert_fail.constprop.0" label: "bd/lfs_emubd.c:273:5" }
+edge: { sourcename: "lfs_emubd_prog" targetname: "bd/lfs_emubd.t.c:__pretty_assert_fail.constprop.0" label: "bd/lfs_emubd.c:274:5" }
+edge: { sourcename: "lfs_emubd_prog" targetname: "bd/lfs_emubd.t.c:__pretty_assert_fail.constprop.0" label: "bd/lfs_emubd.c:275:5" }
+edge: { sourcename: "lfs_emubd_prog" targetname: "bd/lfs_emubd.t.c:__pretty_assert_fail.constprop.0" label: "bd/lfs_emubd.c:276:5" }
+edge: { sourcename: "lfs_emubd_prog" targetname: "bd/lfs_emubd.t.c:lfs_emubd_mutblock.isra.0" label: "bd/lfs_emubd.c:279:28" }
+edge: { sourcename: "lfs_emubd_prog" targetname: "test_trace" label: "bd/lfs_emubd.c:281:9" }
+edge: { sourcename: "lfs_emubd_prog" targetname: "test_trace" label: "bd/lfs_emubd.c:289:13" }
+edge: { sourcename: "lfs_emubd_prog" targetname: "test_trace" label: "bd/lfs_emubd.c:295:13" }
+edge: { sourcename: "lfs_emubd_prog" targetname: "bd/lfs_emubd.t.c:__pretty_assert_fail.constprop.0" label: "bd/lfs_emubd.c:303:13" }
+node: { title: "lseek" label: "lseek\n/usr/include/unistd.h:339:16" shape : ellipse }
+edge: { sourcename: "lfs_emubd_prog" targetname: "lseek" label: "bd/lfs_emubd.c:312:22" }
+edge: { sourcename: "lfs_emubd_prog" targetname: "__errno_location" label: "bd/lfs_emubd.c:316:24" }
+edge: { sourcename: "lfs_emubd_prog" targetname: "test_trace" label: "bd/lfs_emubd.c:317:13" }
+edge: { sourcename: "lfs_emubd_prog" targetname: "write" label: "bd/lfs_emubd.c:321:24" }
+edge: { sourcename: "lfs_emubd_prog" targetname: "__errno_location" label: "bd/lfs_emubd.c:323:24" }
+edge: { sourcename: "lfs_emubd_prog" targetname: "test_trace" label: "bd/lfs_emubd.c:324:13" }
+edge: { sourcename: "lfs_emubd_prog" targetname: "nanosleep" label: "bd/lfs_emubd.c:332:19" }
+edge: { sourcename: "lfs_emubd_prog" targetname: "__errno_location" label: "bd/lfs_emubd.c:337:20" }
+edge: { sourcename: "lfs_emubd_prog" targetname: "test_trace" label: "bd/lfs_emubd.c:338:13" }
+node: { title: "__indirect_call" label: "Indirect Call Placeholder" shape : ellipse }
+edge: { sourcename: "lfs_emubd_prog" targetname: "__indirect_call" label: "bd/lfs_emubd.c:348:13" }
+edge: { sourcename: "lfs_emubd_prog" targetname: "test_trace" label: "bd/lfs_emubd.c:352:5" }
+edge: { sourcename: "lfs_emubd_prog" targetname: "__stack_chk_fail" }
+node: { title: "lfs_emubd_erase" label: "lfs_emubd_erase\nbd/lfs_emubd.c:356:5\n96 bytes (dynamic,bounded)" }
+edge: { sourcename: "lfs_emubd_erase" targetname: "test_trace" label: "bd/lfs_emubd.c:357:5" }
+edge: { sourcename: "lfs_emubd_erase" targetname: "bd/lfs_emubd.t.c:__pretty_assert_fail.constprop.0" label: "bd/lfs_emubd.c:362:5" }
+edge: { sourcename: "lfs_emubd_erase" targetname: "bd/lfs_emubd.t.c:lfs_emubd_mutblock.isra.0" label: "bd/lfs_emubd.c:365:28" }
+edge: { sourcename: "lfs_emubd_erase" targetname: "test_trace" label: "bd/lfs_emubd.c:367:9" }
+edge: { sourcename: "lfs_emubd_erase" targetname: "test_trace" label: "bd/lfs_emubd.c:376:17" }
+edge: { sourcename: "lfs_emubd_erase" targetname: "test_trace" label: "bd/lfs_emubd.c:380:17" }
+edge: { sourcename: "lfs_emubd_erase" targetname: "lseek" label: "bd/lfs_emubd.c:395:26" }
+edge: { sourcename: "lfs_emubd_erase" targetname: "__errno_location" label: "bd/lfs_emubd.c:399:28" }
+edge: { sourcename: "lfs_emubd_erase" targetname: "test_trace" label: "bd/lfs_emubd.c:400:17" }
+edge: { sourcename: "lfs_emubd_erase" targetname: "write" label: "bd/lfs_emubd.c:404:28" }
+edge: { sourcename: "lfs_emubd_erase" targetname: "__errno_location" label: "bd/lfs_emubd.c:408:28" }
+edge: { sourcename: "lfs_emubd_erase" targetname: "test_trace" label: "bd/lfs_emubd.c:409:17" }
+edge: { sourcename: "lfs_emubd_erase" targetname: "nanosleep" label: "bd/lfs_emubd.c:418:19" }
+edge: { sourcename: "lfs_emubd_erase" targetname: "__errno_location" label: "bd/lfs_emubd.c:423:20" }
+edge: { sourcename: "lfs_emubd_erase" targetname: "test_trace" label: "bd/lfs_emubd.c:424:13" }
+edge: { sourcename: "lfs_emubd_erase" targetname: "__indirect_call" label: "bd/lfs_emubd.c:434:13" }
+edge: { sourcename: "lfs_emubd_erase" targetname: "test_trace" label: "bd/lfs_emubd.c:438:5" }
+edge: { sourcename: "lfs_emubd_erase" targetname: "__stack_chk_fail" }
+node: { title: "lfs_emubd_sync" label: "lfs_emubd_sync\nbd/lfs_emubd.c:442:5\n16 bytes (static)" }
+edge: { sourcename: "lfs_emubd_sync" targetname: "test_trace" label: "bd/lfs_emubd.c:443:5" }
+edge: { sourcename: "lfs_emubd_sync" targetname: "test_trace" label: "bd/lfs_emubd.c:448:5" }
+node: { title: "lfs_emubd_crc" label: "lfs_emubd_crc\nbd/lfs_emubd.c:479:5\n64 bytes (dynamic,bounded)" }
+edge: { sourcename: "lfs_emubd_crc" targetname: "test_trace" label: "bd/lfs_emubd.c:481:5" }
+edge: { sourcename: "lfs_emubd_crc" targetname: "bd/lfs_emubd.t.c:lfs_emubd_rawcrc" label: "bd/lfs_emubd.c:483:15" }
+edge: { sourcename: "lfs_emubd_crc" targetname: "test_trace" label: "bd/lfs_emubd.c:484:5" }
+node: { title: "lfs_emubd_bdcrc" label: "lfs_emubd_bdcrc\nbd/lfs_emubd.c:488:5\n96 bytes (static)" }
+edge: { sourcename: "lfs_emubd_bdcrc" targetname: "test_trace" label: "bd/lfs_emubd.c:489:5" }
+edge: { sourcename: "lfs_emubd_bdcrc" targetname: "bd/lfs_emubd.t.c:lfs_emubd_rawcrc" label: "bd/lfs_emubd.c:494:19" }
+edge: { sourcename: "lfs_emubd_bdcrc" targetname: "test_trace" label: "bd/lfs_emubd.c:496:13" }
+edge: { sourcename: "lfs_emubd_bdcrc" targetname: "lfs_crc" label: "bd/lfs_emubd.c:500:16" }
+edge: { sourcename: "lfs_emubd_bdcrc" targetname: "test_trace" label: "bd/lfs_emubd.c:504:5" }
+edge: { sourcename: "lfs_emubd_bdcrc" targetname: "__stack_chk_fail" }
+node: { title: "lfs_emubd_readed" label: "lfs_emubd_readed\nbd/lfs_emubd.c:508:17\n32 bytes (static)" }
+edge: { sourcename: "lfs_emubd_readed" targetname: "test_trace" label: "bd/lfs_emubd.c:509:5" }
+edge: { sourcename: "lfs_emubd_readed" targetname: "test_trace" label: "bd/lfs_emubd.c:511:5" }
+node: { title: "lfs_emubd_proged" label: "lfs_emubd_proged\nbd/lfs_emubd.c:515:17\n32 bytes (static)" }
+edge: { sourcename: "lfs_emubd_proged" targetname: "test_trace" label: "bd/lfs_emubd.c:516:5" }
+edge: { sourcename: "lfs_emubd_proged" targetname: "test_trace" label: "bd/lfs_emubd.c:518:5" }
+node: { title: "lfs_emubd_erased" label: "lfs_emubd_erased\nbd/lfs_emubd.c:522:17\n32 bytes (static)" }
+edge: { sourcename: "lfs_emubd_erased" targetname: "test_trace" label: "bd/lfs_emubd.c:523:5" }
+edge: { sourcename: "lfs_emubd_erased" targetname: "test_trace" label: "bd/lfs_emubd.c:525:5" }
+node: { title: "lfs_emubd_setreaded" label: "lfs_emubd_setreaded\nbd/lfs_emubd.c:529:5\n32 bytes (static)" }
+edge: { sourcename: "lfs_emubd_setreaded" targetname: "test_trace" label: "bd/lfs_emubd.c:530:5" }
+edge: { sourcename: "lfs_emubd_setreaded" targetname: "test_trace" label: "bd/lfs_emubd.c:533:5" }
+node: { title: "lfs_emubd_setproged" label: "lfs_emubd_setproged\nbd/lfs_emubd.c:537:5\n32 bytes (static)" }
+edge: { sourcename: "lfs_emubd_setproged" targetname: "test_trace" label: "bd/lfs_emubd.c:538:5" }
+edge: { sourcename: "lfs_emubd_setproged" targetname: "test_trace" label: "bd/lfs_emubd.c:541:5" }
+node: { title: "lfs_emubd_seterased" label: "lfs_emubd_seterased\nbd/lfs_emubd.c:545:5\n32 bytes (static)" }
+edge: { sourcename: "lfs_emubd_seterased" targetname: "test_trace" label: "bd/lfs_emubd.c:546:5" }
+edge: { sourcename: "lfs_emubd_seterased" targetname: "test_trace" label: "bd/lfs_emubd.c:549:5" }
+node: { title: "lfs_emubd_wear" label: "lfs_emubd_wear\nbd/lfs_emubd.c:553:19\n80 bytes (static)" }
+edge: { sourcename: "lfs_emubd_wear" targetname: "test_trace" label: "bd/lfs_emubd.c:555:5" }
+edge: { sourcename: "lfs_emubd_wear" targetname: "bd/lfs_emubd.t.c:__pretty_assert_fail.constprop.0" label: "bd/lfs_emubd.c:559:5" }
+edge: { sourcename: "lfs_emubd_wear" targetname: "test_trace" label: "bd/lfs_emubd.c:570:5" }
+edge: { sourcename: "lfs_emubd_wear" targetname: "__stack_chk_fail" }
+node: { title: "lfs_emubd_setwear" label: "lfs_emubd_setwear\nbd/lfs_emubd.c:574:5\n96 bytes (dynamic,bounded)" }
+edge: { sourcename: "lfs_emubd_setwear" targetname: "test_trace" label: "bd/lfs_emubd.c:576:5" }
+edge: { sourcename: "lfs_emubd_setwear" targetname: "bd/lfs_emubd.t.c:__pretty_assert_fail.constprop.0" label: "bd/lfs_emubd.c:581:5" }
+edge: { sourcename: "lfs_emubd_setwear" targetname: "bd/lfs_emubd.t.c:lfs_emubd_mutblock.isra.0" label: "bd/lfs_emubd.c:584:28" }
+edge: { sourcename: "lfs_emubd_setwear" targetname: "test_trace" label: "bd/lfs_emubd.c:586:9" }
+edge: { sourcename: "lfs_emubd_setwear" targetname: "test_trace" label: "bd/lfs_emubd.c:591:5" }
+edge: { sourcename: "lfs_emubd_setwear" targetname: "__stack_chk_fail" }
+node: { title: "lfs_emubd_powercycles" label: "lfs_emubd_powercycles\nbd/lfs_emubd.c:595:26\n32 bytes (static)" }
+edge: { sourcename: "lfs_emubd_powercycles" targetname: "test_trace" label: "bd/lfs_emubd.c:597:5" }
+edge: { sourcename: "lfs_emubd_powercycles" targetname: "test_trace" label: "bd/lfs_emubd.c:600:5" }
+node: { title: "lfs_emubd_setpowercycles" label: "lfs_emubd_setpowercycles\nbd/lfs_emubd.c:604:5\n32 bytes (static)" }
+edge: { sourcename: "lfs_emubd_setpowercycles" targetname: "test_trace" label: "bd/lfs_emubd.c:606:5" }
+edge: { sourcename: "lfs_emubd_setpowercycles" targetname: "test_trace" label: "bd/lfs_emubd.c:612:5" }
+node: { title: "lfs_emubd_copy" label: "lfs_emubd_copy\nbd/lfs_emubd.c:616:5\n48 bytes (static)" }
+edge: { sourcename: "lfs_emubd_copy" targetname: "test_trace" label: "bd/lfs_emubd.c:617:5" }
+edge: { sourcename: "lfs_emubd_copy" targetname: "malloc" label: "bd/lfs_emubd.c:621:20" }
+edge: { sourcename: "lfs_emubd_copy" targetname: "test_trace" label: "bd/lfs_emubd.c:623:9" }
+edge: { sourcename: "lfs_emubd_copy" targetname: "test_trace" label: "bd/lfs_emubd.c:642:5" }
+node: { title: "bd/lfs_emubd.t.c:_sub_I_00100_0" label: "_sub_I_00100_0\nbd/lfs_emubd.c:644:1\n8 bytes (static)" }
+node: { title: "__gcov_init" label: "__gcov_init\n<built-in>" shape : ellipse }
+edge: { sourcename: "bd/lfs_emubd.t.c:_sub_I_00100_0" targetname: "__gcov_init" label: "bd/lfs_emubd.c:644:1" }
+node: { title: "bd/lfs_emubd.t.c:_sub_D_00100_1" label: "_sub_D_00100_1\nbd/lfs_emubd.c:644:1\n8 bytes (static)" }
+node: { title: "__gcov_exit" label: "__gcov_exit\n<built-in>" shape : ellipse }
+edge: { sourcename: "bd/lfs_emubd.t.c:_sub_D_00100_1" targetname: "__gcov_exit" label: "bd/lfs_emubd.c:644:1" }
+}

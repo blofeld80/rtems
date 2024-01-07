@@ -39,6 +39,7 @@
 //#include <rtems/libcsupport.h>
 
 #include "../../libtests/flashdev01/test_flashdev.h"
+#include "../fslfs02/runners/test_runner.h"
 #include "lfs_flashdev.h"
 
 const char rtems_test_name[] = "LFS_SUPPORT 1";
@@ -176,6 +177,15 @@ static void run_test(void)
 {
   initialize_flashdev();
   mount_lfs();
+  int iargc=2; 
+  char * iargv[] = {
+    "run",
+    "-b"
+  };
+
+
+  run_lfs_runner(iargc, iargv);
+  
   unmount_lfs();
   deinitialize_flashdev();
 }

@@ -1,0 +1,585 @@
+graph: { title: "runners/test_runner.t.c"
+node: { title: "runners/test_runner.t.c:leb16_parse" label: "leb16_parse\nrunners/test_runner.c:71:18\n32 bytes (static)" }
+node: { title: "test_define_lit" label: "test_define_lit\nrunners/test_runner.c:158:10\n8 bytes (static)" }
+node: { title: "test_define_ERASE_SIZE" label: "test_define_ERASE_SIZE\nrunners/test_runner.c:172:5\n8 bytes (static)" }
+node: { title: "test_define_LOOKAHEAD_SIZE" label: "test_define_LOOKAHEAD_SIZE\nrunners/test_runner.c:172:5\n8 bytes (static)" }
+node: { title: "test_define_BLOCK_CYCLES" label: "test_define_BLOCK_CYCLES\nrunners/test_runner.c:172:5\n8 bytes (static)" }
+node: { title: "test_define_ERASE_VALUE" label: "test_define_ERASE_VALUE\nrunners/test_runner.c:172:5\n8 bytes (static)" }
+node: { title: "test_define_ERASE_CYCLES" label: "test_define_ERASE_CYCLES\nrunners/test_runner.c:172:5\n8 bytes (static)" }
+node: { title: "test_define_BADBLOCK_BEHAVIOR" label: "test_define_BADBLOCK_BEHAVIOR\nrunners/test_runner.c:172:5\n8 bytes (static)" }
+node: { title: "test_define_POWERLOSS_BEHAVIOR" label: "test_define_POWERLOSS_BEHAVIOR\nrunners/test_runner.c:172:5\n8 bytes (static)" }
+node: { title: "test_define_DISK_VERSION" label: "test_define_DISK_VERSION\nrunners/test_runner.c:172:5\n8 bytes (static)" }
+node: { title: "perm_count" label: "perm_count\nrunners/test_runner.c:774:6\n16 bytes (static)" }
+node: { title: "__indirect_call" label: "Indirect Call Placeholder" shape : ellipse }
+edge: { sourcename: "perm_count" targetname: "__indirect_call" label: "runners/test_runner.c:786:27" }
+node: { title: "runners/test_runner.t.c:leb16_print" label: "leb16_print\nrunners/test_runner.c:54:13\n16 bytes (static)" }
+node: { title: "__printf_chk" label: "__printf_chk\n/usr/include/x86_64-linux-gnu/bits/stdio2.h:95:12" shape : ellipse }
+edge: { sourcename: "runners/test_runner.t.c:leb16_print" targetname: "__printf_chk" label: "/usr/include/x86_64-linux-gnu/bits/stdio2.h:112:10" }
+edge: { sourcename: "runners/test_runner.t.c:leb16_print" targetname: "__printf_chk" label: "/usr/include/x86_64-linux-gnu/bits/stdio2.h:112:10" }
+node: { title: "runners/test_runner.t.c:__pretty_assert_print_int" label: "__pretty_assert_print_int\nrunners/test_runner.t.c:22:13\n16 bytes (static)" }
+edge: { sourcename: "runners/test_runner.t.c:__pretty_assert_print_int" targetname: "__printf_chk" label: "/usr/include/x86_64-linux-gnu/bits/stdio2.h:112:10" }
+node: { title: "runners/test_runner.t.c:__pretty_assert_print_bool" label: "__pretty_assert_print_bool\nrunners/test_runner.t.c:15:13\n16 bytes (static)" }
+edge: { sourcename: "runners/test_runner.t.c:__pretty_assert_print_bool" targetname: "__printf_chk" label: "/usr/include/x86_64-linux-gnu/bits/stdio2.h:112:10" }
+node: { title: "runners/test_runner.t.c:powerloss_longjmp" label: "powerloss_longjmp\nrunners/test_runner.c:1393:13\n16 bytes (static)" }
+node: { title: "*__longjmp_chk" label: "longjmp\n/usr/include/x86_64-linux-gnu/bits/setjmp2.h:25:13" shape : ellipse }
+edge: { sourcename: "runners/test_runner.t.c:powerloss_longjmp" targetname: "*__longjmp_chk" label: "runners/test_runner.c:1395:5" }
+node: { title: "runners/test_runner.t.c:list_powerlosses" label: "list_powerlosses\nrunners/test_runner.c:1869:13\n64 bytes (static)" }
+node: { title: "strlen" label: "strlen\n/usr/include/string.h:407:15" shape : ellipse }
+edge: { sourcename: "runners/test_runner.t.c:list_powerlosses" targetname: "strlen" label: "runners/test_runner.c:1873:22" }
+edge: { sourcename: "runners/test_runner.t.c:list_powerlosses" targetname: "__printf_chk" label: "/usr/include/x86_64-linux-gnu/bits/stdio2.h:112:10" }
+edge: { sourcename: "runners/test_runner.t.c:list_powerlosses" targetname: "__printf_chk" label: "/usr/include/x86_64-linux-gnu/bits/stdio2.h:112:10" }
+edge: { sourcename: "runners/test_runner.t.c:list_powerlosses" targetname: "__printf_chk" label: "/usr/include/x86_64-linux-gnu/bits/stdio2.h:112:10" }
+edge: { sourcename: "runners/test_runner.t.c:list_powerlosses" targetname: "__printf_chk" label: "/usr/include/x86_64-linux-gnu/bits/stdio2.h:112:10" }
+edge: { sourcename: "runners/test_runner.t.c:list_powerlosses" targetname: "__printf_chk" label: "/usr/include/x86_64-linux-gnu/bits/stdio2.h:112:10" }
+node: { title: "runners/test_runner.t.c:list_case_paths" label: "list_case_paths\nrunners/test_runner.c:1010:13\n112 bytes (static)" }
+edge: { sourcename: "runners/test_runner.t.c:list_case_paths" targetname: "strlen" label: "runners/test_runner.c:1015:26" }
+edge: { sourcename: "runners/test_runner.t.c:list_case_paths" targetname: "__printf_chk" label: "/usr/include/x86_64-linux-gnu/bits/stdio2.h:112:10" }
+node: { title: "strcmp" label: "strcmp\n/usr/include/string.h:156:12" shape : ellipse }
+edge: { sourcename: "runners/test_runner.t.c:list_case_paths" targetname: "strcmp" label: "runners/test_runner.c:1029:25" }
+edge: { sourcename: "runners/test_runner.t.c:list_case_paths" targetname: "strcmp" label: "runners/test_runner.c:1031:28" }
+edge: { sourcename: "runners/test_runner.t.c:list_case_paths" targetname: "__printf_chk" label: "/usr/include/x86_64-linux-gnu/bits/stdio2.h:112:10" }
+node: { title: "runners/test_runner.t.c:list_suite_paths" label: "list_suite_paths\nrunners/test_runner.c:968:13\n112 bytes (static)" }
+edge: { sourcename: "runners/test_runner.t.c:list_suite_paths" targetname: "strlen" label: "runners/test_runner.c:972:22" }
+edge: { sourcename: "runners/test_runner.t.c:list_suite_paths" targetname: "__printf_chk" label: "/usr/include/x86_64-linux-gnu/bits/stdio2.h:112:10" }
+edge: { sourcename: "runners/test_runner.t.c:list_suite_paths" targetname: "strcmp" label: "runners/test_runner.c:987:25" }
+edge: { sourcename: "runners/test_runner.t.c:list_suite_paths" targetname: "strcmp" label: "runners/test_runner.c:989:28" }
+edge: { sourcename: "runners/test_runner.t.c:list_suite_paths" targetname: "__printf_chk" label: "/usr/include/x86_64-linux-gnu/bits/stdio2.h:112:10" }
+node: { title: "runners/test_runner.t.c:__pretty_assert_fail.constprop.0" label: "__pretty_assert_fail.constprop\nrunners/test_runner.t.c:53:13\n48 bytes (static)" }
+edge: { sourcename: "runners/test_runner.t.c:__pretty_assert_fail.constprop.0" targetname: "__printf_chk" label: "/usr/include/x86_64-linux-gnu/bits/stdio2.h:112:10" }
+edge: { sourcename: "runners/test_runner.t.c:__pretty_assert_fail.constprop.0" targetname: "__indirect_call" label: "runners/test_runner.t.c:60:5" }
+edge: { sourcename: "runners/test_runner.t.c:__pretty_assert_fail.constprop.0" targetname: "__printf_chk" label: "/usr/include/x86_64-linux-gnu/bits/stdio2.h:112:10" }
+edge: { sourcename: "runners/test_runner.t.c:__pretty_assert_fail.constprop.0" targetname: "__indirect_call" label: "runners/test_runner.t.c:62:5" }
+edge: { sourcename: "runners/test_runner.t.c:__pretty_assert_fail.constprop.0" targetname: "__printf_chk" label: "/usr/include/x86_64-linux-gnu/bits/stdio2.h:112:10" }
+node: { title: "fflush" label: "fflush\n/usr/include/stdio.h:230:12" shape : ellipse }
+edge: { sourcename: "runners/test_runner.t.c:__pretty_assert_fail.constprop.0" targetname: "fflush" label: "runners/test_runner.t.c:64:5" }
+node: { title: "raise" label: "raise\n/usr/include/signal.h:123:12" shape : ellipse }
+edge: { sourcename: "runners/test_runner.t.c:__pretty_assert_fail.constprop.0" targetname: "raise" label: "runners/test_runner.t.c:65:5" }
+node: { title: "mappend" label: "mappend\nrunners/test_runner.c:29:7\n80 bytes (static)" }
+node: { title: "realloc" label: "realloc\n/usr/include/stdlib.h:551:14" shape : ellipse }
+edge: { sourcename: "mappend" targetname: "realloc" label: "runners/test_runner.c:41:14" }
+node: { title: "runners/test_runner.t.c:powerloss_exhaustive_branch" label: "powerloss_exhaustive_branch\nrunners/test_runner.c:1687:13\n16 bytes (static)" }
+edge: { sourcename: "runners/test_runner.t.c:powerloss_exhaustive_branch" targetname: "mappend" label: "runners/test_runner.c:1690:27" }
+node: { title: "__fprintf_chk" label: "__fprintf_chk\n/usr/include/x86_64-linux-gnu/bits/stdio2.h:93:12" shape : ellipse }
+edge: { sourcename: "runners/test_runner.t.c:powerloss_exhaustive_branch" targetname: "__fprintf_chk" label: "/usr/include/x86_64-linux-gnu/bits/stdio2.h:105:10" }
+node: { title: "exit" label: "exit\n/usr/include/stdlib.h:624:13" shape : ellipse }
+edge: { sourcename: "runners/test_runner.t.c:powerloss_exhaustive_branch" targetname: "exit" label: "runners/test_runner.c:1697:9" }
+node: { title: "lfs_emubd_copy" label: "lfs_emubd_copy\n./bd/lfs_emubd.h:234:5" shape : ellipse }
+edge: { sourcename: "runners/test_runner.t.c:powerloss_exhaustive_branch" targetname: "lfs_emubd_copy" label: "runners/test_runner.c:1701:15" }
+edge: { sourcename: "runners/test_runner.t.c:powerloss_exhaustive_branch" targetname: "__fprintf_chk" label: "/usr/include/x86_64-linux-gnu/bits/stdio2.h:105:10" }
+edge: { sourcename: "runners/test_runner.t.c:powerloss_exhaustive_branch" targetname: "exit" label: "runners/test_runner.c:1704:9" }
+node: { title: "lfs_emubd_setpowercycles" label: "lfs_emubd_setpowercycles\n./bd/lfs_emubd.h:230:5" shape : ellipse }
+edge: { sourcename: "runners/test_runner.t.c:powerloss_exhaustive_branch" targetname: "lfs_emubd_setpowercycles" label: "runners/test_runner.c:1708:5" }
+node: { title: "test_define_name" label: "test_define_name\nrunners/test_runner.c:216:13\n8 bytes (static)" }
+node: { title: "test_define_ispermutation" label: "test_define_ispermutation\nrunners/test_runner.c:229:6\n8 bytes (static)" }
+node: { title: "test_define" label: "test_define\nrunners/test_runner.c:241:10\n32 bytes (static)" }
+edge: { sourcename: "test_define" targetname: "__indirect_call" label: "runners/test_runner.c:253:26" }
+node: { title: "runners/test_runner.t.c:list_defines_add" label: "list_defines_add\nrunners/test_runner.c:1058:13\n64 bytes (static)" }
+edge: { sourcename: "runners/test_runner.t.c:list_defines_add" targetname: "test_define_name" label: "runners/test_runner.c:1061:24" }
+edge: { sourcename: "runners/test_runner.t.c:list_defines_add" targetname: "test_define" label: "runners/test_runner.c:1062:22" }
+edge: { sourcename: "runners/test_runner.t.c:list_defines_add" targetname: "strcmp" label: "runners/test_runner.c:1066:13" }
+edge: { sourcename: "runners/test_runner.t.c:list_defines_add" targetname: "mappend" label: "runners/test_runner.c:1074:25" }
+edge: { sourcename: "runners/test_runner.t.c:list_defines_add" targetname: "mappend" label: "runners/test_runner.c:1085:42" }
+node: { title: "malloc" label: "malloc\n/usr/include/stdlib.h:540:14" shape : ellipse }
+edge: { sourcename: "runners/test_runner.t.c:list_defines_add" targetname: "malloc" label: "runners/test_runner.c:1091:22" }
+node: { title: "perm_list_permutation_defines" label: "perm_list_permutation_defines\nrunners/test_runner.c:1119:6\n32 bytes (static)" }
+edge: { sourcename: "perm_list_permutation_defines" targetname: "test_define_ispermutation" label: "runners/test_runner.c:1134:13" }
+edge: { sourcename: "perm_list_permutation_defines" targetname: "runners/test_runner.t.c:list_defines_add" label: "runners/test_runner.c:1135:13" }
+node: { title: "perm_list_defines" label: "perm_list_defines\nrunners/test_runner.c:1097:6\n32 bytes (static)" }
+edge: { sourcename: "perm_list_defines" targetname: "test_define_ispermutation" label: "runners/test_runner.c:1113:20" }
+edge: { sourcename: "perm_list_defines" targetname: "runners/test_runner.t.c:list_defines_add" label: "runners/test_runner.c:1114:13" }
+node: { title: "test_define_CACHE_SIZE" label: "test_define_CACHE_SIZE\nrunners/test_runner.c:172:5\n16 bytes (static)" }
+edge: { sourcename: "test_define_CACHE_SIZE" targetname: "test_define" label: "runners/test_runner.c:172:5" }
+edge: { sourcename: "test_define_CACHE_SIZE" targetname: "test_define" label: "runners/test_runner.c:172:5" }
+node: { title: "test_define_BLOCK_COUNT" label: "test_define_BLOCK_COUNT\nrunners/test_runner.c:172:5\n32 bytes (static)" }
+edge: { sourcename: "test_define_BLOCK_COUNT" targetname: "test_define" label: "runners/test_runner.c:172:5" }
+edge: { sourcename: "test_define_BLOCK_COUNT" targetname: "test_define" label: "runners/test_runner.c:172:5" }
+edge: { sourcename: "test_define_BLOCK_COUNT" targetname: "test_define" label: "runners/test_runner.c:172:5" }
+node: { title: "test_define_BLOCK_SIZE" label: "test_define_BLOCK_SIZE\nrunners/test_runner.c:172:5\n16 bytes (static)" }
+edge: { sourcename: "test_define_BLOCK_SIZE" targetname: "test_define" label: "runners/test_runner.c:172:5" }
+node: { title: "test_define_ERASE_COUNT" label: "test_define_ERASE_COUNT\nrunners/test_runner.c:172:5\n16 bytes (static)" }
+edge: { sourcename: "test_define_ERASE_COUNT" targetname: "test_define" label: "runners/test_runner.c:172:5" }
+node: { title: "test_define_PROG_SIZE" label: "test_define_PROG_SIZE\nrunners/test_runner.c:172:5\n16 bytes (static)" }
+edge: { sourcename: "test_define_PROG_SIZE" targetname: "test_define" label: "runners/test_runner.c:172:5" }
+node: { title: "test_define_READ_SIZE" label: "test_define_READ_SIZE\nrunners/test_runner.c:172:5\n16 bytes (static)" }
+edge: { sourcename: "test_define_READ_SIZE" targetname: "test_define" label: "runners/test_runner.c:172:5" }
+node: { title: "runners/test_runner.t.c:perm_printid.isra.0" label: "perm_printid.isra\nrunners/test_runner.c:576:13\n48 bytes (static)" }
+edge: { sourcename: "runners/test_runner.t.c:perm_printid.isra.0" targetname: "__printf_chk" label: "/usr/include/x86_64-linux-gnu/bits/stdio2.h:112:10" }
+edge: { sourcename: "runners/test_runner.t.c:perm_printid.isra.0" targetname: "test_define_ispermutation" label: "runners/test_runner.c:589:13" }
+edge: { sourcename: "runners/test_runner.t.c:perm_printid.isra.0" targetname: "runners/test_runner.t.c:leb16_print" label: "runners/test_runner.c:590:13" }
+edge: { sourcename: "runners/test_runner.t.c:perm_printid.isra.0" targetname: "test_define" label: "runners/test_runner.c:591:25" }
+edge: { sourcename: "runners/test_runner.t.c:perm_printid.isra.0" targetname: "runners/test_runner.t.c:leb16_print" label: "runners/test_runner.c:591:13" }
+edge: { sourcename: "runners/test_runner.t.c:perm_printid.isra.0" targetname: "__printf_chk" label: "/usr/include/x86_64-linux-gnu/bits/stdio2.h:112:10" }
+edge: { sourcename: "runners/test_runner.t.c:perm_printid.isra.0" targetname: "runners/test_runner.t.c:leb16_print" label: "runners/test_runner.c:599:13" }
+node: { title: "runners/test_runner.t.c:run_powerloss_none" label: "run_powerloss_none\nrunners/test_runner.c:1324:13\n320 bytes (static)" }
+edge: { sourcename: "runners/test_runner.t.c:run_powerloss_none" targetname: "test_define" label: "runners/test_runner.c:1342:31" }
+edge: { sourcename: "runners/test_runner.t.c:run_powerloss_none" targetname: "test_define" label: "runners/test_runner.c:1343:31" }
+edge: { sourcename: "runners/test_runner.t.c:run_powerloss_none" targetname: "test_define" label: "runners/test_runner.c:1344:31" }
+edge: { sourcename: "runners/test_runner.t.c:run_powerloss_none" targetname: "test_define" label: "runners/test_runner.c:1345:31" }
+edge: { sourcename: "runners/test_runner.t.c:run_powerloss_none" targetname: "test_define" label: "runners/test_runner.c:1346:31" }
+edge: { sourcename: "runners/test_runner.t.c:run_powerloss_none" targetname: "test_define" label: "runners/test_runner.c:1347:31" }
+edge: { sourcename: "runners/test_runner.t.c:run_powerloss_none" targetname: "test_define" label: "runners/test_runner.c:1348:31" }
+edge: { sourcename: "runners/test_runner.t.c:run_powerloss_none" targetname: "test_define" label: "runners/test_runner.c:1355:31" }
+edge: { sourcename: "runners/test_runner.t.c:run_powerloss_none" targetname: "test_define" label: "runners/test_runner.c:1356:31" }
+edge: { sourcename: "runners/test_runner.t.c:run_powerloss_none" targetname: "test_define" label: "runners/test_runner.c:1357:31" }
+edge: { sourcename: "runners/test_runner.t.c:run_powerloss_none" targetname: "test_define" label: "runners/test_runner.c:1358:31" }
+edge: { sourcename: "runners/test_runner.t.c:run_powerloss_none" targetname: "test_define" label: "runners/test_runner.c:1359:31" }
+edge: { sourcename: "runners/test_runner.t.c:run_powerloss_none" targetname: "test_define" label: "runners/test_runner.c:1360:31" }
+edge: { sourcename: "runners/test_runner.t.c:run_powerloss_none" targetname: "test_define" label: "runners/test_runner.c:1361:31" }
+node: { title: "lfs_emubd_create" label: "lfs_emubd_create\n./bd/lfs_emubd.h:164:5" shape : ellipse }
+edge: { sourcename: "runners/test_runner.t.c:run_powerloss_none" targetname: "lfs_emubd_create" label: "runners/test_runner.c:1368:15" }
+edge: { sourcename: "runners/test_runner.t.c:run_powerloss_none" targetname: "__fprintf_chk" label: "/usr/include/x86_64-linux-gnu/bits/stdio2.h:105:10" }
+edge: { sourcename: "runners/test_runner.t.c:run_powerloss_none" targetname: "exit" label: "runners/test_runner.c:1371:9" }
+edge: { sourcename: "runners/test_runner.t.c:run_powerloss_none" targetname: "__printf_chk" label: "/usr/include/x86_64-linux-gnu/bits/stdio2.h:112:10" }
+edge: { sourcename: "runners/test_runner.t.c:run_powerloss_none" targetname: "runners/test_runner.t.c:perm_printid.isra.0" label: "runners/test_runner.c:1376:5" }
+edge: { sourcename: "runners/test_runner.t.c:run_powerloss_none" targetname: "__printf_chk" label: "/usr/include/x86_64-linux-gnu/bits/stdio2.h:112:10" }
+edge: { sourcename: "runners/test_runner.t.c:run_powerloss_none" targetname: "__indirect_call" label: "runners/test_runner.c:1379:5" }
+edge: { sourcename: "runners/test_runner.t.c:run_powerloss_none" targetname: "__printf_chk" label: "/usr/include/x86_64-linux-gnu/bits/stdio2.h:112:10" }
+edge: { sourcename: "runners/test_runner.t.c:run_powerloss_none" targetname: "runners/test_runner.t.c:perm_printid.isra.0" label: "runners/test_runner.c:1382:5" }
+edge: { sourcename: "runners/test_runner.t.c:run_powerloss_none" targetname: "__printf_chk" label: "/usr/include/x86_64-linux-gnu/bits/stdio2.h:112:10" }
+node: { title: "lfs_emubd_destroy" label: "lfs_emubd_destroy\n./bd/lfs_emubd.h:168:5" shape : ellipse }
+edge: { sourcename: "runners/test_runner.t.c:run_powerloss_none" targetname: "lfs_emubd_destroy" label: "runners/test_runner.c:1386:11" }
+edge: { sourcename: "runners/test_runner.t.c:run_powerloss_none" targetname: "__fprintf_chk" label: "/usr/include/x86_64-linux-gnu/bits/stdio2.h:105:10" }
+edge: { sourcename: "runners/test_runner.t.c:run_powerloss_none" targetname: "exit" label: "runners/test_runner.c:1389:9" }
+node: { title: "__stack_chk_fail" label: "__stack_chk_fail\n<built-in>" shape : ellipse }
+edge: { sourcename: "runners/test_runner.t.c:run_powerloss_none" targetname: "__stack_chk_fail" }
+node: { title: "runners/test_runner.t.c:run_powerloss_linear" label: "run_powerloss_linear\nrunners/test_runner.c:1398:13\n528 bytes (static)" }
+edge: { sourcename: "runners/test_runner.t.c:run_powerloss_linear" targetname: "test_define" label: "runners/test_runner.c:1418:31" }
+edge: { sourcename: "runners/test_runner.t.c:run_powerloss_linear" targetname: "test_define" label: "runners/test_runner.c:1419:31" }
+edge: { sourcename: "runners/test_runner.t.c:run_powerloss_linear" targetname: "test_define" label: "runners/test_runner.c:1420:31" }
+edge: { sourcename: "runners/test_runner.t.c:run_powerloss_linear" targetname: "test_define" label: "runners/test_runner.c:1421:31" }
+edge: { sourcename: "runners/test_runner.t.c:run_powerloss_linear" targetname: "test_define" label: "runners/test_runner.c:1422:31" }
+edge: { sourcename: "runners/test_runner.t.c:run_powerloss_linear" targetname: "test_define" label: "runners/test_runner.c:1423:31" }
+edge: { sourcename: "runners/test_runner.t.c:run_powerloss_linear" targetname: "test_define" label: "runners/test_runner.c:1424:31" }
+edge: { sourcename: "runners/test_runner.t.c:run_powerloss_linear" targetname: "test_define" label: "runners/test_runner.c:1431:31" }
+edge: { sourcename: "runners/test_runner.t.c:run_powerloss_linear" targetname: "test_define" label: "runners/test_runner.c:1432:31" }
+edge: { sourcename: "runners/test_runner.t.c:run_powerloss_linear" targetname: "test_define" label: "runners/test_runner.c:1433:31" }
+edge: { sourcename: "runners/test_runner.t.c:run_powerloss_linear" targetname: "test_define" label: "runners/test_runner.c:1434:31" }
+edge: { sourcename: "runners/test_runner.t.c:run_powerloss_linear" targetname: "test_define" label: "runners/test_runner.c:1435:31" }
+edge: { sourcename: "runners/test_runner.t.c:run_powerloss_linear" targetname: "test_define" label: "runners/test_runner.c:1436:31" }
+edge: { sourcename: "runners/test_runner.t.c:run_powerloss_linear" targetname: "test_define" label: "runners/test_runner.c:1437:31" }
+edge: { sourcename: "runners/test_runner.t.c:run_powerloss_linear" targetname: "test_define" label: "runners/test_runner.c:1443:31" }
+edge: { sourcename: "runners/test_runner.t.c:run_powerloss_linear" targetname: "lfs_emubd_create" label: "runners/test_runner.c:1448:15" }
+edge: { sourcename: "runners/test_runner.t.c:run_powerloss_linear" targetname: "__fprintf_chk" label: "/usr/include/x86_64-linux-gnu/bits/stdio2.h:105:10" }
+edge: { sourcename: "runners/test_runner.t.c:run_powerloss_linear" targetname: "exit" label: "runners/test_runner.c:1451:9" }
+edge: { sourcename: "runners/test_runner.t.c:run_powerloss_linear" targetname: "__printf_chk" label: "/usr/include/x86_64-linux-gnu/bits/stdio2.h:112:10" }
+edge: { sourcename: "runners/test_runner.t.c:run_powerloss_linear" targetname: "runners/test_runner.t.c:perm_printid.isra.0" label: "runners/test_runner.c:1456:5" }
+edge: { sourcename: "runners/test_runner.t.c:run_powerloss_linear" targetname: "__printf_chk" label: "/usr/include/x86_64-linux-gnu/bits/stdio2.h:112:10" }
+node: { title: "_setjmp" label: "_setjmp\n/usr/include/setjmp.h:45:12" shape : ellipse }
+edge: { sourcename: "runners/test_runner.t.c:run_powerloss_linear" targetname: "_setjmp" label: "runners/test_runner.c:1460:14" }
+edge: { sourcename: "runners/test_runner.t.c:run_powerloss_linear" targetname: "__indirect_call" label: "runners/test_runner.c:1462:13" }
+edge: { sourcename: "runners/test_runner.t.c:run_powerloss_linear" targetname: "__printf_chk" label: "/usr/include/x86_64-linux-gnu/bits/stdio2.h:112:10" }
+edge: { sourcename: "runners/test_runner.t.c:run_powerloss_linear" targetname: "runners/test_runner.t.c:perm_printid.isra.0" label: "runners/test_runner.c:1468:9" }
+edge: { sourcename: "runners/test_runner.t.c:run_powerloss_linear" targetname: "__printf_chk" label: "/usr/include/x86_64-linux-gnu/bits/stdio2.h:112:10" }
+edge: { sourcename: "runners/test_runner.t.c:run_powerloss_linear" targetname: "runners/test_runner.t.c:leb16_print" label: "runners/test_runner.c:1471:13" }
+edge: { sourcename: "runners/test_runner.t.c:run_powerloss_linear" targetname: "__printf_chk" label: "/usr/include/x86_64-linux-gnu/bits/stdio2.h:112:10" }
+edge: { sourcename: "runners/test_runner.t.c:run_powerloss_linear" targetname: "lfs_emubd_setpowercycles" label: "runners/test_runner.c:1476:9" }
+edge: { sourcename: "runners/test_runner.t.c:run_powerloss_linear" targetname: "__printf_chk" label: "/usr/include/x86_64-linux-gnu/bits/stdio2.h:112:10" }
+edge: { sourcename: "runners/test_runner.t.c:run_powerloss_linear" targetname: "runners/test_runner.t.c:perm_printid.isra.0" label: "runners/test_runner.c:1480:5" }
+edge: { sourcename: "runners/test_runner.t.c:run_powerloss_linear" targetname: "__printf_chk" label: "/usr/include/x86_64-linux-gnu/bits/stdio2.h:112:10" }
+edge: { sourcename: "runners/test_runner.t.c:run_powerloss_linear" targetname: "lfs_emubd_destroy" label: "runners/test_runner.c:1484:11" }
+edge: { sourcename: "runners/test_runner.t.c:run_powerloss_linear" targetname: "__fprintf_chk" label: "/usr/include/x86_64-linux-gnu/bits/stdio2.h:105:10" }
+edge: { sourcename: "runners/test_runner.t.c:run_powerloss_linear" targetname: "exit" label: "runners/test_runner.c:1487:9" }
+edge: { sourcename: "runners/test_runner.t.c:run_powerloss_linear" targetname: "__stack_chk_fail" }
+node: { title: "runners/test_runner.t.c:run_powerloss_log" label: "run_powerloss_log\nrunners/test_runner.c:1491:13\n528 bytes (static)" }
+edge: { sourcename: "runners/test_runner.t.c:run_powerloss_log" targetname: "test_define" label: "runners/test_runner.c:1511:31" }
+edge: { sourcename: "runners/test_runner.t.c:run_powerloss_log" targetname: "test_define" label: "runners/test_runner.c:1512:31" }
+edge: { sourcename: "runners/test_runner.t.c:run_powerloss_log" targetname: "test_define" label: "runners/test_runner.c:1513:31" }
+edge: { sourcename: "runners/test_runner.t.c:run_powerloss_log" targetname: "test_define" label: "runners/test_runner.c:1514:31" }
+edge: { sourcename: "runners/test_runner.t.c:run_powerloss_log" targetname: "test_define" label: "runners/test_runner.c:1515:31" }
+edge: { sourcename: "runners/test_runner.t.c:run_powerloss_log" targetname: "test_define" label: "runners/test_runner.c:1516:31" }
+edge: { sourcename: "runners/test_runner.t.c:run_powerloss_log" targetname: "test_define" label: "runners/test_runner.c:1517:31" }
+edge: { sourcename: "runners/test_runner.t.c:run_powerloss_log" targetname: "test_define" label: "runners/test_runner.c:1524:31" }
+edge: { sourcename: "runners/test_runner.t.c:run_powerloss_log" targetname: "test_define" label: "runners/test_runner.c:1525:31" }
+edge: { sourcename: "runners/test_runner.t.c:run_powerloss_log" targetname: "test_define" label: "runners/test_runner.c:1526:31" }
+edge: { sourcename: "runners/test_runner.t.c:run_powerloss_log" targetname: "test_define" label: "runners/test_runner.c:1527:31" }
+edge: { sourcename: "runners/test_runner.t.c:run_powerloss_log" targetname: "test_define" label: "runners/test_runner.c:1528:31" }
+edge: { sourcename: "runners/test_runner.t.c:run_powerloss_log" targetname: "test_define" label: "runners/test_runner.c:1529:31" }
+edge: { sourcename: "runners/test_runner.t.c:run_powerloss_log" targetname: "test_define" label: "runners/test_runner.c:1530:31" }
+edge: { sourcename: "runners/test_runner.t.c:run_powerloss_log" targetname: "test_define" label: "runners/test_runner.c:1536:31" }
+edge: { sourcename: "runners/test_runner.t.c:run_powerloss_log" targetname: "lfs_emubd_create" label: "runners/test_runner.c:1541:15" }
+edge: { sourcename: "runners/test_runner.t.c:run_powerloss_log" targetname: "__fprintf_chk" label: "/usr/include/x86_64-linux-gnu/bits/stdio2.h:105:10" }
+edge: { sourcename: "runners/test_runner.t.c:run_powerloss_log" targetname: "exit" label: "runners/test_runner.c:1544:9" }
+edge: { sourcename: "runners/test_runner.t.c:run_powerloss_log" targetname: "__printf_chk" label: "/usr/include/x86_64-linux-gnu/bits/stdio2.h:112:10" }
+edge: { sourcename: "runners/test_runner.t.c:run_powerloss_log" targetname: "runners/test_runner.t.c:perm_printid.isra.0" label: "runners/test_runner.c:1549:5" }
+edge: { sourcename: "runners/test_runner.t.c:run_powerloss_log" targetname: "__printf_chk" label: "/usr/include/x86_64-linux-gnu/bits/stdio2.h:112:10" }
+edge: { sourcename: "runners/test_runner.t.c:run_powerloss_log" targetname: "_setjmp" label: "runners/test_runner.c:1553:14" }
+edge: { sourcename: "runners/test_runner.t.c:run_powerloss_log" targetname: "__indirect_call" label: "runners/test_runner.c:1555:13" }
+edge: { sourcename: "runners/test_runner.t.c:run_powerloss_log" targetname: "__printf_chk" label: "/usr/include/x86_64-linux-gnu/bits/stdio2.h:112:10" }
+edge: { sourcename: "runners/test_runner.t.c:run_powerloss_log" targetname: "runners/test_runner.t.c:perm_printid.isra.0" label: "runners/test_runner.c:1561:9" }
+edge: { sourcename: "runners/test_runner.t.c:run_powerloss_log" targetname: "__printf_chk" label: "/usr/include/x86_64-linux-gnu/bits/stdio2.h:112:10" }
+edge: { sourcename: "runners/test_runner.t.c:run_powerloss_log" targetname: "runners/test_runner.t.c:leb16_print" label: "runners/test_runner.c:1564:13" }
+edge: { sourcename: "runners/test_runner.t.c:run_powerloss_log" targetname: "__printf_chk" label: "/usr/include/x86_64-linux-gnu/bits/stdio2.h:112:10" }
+edge: { sourcename: "runners/test_runner.t.c:run_powerloss_log" targetname: "lfs_emubd_setpowercycles" label: "runners/test_runner.c:1569:9" }
+edge: { sourcename: "runners/test_runner.t.c:run_powerloss_log" targetname: "__printf_chk" label: "/usr/include/x86_64-linux-gnu/bits/stdio2.h:112:10" }
+edge: { sourcename: "runners/test_runner.t.c:run_powerloss_log" targetname: "runners/test_runner.t.c:perm_printid.isra.0" label: "runners/test_runner.c:1573:5" }
+edge: { sourcename: "runners/test_runner.t.c:run_powerloss_log" targetname: "__printf_chk" label: "/usr/include/x86_64-linux-gnu/bits/stdio2.h:112:10" }
+edge: { sourcename: "runners/test_runner.t.c:run_powerloss_log" targetname: "lfs_emubd_destroy" label: "runners/test_runner.c:1577:11" }
+edge: { sourcename: "runners/test_runner.t.c:run_powerloss_log" targetname: "__fprintf_chk" label: "/usr/include/x86_64-linux-gnu/bits/stdio2.h:105:10" }
+edge: { sourcename: "runners/test_runner.t.c:run_powerloss_log" targetname: "exit" label: "runners/test_runner.c:1580:9" }
+edge: { sourcename: "runners/test_runner.t.c:run_powerloss_log" targetname: "__stack_chk_fail" }
+node: { title: "runners/test_runner.t.c:run_powerloss_cycles" label: "run_powerloss_cycles\nrunners/test_runner.c:1584:13\n560 bytes (static)" }
+edge: { sourcename: "runners/test_runner.t.c:run_powerloss_cycles" targetname: "test_define" label: "runners/test_runner.c:1602:31" }
+edge: { sourcename: "runners/test_runner.t.c:run_powerloss_cycles" targetname: "test_define" label: "runners/test_runner.c:1603:31" }
+edge: { sourcename: "runners/test_runner.t.c:run_powerloss_cycles" targetname: "test_define" label: "runners/test_runner.c:1604:31" }
+edge: { sourcename: "runners/test_runner.t.c:run_powerloss_cycles" targetname: "test_define" label: "runners/test_runner.c:1605:31" }
+edge: { sourcename: "runners/test_runner.t.c:run_powerloss_cycles" targetname: "test_define" label: "runners/test_runner.c:1606:31" }
+edge: { sourcename: "runners/test_runner.t.c:run_powerloss_cycles" targetname: "test_define" label: "runners/test_runner.c:1607:31" }
+edge: { sourcename: "runners/test_runner.t.c:run_powerloss_cycles" targetname: "test_define" label: "runners/test_runner.c:1608:31" }
+edge: { sourcename: "runners/test_runner.t.c:run_powerloss_cycles" targetname: "test_define" label: "runners/test_runner.c:1615:31" }
+edge: { sourcename: "runners/test_runner.t.c:run_powerloss_cycles" targetname: "test_define" label: "runners/test_runner.c:1616:31" }
+edge: { sourcename: "runners/test_runner.t.c:run_powerloss_cycles" targetname: "test_define" label: "runners/test_runner.c:1617:31" }
+edge: { sourcename: "runners/test_runner.t.c:run_powerloss_cycles" targetname: "test_define" label: "runners/test_runner.c:1618:31" }
+edge: { sourcename: "runners/test_runner.t.c:run_powerloss_cycles" targetname: "test_define" label: "runners/test_runner.c:1619:31" }
+edge: { sourcename: "runners/test_runner.t.c:run_powerloss_cycles" targetname: "test_define" label: "runners/test_runner.c:1620:31" }
+edge: { sourcename: "runners/test_runner.t.c:run_powerloss_cycles" targetname: "test_define" label: "runners/test_runner.c:1621:31" }
+edge: { sourcename: "runners/test_runner.t.c:run_powerloss_cycles" targetname: "test_define" label: "runners/test_runner.c:1627:31" }
+edge: { sourcename: "runners/test_runner.t.c:run_powerloss_cycles" targetname: "lfs_emubd_create" label: "runners/test_runner.c:1632:15" }
+edge: { sourcename: "runners/test_runner.t.c:run_powerloss_cycles" targetname: "__fprintf_chk" label: "/usr/include/x86_64-linux-gnu/bits/stdio2.h:105:10" }
+edge: { sourcename: "runners/test_runner.t.c:run_powerloss_cycles" targetname: "exit" label: "runners/test_runner.c:1635:9" }
+edge: { sourcename: "runners/test_runner.t.c:run_powerloss_cycles" targetname: "__printf_chk" label: "/usr/include/x86_64-linux-gnu/bits/stdio2.h:112:10" }
+edge: { sourcename: "runners/test_runner.t.c:run_powerloss_cycles" targetname: "runners/test_runner.t.c:perm_printid.isra.0" label: "runners/test_runner.c:1640:5" }
+edge: { sourcename: "runners/test_runner.t.c:run_powerloss_cycles" targetname: "__printf_chk" label: "/usr/include/x86_64-linux-gnu/bits/stdio2.h:112:10" }
+edge: { sourcename: "runners/test_runner.t.c:run_powerloss_cycles" targetname: "_setjmp" label: "runners/test_runner.c:1644:14" }
+edge: { sourcename: "runners/test_runner.t.c:run_powerloss_cycles" targetname: "__indirect_call" label: "runners/test_runner.c:1646:13" }
+edge: { sourcename: "runners/test_runner.t.c:run_powerloss_cycles" targetname: "runners/test_runner.t.c:__pretty_assert_fail.constprop.0" label: "runners/test_runner.c:1651:9" }
+edge: { sourcename: "runners/test_runner.t.c:run_powerloss_cycles" targetname: "__printf_chk" label: "/usr/include/x86_64-linux-gnu/bits/stdio2.h:112:10" }
+edge: { sourcename: "runners/test_runner.t.c:run_powerloss_cycles" targetname: "runners/test_runner.t.c:perm_printid.isra.0" label: "runners/test_runner.c:1653:9" }
+edge: { sourcename: "runners/test_runner.t.c:run_powerloss_cycles" targetname: "__printf_chk" label: "/usr/include/x86_64-linux-gnu/bits/stdio2.h:112:10" }
+edge: { sourcename: "runners/test_runner.t.c:run_powerloss_cycles" targetname: "lfs_emubd_setpowercycles" label: "runners/test_runner.c:1657:9" }
+edge: { sourcename: "runners/test_runner.t.c:run_powerloss_cycles" targetname: "__printf_chk" label: "/usr/include/x86_64-linux-gnu/bits/stdio2.h:112:10" }
+edge: { sourcename: "runners/test_runner.t.c:run_powerloss_cycles" targetname: "runners/test_runner.t.c:perm_printid.isra.0" label: "runners/test_runner.c:1662:5" }
+edge: { sourcename: "runners/test_runner.t.c:run_powerloss_cycles" targetname: "__printf_chk" label: "/usr/include/x86_64-linux-gnu/bits/stdio2.h:112:10" }
+edge: { sourcename: "runners/test_runner.t.c:run_powerloss_cycles" targetname: "lfs_emubd_destroy" label: "runners/test_runner.c:1666:11" }
+edge: { sourcename: "runners/test_runner.t.c:run_powerloss_cycles" targetname: "__fprintf_chk" label: "/usr/include/x86_64-linux-gnu/bits/stdio2.h:105:10" }
+edge: { sourcename: "runners/test_runner.t.c:run_powerloss_cycles" targetname: "exit" label: "runners/test_runner.c:1669:9" }
+edge: { sourcename: "runners/test_runner.t.c:run_powerloss_cycles" targetname: "__stack_chk_fail" }
+node: { title: "runners/test_runner.t.c:run_powerloss_exhaustive_layer" label: "run_powerloss_exhaustive_layer\nrunners/test_runner.c:1711:13\n128 bytes (static)" }
+edge: { sourcename: "runners/test_runner.t.c:run_powerloss_exhaustive_layer" targetname: "lfs_emubd_setpowercycles" label: "runners/test_runner.c:1729:5" }
+edge: { sourcename: "runners/test_runner.t.c:run_powerloss_exhaustive_layer" targetname: "__indirect_call" label: "runners/test_runner.c:1733:5" }
+edge: { sourcename: "runners/test_runner.t.c:run_powerloss_exhaustive_layer" targetname: "lfs_emubd_destroy" label: "runners/test_runner.c:1736:15" }
+edge: { sourcename: "runners/test_runner.t.c:run_powerloss_exhaustive_layer" targetname: "__fprintf_chk" label: "/usr/include/x86_64-linux-gnu/bits/stdio2.h:105:10" }
+edge: { sourcename: "runners/test_runner.t.c:run_powerloss_exhaustive_layer" targetname: "exit" label: "runners/test_runner.c:1739:9" }
+edge: { sourcename: "runners/test_runner.t.c:run_powerloss_exhaustive_layer" targetname: "mappend" label: "runners/test_runner.c:1745:42" }
+edge: { sourcename: "runners/test_runner.t.c:run_powerloss_exhaustive_layer" targetname: "__fprintf_chk" label: "/usr/include/x86_64-linux-gnu/bits/stdio2.h:105:10" }
+edge: { sourcename: "runners/test_runner.t.c:run_powerloss_exhaustive_layer" targetname: "exit" label: "runners/test_runner.c:1752:13" }
+edge: { sourcename: "runners/test_runner.t.c:run_powerloss_exhaustive_layer" targetname: "__printf_chk" label: "/usr/include/x86_64-linux-gnu/bits/stdio2.h:112:10" }
+edge: { sourcename: "runners/test_runner.t.c:run_powerloss_exhaustive_layer" targetname: "runners/test_runner.t.c:perm_printid.isra.0" label: "runners/test_runner.c:1757:9" }
+edge: { sourcename: "runners/test_runner.t.c:run_powerloss_exhaustive_layer" targetname: "__printf_chk" label: "/usr/include/x86_64-linux-gnu/bits/stdio2.h:112:10" }
+edge: { sourcename: "runners/test_runner.t.c:run_powerloss_exhaustive_layer" targetname: "runners/test_runner.t.c:run_powerloss_exhaustive_layer" label: "runners/test_runner.c:1762:9" }
+node: { title: "free" label: "free\n/usr/include/stdlib.h:555:13" shape : ellipse }
+edge: { sourcename: "runners/test_runner.t.c:run_powerloss_exhaustive_layer" targetname: "free" label: "runners/test_runner.c:1771:5" }
+edge: { sourcename: "runners/test_runner.t.c:run_powerloss_exhaustive_layer" targetname: "__stack_chk_fail" }
+node: { title: "runners/test_runner.t.c:run_powerloss_exhaustive" label: "run_powerloss_exhaustive\nrunners/test_runner.c:1774:13\n368 bytes (static)" }
+edge: { sourcename: "runners/test_runner.t.c:run_powerloss_exhaustive" targetname: "test_define" label: "runners/test_runner.c:1791:31" }
+edge: { sourcename: "runners/test_runner.t.c:run_powerloss_exhaustive" targetname: "test_define" label: "runners/test_runner.c:1792:31" }
+edge: { sourcename: "runners/test_runner.t.c:run_powerloss_exhaustive" targetname: "test_define" label: "runners/test_runner.c:1793:31" }
+edge: { sourcename: "runners/test_runner.t.c:run_powerloss_exhaustive" targetname: "test_define" label: "runners/test_runner.c:1794:31" }
+edge: { sourcename: "runners/test_runner.t.c:run_powerloss_exhaustive" targetname: "test_define" label: "runners/test_runner.c:1795:31" }
+edge: { sourcename: "runners/test_runner.t.c:run_powerloss_exhaustive" targetname: "test_define" label: "runners/test_runner.c:1796:31" }
+edge: { sourcename: "runners/test_runner.t.c:run_powerloss_exhaustive" targetname: "test_define" label: "runners/test_runner.c:1797:31" }
+edge: { sourcename: "runners/test_runner.t.c:run_powerloss_exhaustive" targetname: "test_define" label: "runners/test_runner.c:1804:31" }
+edge: { sourcename: "runners/test_runner.t.c:run_powerloss_exhaustive" targetname: "test_define" label: "runners/test_runner.c:1805:31" }
+edge: { sourcename: "runners/test_runner.t.c:run_powerloss_exhaustive" targetname: "test_define" label: "runners/test_runner.c:1806:31" }
+edge: { sourcename: "runners/test_runner.t.c:run_powerloss_exhaustive" targetname: "test_define" label: "runners/test_runner.c:1807:31" }
+edge: { sourcename: "runners/test_runner.t.c:run_powerloss_exhaustive" targetname: "test_define" label: "runners/test_runner.c:1808:31" }
+edge: { sourcename: "runners/test_runner.t.c:run_powerloss_exhaustive" targetname: "test_define" label: "runners/test_runner.c:1809:31" }
+edge: { sourcename: "runners/test_runner.t.c:run_powerloss_exhaustive" targetname: "test_define" label: "runners/test_runner.c:1810:31" }
+edge: { sourcename: "runners/test_runner.t.c:run_powerloss_exhaustive" targetname: "test_define" label: "runners/test_runner.c:1815:31" }
+edge: { sourcename: "runners/test_runner.t.c:run_powerloss_exhaustive" targetname: "lfs_emubd_create" label: "runners/test_runner.c:1820:15" }
+edge: { sourcename: "runners/test_runner.t.c:run_powerloss_exhaustive" targetname: "__fprintf_chk" label: "/usr/include/x86_64-linux-gnu/bits/stdio2.h:105:10" }
+edge: { sourcename: "runners/test_runner.t.c:run_powerloss_exhaustive" targetname: "exit" label: "runners/test_runner.c:1823:9" }
+edge: { sourcename: "runners/test_runner.t.c:run_powerloss_exhaustive" targetname: "__printf_chk" label: "/usr/include/x86_64-linux-gnu/bits/stdio2.h:112:10" }
+edge: { sourcename: "runners/test_runner.t.c:run_powerloss_exhaustive" targetname: "runners/test_runner.t.c:perm_printid.isra.0" label: "runners/test_runner.c:1828:5" }
+edge: { sourcename: "runners/test_runner.t.c:run_powerloss_exhaustive" targetname: "__printf_chk" label: "/usr/include/x86_64-linux-gnu/bits/stdio2.h:112:10" }
+edge: { sourcename: "runners/test_runner.t.c:run_powerloss_exhaustive" targetname: "runners/test_runner.t.c:run_powerloss_exhaustive_layer" label: "runners/test_runner.c:1832:5" }
+edge: { sourcename: "runners/test_runner.t.c:run_powerloss_exhaustive" targetname: "__printf_chk" label: "/usr/include/x86_64-linux-gnu/bits/stdio2.h:112:10" }
+edge: { sourcename: "runners/test_runner.t.c:run_powerloss_exhaustive" targetname: "runners/test_runner.t.c:perm_printid.isra.0" label: "runners/test_runner.c:1838:5" }
+edge: { sourcename: "runners/test_runner.t.c:run_powerloss_exhaustive" targetname: "__printf_chk" label: "/usr/include/x86_64-linux-gnu/bits/stdio2.h:112:10" }
+edge: { sourcename: "runners/test_runner.t.c:run_powerloss_exhaustive" targetname: "__stack_chk_fail" }
+node: { title: "perm_run" label: "perm_run\nrunners/test_runner.c:1899:6\n32 bytes (static)" }
+edge: { sourcename: "perm_run" targetname: "__indirect_call" label: "runners/test_runner.c:1916:27" }
+edge: { sourcename: "perm_run" targetname: "__printf_chk" label: "/usr/include/x86_64-linux-gnu/bits/stdio2.h:112:10" }
+edge: { sourcename: "perm_run" targetname: "runners/test_runner.t.c:perm_printid.isra.0" label: "runners/test_runner.c:1918:9" }
+edge: { sourcename: "perm_run" targetname: "__printf_chk" label: "/usr/include/x86_64-linux-gnu/bits/stdio2.h:112:10" }
+edge: { sourcename: "perm_run" targetname: "__indirect_call" label: "runners/test_runner.c:1923:5" }
+node: { title: "test_define_flush" label: "test_define_flush\nrunners/test_runner.c:276:6\n8 bytes (static)" }
+node: { title: "test_define_geometry" label: "test_define_geometry\nrunners/test_runner.c:287:6\n8 bytes (static)" }
+node: { title: "test_define_suite" label: "test_define_suite\nrunners/test_runner.c:308:6\n80 bytes (static)" }
+edge: { sourcename: "test_define_suite" targetname: "realloc" label: "runners/test_runner.c:318:29" }
+edge: { sourcename: "test_define_suite" targetname: "realloc" label: "runners/test_runner.c:319:34" }
+edge: { sourcename: "test_define_suite" targetname: "test_define_name" label: "runners/test_runner.c:338:36" }
+edge: { sourcename: "test_define_suite" targetname: "strcmp" label: "runners/test_runner.c:339:29" }
+edge: { sourcename: "test_define_suite" targetname: "realloc" label: "runners/test_runner.c:353:37" }
+edge: { sourcename: "test_define_suite" targetname: "test_define_name" label: "runners/test_runner.c:372:36" }
+edge: { sourcename: "test_define_suite" targetname: "strcmp" label: "runners/test_runner.c:373:29" }
+node: { title: "runners/test_runner.t.c:list_geometries" label: "list_geometries\nrunners/test_runner.c:1290:13\n176 bytes (dynamic,bounded)" }
+edge: { sourcename: "runners/test_runner.t.c:list_geometries" targetname: "strlen" label: "runners/test_runner.c:1294:22" }
+edge: { sourcename: "runners/test_runner.t.c:list_geometries" targetname: "test_define_suite" label: "runners/test_runner.c:1303:5" }
+edge: { sourcename: "runners/test_runner.t.c:list_geometries" targetname: "__printf_chk" label: "/usr/include/x86_64-linux-gnu/bits/stdio2.h:112:10" }
+edge: { sourcename: "runners/test_runner.t.c:list_geometries" targetname: "test_define_flush" label: "runners/test_runner.c:1309:9" }
+edge: { sourcename: "runners/test_runner.t.c:list_geometries" targetname: "test_define" label: "runners/test_runner.c:1317:17" }
+edge: { sourcename: "runners/test_runner.t.c:list_geometries" targetname: "test_define" label: "runners/test_runner.c:1317:28" }
+edge: { sourcename: "runners/test_runner.t.c:list_geometries" targetname: "test_define" label: "runners/test_runner.c:1310:9" }
+edge: { sourcename: "runners/test_runner.t.c:list_geometries" targetname: "test_define" label: "runners/test_runner.c:1310:9" }
+edge: { sourcename: "runners/test_runner.t.c:list_geometries" targetname: "test_define" label: "runners/test_runner.c:1310:9" }
+edge: { sourcename: "runners/test_runner.t.c:list_geometries" targetname: "test_define" label: "runners/test_runner.c:1310:9" }
+edge: { sourcename: "runners/test_runner.t.c:list_geometries" targetname: "__printf_chk" label: "/usr/include/x86_64-linux-gnu/bits/stdio2.h:112:10" }
+edge: { sourcename: "runners/test_runner.t.c:list_geometries" targetname: "__stack_chk_fail" }
+node: { title: "runners/test_runner.t.c:list_implicit_defines" label: "list_implicit_defines\nrunners/test_runner.c:1238:13\n144 bytes (static)" }
+edge: { sourcename: "runners/test_runner.t.c:list_implicit_defines" targetname: "test_define_suite" label: "runners/test_runner.c:1243:5" }
+edge: { sourcename: "runners/test_runner.t.c:list_implicit_defines" targetname: "test_define_flush" label: "runners/test_runner.c:1249:9" }
+edge: { sourcename: "runners/test_runner.t.c:list_implicit_defines" targetname: "runners/test_runner.t.c:list_defines_add" label: "runners/test_runner.c:1253:13" }
+edge: { sourcename: "runners/test_runner.t.c:list_implicit_defines" targetname: "__printf_chk" label: "/usr/include/x86_64-linux-gnu/bits/stdio2.h:112:10" }
+edge: { sourcename: "runners/test_runner.t.c:list_implicit_defines" targetname: "__printf_chk" label: "/usr/include/x86_64-linux-gnu/bits/stdio2.h:112:10" }
+edge: { sourcename: "runners/test_runner.t.c:list_implicit_defines" targetname: "__printf_chk" label: "/usr/include/x86_64-linux-gnu/bits/stdio2.h:112:10" }
+edge: { sourcename: "runners/test_runner.t.c:list_implicit_defines" targetname: "__printf_chk" label: "/usr/include/x86_64-linux-gnu/bits/stdio2.h:112:10" }
+edge: { sourcename: "runners/test_runner.t.c:list_implicit_defines" targetname: "free" label: "runners/test_runner.c:1269:9" }
+edge: { sourcename: "runners/test_runner.t.c:list_implicit_defines" targetname: "free" label: "runners/test_runner.c:1271:5" }
+edge: { sourcename: "runners/test_runner.t.c:list_implicit_defines" targetname: "__stack_chk_fail" }
+edge: { sourcename: "runners/test_runner.t.c:list_implicit_defines" targetname: "__stack_chk_fail" }
+node: { title: "test_define_perm" label: "test_define_perm\nrunners/test_runner.c:391:6\n8 bytes (static)" }
+node: { title: "test_define_override" label: "test_define_override\nrunners/test_runner.c:405:6\n8 bytes (static)" }
+node: { title: "test_define_explicit" label: "test_define_explicit\nrunners/test_runner.c:411:6\n8 bytes (static)" }
+node: { title: "test_define_cleanup" label: "test_define_cleanup\nrunners/test_runner.c:418:6\n16 bytes (static)" }
+edge: { sourcename: "test_define_cleanup" targetname: "free" label: "runners/test_runner.c:420:5" }
+edge: { sourcename: "test_define_cleanup" targetname: "free" label: "runners/test_runner.c:421:5" }
+edge: { sourcename: "test_define_cleanup" targetname: "free" label: "runners/test_runner.c:422:5" }
+node: { title: "test_trace" label: "test_trace\nrunners/test_runner.c:465:6\n288 bytes (static)" }
+node: { title: "clock_gettime" label: "clock_gettime\n/usr/include/time.h:279:12" shape : ellipse }
+edge: { sourcename: "test_trace" targetname: "clock_gettime" label: "runners/test_runner.c:479:13" }
+edge: { sourcename: "test_trace" targetname: "clock_gettime" label: "runners/test_runner.c:493:13" }
+edge: { sourcename: "test_trace" targetname: "strcmp" label: "runners/test_runner.c:503:17" }
+node: { title: "dup" label: "dup\n/usr/include/unistd.h:552:12" shape : ellipse }
+edge: { sourcename: "test_trace" targetname: "dup" label: "runners/test_runner.c:504:22" }
+node: { title: "*open" label: "__open_alias\n/usr/include/x86_64-linux-gnu/bits/fcntl2.h:27:12" shape : ellipse }
+edge: { sourcename: "test_trace" targetname: "*open" label: "/usr/include/x86_64-linux-gnu/bits/fcntl2.h:53:14" }
+node: { title: "fcntl" label: "fcntl\n/usr/include/fcntl.h:149:12" shape : ellipse }
+edge: { sourcename: "test_trace" targetname: "fcntl" label: "runners/test_runner.c:516:27" }
+edge: { sourcename: "test_trace" targetname: "runners/test_runner.t.c:__pretty_assert_fail.constprop.0" label: "runners/test_runner.c:517:17" }
+node: { title: "fdopen" label: "fdopen\n/usr/include/stdio.h:293:14" shape : ellipse }
+edge: { sourcename: "test_trace" targetname: "fdopen" label: "runners/test_runner.c:520:23" }
+edge: { sourcename: "test_trace" targetname: "runners/test_runner.t.c:__pretty_assert_fail.constprop.0" label: "runners/test_runner.c:521:13" }
+node: { title: "setvbuf" label: "setvbuf\n/usr/include/stdio.h:332:12" shape : ellipse }
+edge: { sourcename: "test_trace" targetname: "setvbuf" label: "runners/test_runner.c:522:23" }
+edge: { sourcename: "test_trace" targetname: "runners/test_runner.t.c:__pretty_assert_fail.constprop.0" label: "runners/test_runner.c:524:13" }
+node: { title: "__vfprintf_chk" label: "__vfprintf_chk\n/usr/include/x86_64-linux-gnu/bits/stdio2.h:96:12" shape : ellipse }
+edge: { sourcename: "test_trace" targetname: "__vfprintf_chk" label: "/usr/include/x86_64-linux-gnu/bits/stdio2.h:135:10" }
+node: { title: "fclose" label: "fclose\n/usr/include/stdio.h:178:12" shape : ellipse }
+edge: { sourcename: "test_trace" targetname: "fclose" label: "runners/test_runner.c:534:13" }
+node: { title: "backtrace" label: "backtrace\n/usr/include/execinfo.h:27:12" shape : ellipse }
+edge: { sourcename: "test_trace" targetname: "backtrace" label: "runners/test_runner.c:541:28" }
+edge: { sourcename: "test_trace" targetname: "__fprintf_chk" label: "/usr/include/x86_64-linux-gnu/bits/stdio2.h:105:10" }
+edge: { sourcename: "test_trace" targetname: "fclose" label: "runners/test_runner.c:549:21" }
+edge: { sourcename: "test_trace" targetname: "fflush" label: "runners/test_runner.c:557:9" }
+edge: { sourcename: "test_trace" targetname: "__stack_chk_fail" }
+node: { title: "test_prng" label: "test_prng\nrunners/test_runner.c:563:10\n8 bytes (static)" }
+node: { title: "test_seen_insert" label: "test_seen_insert\nrunners/test_runner.c:617:6\n48 bytes (static)" }
+edge: { sourcename: "test_seen_insert" targetname: "test_define_ispermutation" label: "runners/test_runner.c:631:27" }
+edge: { sourcename: "test_seen_insert" targetname: "test_define" label: "runners/test_runner.c:631:58" }
+edge: { sourcename: "test_seen_insert" targetname: "mappend" label: "runners/test_runner.c:645:22" }
+node: { title: "test_seen_cleanup" label: "test_seen_cleanup\nrunners/test_runner.c:660:6\n32 bytes (static)" }
+edge: { sourcename: "test_seen_cleanup" targetname: "test_seen_cleanup" label: "runners/test_runner.c:662:9" }
+edge: { sourcename: "test_seen_cleanup" targetname: "free" label: "runners/test_runner.c:664:5" }
+node: { title: "runners/test_runner.t.c:case_forperm" label: "case_forperm\nrunners/test_runner.c:679:13\n160 bytes (static)" }
+edge: { sourcename: "runners/test_runner.t.c:case_forperm" targetname: "test_define_override" label: "runners/test_runner.c:698:13" }
+edge: { sourcename: "runners/test_runner.t.c:case_forperm" targetname: "test_define_flush" label: "runners/test_runner.c:699:13" }
+edge: { sourcename: "runners/test_runner.t.c:case_forperm" targetname: "__indirect_call" label: "runners/test_runner.c:703:17" }
+edge: { sourcename: "runners/test_runner.t.c:case_forperm" targetname: "__indirect_call" label: "runners/test_runner.c:715:21" }
+edge: { sourcename: "runners/test_runner.t.c:case_forperm" targetname: "test_define_perm" label: "runners/test_runner.c:727:9" }
+edge: { sourcename: "runners/test_runner.t.c:case_forperm" targetname: "test_define_override" label: "runners/test_runner.c:731:13" }
+edge: { sourcename: "runners/test_runner.t.c:case_forperm" targetname: "test_define_flush" label: "runners/test_runner.c:736:17" }
+edge: { sourcename: "runners/test_runner.t.c:case_forperm" targetname: "test_seen_insert" label: "runners/test_runner.c:739:33" }
+edge: { sourcename: "runners/test_runner.t.c:case_forperm" targetname: "__indirect_call" label: "runners/test_runner.c:745:21" }
+edge: { sourcename: "runners/test_runner.t.c:case_forperm" targetname: "__indirect_call" label: "runners/test_runner.c:757:25" }
+edge: { sourcename: "runners/test_runner.t.c:case_forperm" targetname: "test_seen_cleanup" label: "runners/test_runner.c:764:5" }
+edge: { sourcename: "runners/test_runner.t.c:case_forperm" targetname: "__stack_chk_fail" }
+node: { title: "runners/test_runner.t.c:run" label: "run\nrunners/test_runner.c:1928:13\n128 bytes (dynamic,bounded)" }
+node: { title: "*__sysv_signal" label: "signal\n/usr/include/signal.h:93:23" shape : ellipse }
+edge: { sourcename: "runners/test_runner.t.c:run" targetname: "*__sysv_signal" label: "runners/test_runner.c:1930:5" }
+edge: { sourcename: "runners/test_runner.t.c:run" targetname: "test_define_suite" label: "runners/test_runner.c:1934:13" }
+edge: { sourcename: "runners/test_runner.t.c:run" targetname: "strcmp" label: "runners/test_runner.c:1939:25" }
+edge: { sourcename: "runners/test_runner.t.c:run" targetname: "strcmp" label: "runners/test_runner.c:1941:28" }
+edge: { sourcename: "runners/test_runner.t.c:run" targetname: "runners/test_runner.t.c:case_forperm" label: "runners/test_runner.c:1946:17" }
+node: { title: "runners/test_runner.t.c:list_permutation_defines" label: "list_permutation_defines\nrunners/test_runner.c:1190:13\n160 bytes (dynamic,bounded)" }
+edge: { sourcename: "runners/test_runner.t.c:list_permutation_defines" targetname: "test_define_suite" label: "runners/test_runner.c:1196:13" }
+edge: { sourcename: "runners/test_runner.t.c:list_permutation_defines" targetname: "strcmp" label: "runners/test_runner.c:1201:25" }
+edge: { sourcename: "runners/test_runner.t.c:list_permutation_defines" targetname: "strcmp" label: "runners/test_runner.c:1203:28" }
+edge: { sourcename: "runners/test_runner.t.c:list_permutation_defines" targetname: "runners/test_runner.t.c:case_forperm" label: "runners/test_runner.c:1208:17" }
+edge: { sourcename: "runners/test_runner.t.c:list_permutation_defines" targetname: "__printf_chk" label: "/usr/include/x86_64-linux-gnu/bits/stdio2.h:112:10" }
+edge: { sourcename: "runners/test_runner.t.c:list_permutation_defines" targetname: "__printf_chk" label: "/usr/include/x86_64-linux-gnu/bits/stdio2.h:112:10" }
+edge: { sourcename: "runners/test_runner.t.c:list_permutation_defines" targetname: "__printf_chk" label: "/usr/include/x86_64-linux-gnu/bits/stdio2.h:112:10" }
+edge: { sourcename: "runners/test_runner.t.c:list_permutation_defines" targetname: "__printf_chk" label: "/usr/include/x86_64-linux-gnu/bits/stdio2.h:112:10" }
+edge: { sourcename: "runners/test_runner.t.c:list_permutation_defines" targetname: "free" label: "runners/test_runner.c:1233:9" }
+edge: { sourcename: "runners/test_runner.t.c:list_permutation_defines" targetname: "free" label: "runners/test_runner.c:1235:5" }
+edge: { sourcename: "runners/test_runner.t.c:list_permutation_defines" targetname: "__stack_chk_fail" }
+node: { title: "runners/test_runner.t.c:list_defines" label: "list_defines\nrunners/test_runner.c:1142:13\n160 bytes (dynamic,bounded)" }
+edge: { sourcename: "runners/test_runner.t.c:list_defines" targetname: "test_define_suite" label: "runners/test_runner.c:1148:13" }
+edge: { sourcename: "runners/test_runner.t.c:list_defines" targetname: "strcmp" label: "runners/test_runner.c:1153:25" }
+edge: { sourcename: "runners/test_runner.t.c:list_defines" targetname: "strcmp" label: "runners/test_runner.c:1155:28" }
+edge: { sourcename: "runners/test_runner.t.c:list_defines" targetname: "runners/test_runner.t.c:case_forperm" label: "runners/test_runner.c:1160:17" }
+edge: { sourcename: "runners/test_runner.t.c:list_defines" targetname: "__printf_chk" label: "/usr/include/x86_64-linux-gnu/bits/stdio2.h:112:10" }
+edge: { sourcename: "runners/test_runner.t.c:list_defines" targetname: "__printf_chk" label: "/usr/include/x86_64-linux-gnu/bits/stdio2.h:112:10" }
+edge: { sourcename: "runners/test_runner.t.c:list_defines" targetname: "__printf_chk" label: "/usr/include/x86_64-linux-gnu/bits/stdio2.h:112:10" }
+edge: { sourcename: "runners/test_runner.t.c:list_defines" targetname: "__printf_chk" label: "/usr/include/x86_64-linux-gnu/bits/stdio2.h:112:10" }
+edge: { sourcename: "runners/test_runner.t.c:list_defines" targetname: "free" label: "runners/test_runner.c:1185:9" }
+edge: { sourcename: "runners/test_runner.t.c:list_defines" targetname: "free" label: "runners/test_runner.c:1187:5" }
+edge: { sourcename: "runners/test_runner.t.c:list_defines" targetname: "__stack_chk_fail" }
+node: { title: "runners/test_runner.t.c:list_cases" label: "list_cases\nrunners/test_runner.c:911:13\n288 bytes (dynamic,bounded)" }
+edge: { sourcename: "runners/test_runner.t.c:list_cases" targetname: "strlen" label: "runners/test_runner.c:916:26" }
+edge: { sourcename: "runners/test_runner.t.c:list_cases" targetname: "__printf_chk" label: "/usr/include/x86_64-linux-gnu/bits/stdio2.h:112:10" }
+edge: { sourcename: "runners/test_runner.t.c:list_cases" targetname: "test_define_suite" label: "runners/test_runner.c:927:13" }
+edge: { sourcename: "runners/test_runner.t.c:list_cases" targetname: "strcmp" label: "runners/test_runner.c:932:25" }
+edge: { sourcename: "runners/test_runner.t.c:list_cases" targetname: "strcmp" label: "runners/test_runner.c:934:28" }
+edge: { sourcename: "runners/test_runner.t.c:list_cases" targetname: "runners/test_runner.t.c:case_forperm" label: "runners/test_runner.c:940:17" }
+node: { title: "__sprintf_chk" label: "__builtin___sprintf_chk\n<built-in>" shape : ellipse }
+edge: { sourcename: "runners/test_runner.t.c:list_cases" targetname: "__sprintf_chk" label: "/usr/include/x86_64-linux-gnu/bits/stdio2.h:38:10" }
+edge: { sourcename: "runners/test_runner.t.c:list_cases" targetname: "__sprintf_chk" label: "/usr/include/x86_64-linux-gnu/bits/stdio2.h:38:10" }
+edge: { sourcename: "runners/test_runner.t.c:list_cases" targetname: "__printf_chk" label: "/usr/include/x86_64-linux-gnu/bits/stdio2.h:112:10" }
+edge: { sourcename: "runners/test_runner.t.c:list_cases" targetname: "__stack_chk_fail" }
+node: { title: "runners/test_runner.t.c:list_suites" label: "list_suites\nrunners/test_runner.c:848:13\n304 bytes (dynamic,bounded)" }
+edge: { sourcename: "runners/test_runner.t.c:list_suites" targetname: "strlen" label: "runners/test_runner.c:852:22" }
+edge: { sourcename: "runners/test_runner.t.c:list_suites" targetname: "__printf_chk" label: "/usr/include/x86_64-linux-gnu/bits/stdio2.h:112:10" }
+edge: { sourcename: "runners/test_runner.t.c:list_suites" targetname: "test_define_suite" label: "runners/test_runner.c:863:13" }
+edge: { sourcename: "runners/test_runner.t.c:list_suites" targetname: "strcmp" label: "runners/test_runner.c:871:25" }
+edge: { sourcename: "runners/test_runner.t.c:list_suites" targetname: "strcmp" label: "runners/test_runner.c:873:28" }
+edge: { sourcename: "runners/test_runner.t.c:list_suites" targetname: "runners/test_runner.t.c:case_forperm" label: "runners/test_runner.c:879:17" }
+edge: { sourcename: "runners/test_runner.t.c:list_suites" targetname: "__sprintf_chk" label: "/usr/include/x86_64-linux-gnu/bits/stdio2.h:38:10" }
+edge: { sourcename: "runners/test_runner.t.c:list_suites" targetname: "__sprintf_chk" label: "/usr/include/x86_64-linux-gnu/bits/stdio2.h:38:10" }
+edge: { sourcename: "runners/test_runner.t.c:list_suites" targetname: "__printf_chk" label: "/usr/include/x86_64-linux-gnu/bits/stdio2.h:112:10" }
+edge: { sourcename: "runners/test_runner.t.c:list_suites" targetname: "__stack_chk_fail" }
+node: { title: "runners/test_runner.t.c:summary" label: "summary\nrunners/test_runner.c:795:13\n304 bytes (dynamic,bounded)" }
+edge: { sourcename: "runners/test_runner.t.c:summary" targetname: "__printf_chk" label: "/usr/include/x86_64-linux-gnu/bits/stdio2.h:112:10" }
+edge: { sourcename: "runners/test_runner.t.c:summary" targetname: "test_define_suite" label: "runners/test_runner.c:805:13" }
+edge: { sourcename: "runners/test_runner.t.c:summary" targetname: "strcmp" label: "runners/test_runner.c:810:25" }
+edge: { sourcename: "runners/test_runner.t.c:summary" targetname: "strcmp" label: "runners/test_runner.c:812:28" }
+edge: { sourcename: "runners/test_runner.t.c:summary" targetname: "runners/test_runner.t.c:case_forperm" label: "runners/test_runner.c:818:17" }
+edge: { sourcename: "runners/test_runner.t.c:summary" targetname: "__sprintf_chk" label: "/usr/include/x86_64-linux-gnu/bits/stdio2.h:38:10" }
+edge: { sourcename: "runners/test_runner.t.c:summary" targetname: "__sprintf_chk" label: "/usr/include/x86_64-linux-gnu/bits/stdio2.h:38:10" }
+edge: { sourcename: "runners/test_runner.t.c:summary" targetname: "__printf_chk" label: "/usr/include/x86_64-linux-gnu/bits/stdio2.h:112:10" }
+edge: { sourcename: "runners/test_runner.t.c:summary" targetname: "__stack_chk_fail" }
+node: { title: "main" label: "main\nrunners/test_runner.c:2046:5\n208 bytes (static)" }
+node: { title: "getopt_long" label: "getopt_long\n/usr/include/x86_64-linux-gnu/bits/getopt_ext.h:66:12" shape : ellipse }
+edge: { sourcename: "main" targetname: "getopt_long" label: "runners/test_runner.c:2056:17" }
+edge: { sourcename: "main" targetname: "__printf_chk" label: "/usr/include/x86_64-linux-gnu/bits/stdio2.h:112:10" }
+edge: { sourcename: "main" targetname: "__printf_chk" label: "/usr/include/x86_64-linux-gnu/bits/stdio2.h:112:10" }
+edge: { sourcename: "main" targetname: "__printf_chk" label: "/usr/include/x86_64-linux-gnu/bits/stdio2.h:112:10" }
+edge: { sourcename: "main" targetname: "__printf_chk" label: "/usr/include/x86_64-linux-gnu/bits/stdio2.h:112:10" }
+edge: { sourcename: "main" targetname: "__printf_chk" label: "/usr/include/x86_64-linux-gnu/bits/stdio2.h:112:10" }
+edge: { sourcename: "main" targetname: "__printf_chk" label: "/usr/include/x86_64-linux-gnu/bits/stdio2.h:112:10" }
+edge: { sourcename: "main" targetname: "__printf_chk" label: "/usr/include/x86_64-linux-gnu/bits/stdio2.h:112:10" }
+edge: { sourcename: "main" targetname: "strlen" label: "runners/test_runner.c:2091:34" }
+edge: { sourcename: "main" targetname: "__printf_chk" label: "/usr/include/x86_64-linux-gnu/bits/stdio2.h:112:10" }
+edge: { sourcename: "main" targetname: "__printf_chk" label: "/usr/include/x86_64-linux-gnu/bits/stdio2.h:112:10" }
+edge: { sourcename: "main" targetname: "__printf_chk" label: "/usr/include/x86_64-linux-gnu/bits/stdio2.h:112:10" }
+edge: { sourcename: "main" targetname: "__printf_chk" label: "/usr/include/x86_64-linux-gnu/bits/stdio2.h:112:10" }
+edge: { sourcename: "main" targetname: "exit" label: "runners/test_runner.c:2112:17" }
+edge: { sourcename: "main" targetname: "mappend" label: "runners/test_runner.c:2148:45" }
+node: { title: "strchr" label: "strchr\n/usr/include/string.h:246:14" shape : ellipse }
+edge: { sourcename: "main" targetname: "strchr" label: "runners/test_runner.c:2156:29" }
+node: { title: "strspn" label: "strspn\n/usr/include/string.h:297:15" shape : ellipse }
+edge: { sourcename: "main" targetname: "strspn" label: "runners/test_runner.c:2171:35" }
+node: { title: "strncmp" label: "strncmp\n/usr/include/string.h:159:12" shape : ellipse }
+edge: { sourcename: "main" targetname: "strncmp" label: "runners/test_runner.c:2173:29" }
+edge: { sourcename: "main" targetname: "strspn" label: "runners/test_runner.c:2176:39" }
+node: { title: "strtoumax" label: "strtoumax\n/usr/include/inttypes.h:301:18" shape : ellipse }
+edge: { sourcename: "main" targetname: "strtoumax" label: "runners/test_runner.c:2182:46" }
+edge: { sourcename: "main" targetname: "strspn" label: "runners/test_runner.c:2189:47" }
+edge: { sourcename: "main" targetname: "strtoumax" label: "runners/test_runner.c:2197:40" }
+edge: { sourcename: "main" targetname: "strspn" label: "runners/test_runner.c:2202:51" }
+edge: { sourcename: "main" targetname: "strtoumax" label: "runners/test_runner.c:2210:44" }
+edge: { sourcename: "main" targetname: "strspn" label: "runners/test_runner.c:2215:55" }
+edge: { sourcename: "main" targetname: "runners/test_runner.t.c:__pretty_assert_fail.constprop.0" label: "runners/test_runner.c:2233:29" }
+edge: { sourcename: "main" targetname: "mappend" label: "runners/test_runner.c:2239:45" }
+node: { title: "strtoimax" label: "strtoimax\n/usr/include/inttypes.h:297:17" shape : ellipse }
+edge: { sourcename: "main" targetname: "strtoimax" label: "runners/test_runner.c:2247:47" }
+edge: { sourcename: "main" targetname: "strspn" label: "runners/test_runner.c:2251:47" }
+edge: { sourcename: "main" targetname: "mappend" label: "runners/test_runner.c:2252:41" }
+edge: { sourcename: "main" targetname: "runners/test_runner.t.c:__pretty_assert_fail.constprop.0" label: "runners/test_runner.c:2266:17" }
+edge: { sourcename: "main" targetname: "__fprintf_chk" label: "/usr/include/x86_64-linux-gnu/bits/stdio2.h:105:10" }
+edge: { sourcename: "main" targetname: "exit" label: "runners/test_runner.c:2271:17" }
+edge: { sourcename: "main" targetname: "free" label: "runners/test_runner.c:2276:21" }
+edge: { sourcename: "main" targetname: "mappend" label: "runners/test_runner.c:2285:49" }
+edge: { sourcename: "main" targetname: "strspn" label: "runners/test_runner.c:2292:31" }
+node: { title: "strcspn" label: "strcspn\n/usr/include/string.h:293:15" shape : ellipse }
+edge: { sourcename: "main" targetname: "strcspn" label: "runners/test_runner.c:2295:34" }
+edge: { sourcename: "main" targetname: "strlen" label: "runners/test_runner.c:2297:36" }
+node: { title: "memcmp" label: "memcmp\n/usr/include/string.h:64:12" shape : ellipse }
+edge: { sourcename: "main" targetname: "memcmp" label: "runners/test_runner.c:2298:36" }
+edge: { sourcename: "main" targetname: "strtoumax" label: "runners/test_runner.c:2315:44" }
+edge: { sourcename: "main" targetname: "strspn" label: "runners/test_runner.c:2318:42" }
+edge: { sourcename: "main" targetname: "runners/test_runner.t.c:leb16_parse" label: "runners/test_runner.c:2364:43" }
+edge: { sourcename: "main" targetname: "__fprintf_chk" label: "/usr/include/x86_64-linux-gnu/bits/stdio2.h:105:10" }
+edge: { sourcename: "main" targetname: "exit" label: "runners/test_runner.c:2404:21" }
+edge: { sourcename: "main" targetname: "strspn" label: "runners/test_runner.c:2407:31" }
+edge: { sourcename: "main" targetname: "free" label: "runners/test_runner.c:2421:21" }
+edge: { sourcename: "main" targetname: "mappend" label: "runners/test_runner.c:2430:51" }
+edge: { sourcename: "main" targetname: "strspn" label: "runners/test_runner.c:2437:31" }
+edge: { sourcename: "main" targetname: "strcspn" label: "runners/test_runner.c:2440:34" }
+edge: { sourcename: "main" targetname: "strlen" label: "runners/test_runner.c:2442:36" }
+edge: { sourcename: "main" targetname: "memcmp" label: "runners/test_runner.c:2443:36" }
+edge: { sourcename: "main" targetname: "strtoumax" label: "runners/test_runner.c:2466:39" }
+edge: { sourcename: "main" targetname: "mappend" label: "runners/test_runner.c:2461:56" }
+edge: { sourcename: "main" targetname: "strspn" label: "runners/test_runner.c:2468:42" }
+edge: { sourcename: "main" targetname: "runners/test_runner.t.c:leb16_parse" label: "runners/test_runner.c:2498:43" }
+edge: { sourcename: "main" targetname: "mappend" label: "runners/test_runner.c:2503:56" }
+edge: { sourcename: "main" targetname: "strtoumax" label: "runners/test_runner.c:2523:40" }
+edge: { sourcename: "main" targetname: "__fprintf_chk" label: "/usr/include/x86_64-linux-gnu/bits/stdio2.h:105:10" }
+edge: { sourcename: "main" targetname: "exit" label: "runners/test_runner.c:2540:21" }
+edge: { sourcename: "main" targetname: "strspn" label: "runners/test_runner.c:2543:31" }
+edge: { sourcename: "main" targetname: "strtoumax" label: "runners/test_runner.c:2556:35" }
+edge: { sourcename: "main" targetname: "strspn" label: "runners/test_runner.c:2563:35" }
+edge: { sourcename: "main" targetname: "strtoumax" label: "runners/test_runner.c:2571:38" }
+edge: { sourcename: "main" targetname: "strspn" label: "runners/test_runner.c:2576:39" }
+edge: { sourcename: "main" targetname: "strtoumax" label: "runners/test_runner.c:2584:42" }
+edge: { sourcename: "main" targetname: "strspn" label: "runners/test_runner.c:2589:43" }
+edge: { sourcename: "main" targetname: "__fprintf_chk" label: "/usr/include/x86_64-linux-gnu/bits/stdio2.h:105:10" }
+edge: { sourcename: "main" targetname: "exit" label: "runners/test_runner.c:2604:17" }
+edge: { sourcename: "main" targetname: "strtoumax" label: "runners/test_runner.c:2617:37" }
+edge: { sourcename: "main" targetname: "__fprintf_chk" label: "/usr/include/x86_64-linux-gnu/bits/stdio2.h:105:10" }
+edge: { sourcename: "main" targetname: "exit" label: "runners/test_runner.c:2620:21" }
+edge: { sourcename: "main" targetname: "strtoumax" label: "runners/test_runner.c:2626:35" }
+edge: { sourcename: "main" targetname: "__fprintf_chk" label: "/usr/include/x86_64-linux-gnu/bits/stdio2.h:105:10" }
+edge: { sourcename: "main" targetname: "exit" label: "runners/test_runner.c:2629:21" }
+node: { title: "strtod" label: "strtod\n/usr/include/stdlib.h:118:15" shape : ellipse }
+edge: { sourcename: "main" targetname: "strtod" label: "runners/test_runner.c:2635:37" }
+edge: { sourcename: "main" targetname: "__fprintf_chk" label: "/usr/include/x86_64-linux-gnu/bits/stdio2.h:105:10" }
+edge: { sourcename: "main" targetname: "exit" label: "runners/test_runner.c:2638:21" }
+edge: { sourcename: "main" targetname: "strtod" label: "runners/test_runner.c:2645:37" }
+edge: { sourcename: "main" targetname: "__fprintf_chk" label: "/usr/include/x86_64-linux-gnu/bits/stdio2.h:105:10" }
+edge: { sourcename: "main" targetname: "exit" label: "runners/test_runner.c:2648:21" }
+edge: { sourcename: "main" targetname: "strtod" label: "runners/test_runner.c:2655:38" }
+edge: { sourcename: "main" targetname: "__fprintf_chk" label: "/usr/include/x86_64-linux-gnu/bits/stdio2.h:105:10" }
+edge: { sourcename: "main" targetname: "exit" label: "runners/test_runner.c:2658:21" }
+edge: { sourcename: "main" targetname: "exit" label: "runners/test_runner.c:2668:17" }
+edge: { sourcename: "main" targetname: "strchr" label: "runners/test_runner.c:2689:26" }
+node: { title: "strrchr" label: "strrchr\n/usr/include/string.h:273:14" shape : ellipse }
+edge: { sourcename: "main" targetname: "strrchr" label: "runners/test_runner.c:2696:23" }
+edge: { sourcename: "main" targetname: "strlen" label: "runners/test_runner.c:2701:27" }
+edge: { sourcename: "main" targetname: "strcmp" label: "runners/test_runner.c:2702:29" }
+edge: { sourcename: "main" targetname: "strchr" label: "runners/test_runner.c:2708:29" }
+edge: { sourcename: "main" targetname: "runners/test_runner.t.c:leb16_parse" label: "runners/test_runner.c:2716:28" }
+edge: { sourcename: "main" targetname: "runners/test_runner.t.c:leb16_parse" label: "runners/test_runner.c:2717:30" }
+edge: { sourcename: "main" targetname: "realloc" label: "runners/test_runner.c:2726:31" }
+edge: { sourcename: "main" targetname: "runners/test_runner.t.c:leb16_parse" label: "runners/test_runner.c:2745:31" }
+edge: { sourcename: "main" targetname: "mappend" label: "runners/test_runner.c:2740:48" }
+edge: { sourcename: "main" targetname: "__fprintf_chk" label: "/usr/include/x86_64-linux-gnu/bits/stdio2.h:105:10" }
+edge: { sourcename: "main" targetname: "exit" label: "runners/test_runner.c:2750:25" }
+edge: { sourcename: "main" targetname: "mappend" label: "runners/test_runner.c:2758:22" }
+edge: { sourcename: "main" targetname: "__indirect_call" label: "runners/test_runner.c:2772:5" }
+edge: { sourcename: "main" targetname: "test_define_cleanup" label: "runners/test_runner.c:2775:5" }
+edge: { sourcename: "main" targetname: "free" label: "runners/test_runner.c:2778:13" }
+edge: { sourcename: "main" targetname: "free" label: "runners/test_runner.c:2780:9" }
+edge: { sourcename: "main" targetname: "free" label: "runners/test_runner.c:2783:9" }
+edge: { sourcename: "main" targetname: "free" label: "runners/test_runner.c:2787:13" }
+edge: { sourcename: "main" targetname: "free" label: "runners/test_runner.c:2789:9" }
+edge: { sourcename: "main" targetname: "free" label: "runners/test_runner.c:2793:13" }
+edge: { sourcename: "main" targetname: "free" label: "runners/test_runner.c:2794:13" }
+edge: { sourcename: "main" targetname: "free" label: "runners/test_runner.c:2796:9" }
+edge: { sourcename: "main" targetname: "__stack_chk_fail" }
+node: { title: "runners/test_runner.t.c:_sub_I_00100_0" label: "_sub_I_00100_0\nrunners/test_runner.c:2798:1\n8 bytes (static)" }
+node: { title: "__gcov_init" label: "__gcov_init\n<built-in>" shape : ellipse }
+edge: { sourcename: "runners/test_runner.t.c:_sub_I_00100_0" targetname: "__gcov_init" label: "runners/test_runner.c:2798:1" }
+node: { title: "runners/test_runner.t.c:_sub_D_00100_1" label: "_sub_D_00100_1\nrunners/test_runner.c:2798:1\n8 bytes (static)" }
+node: { title: "__gcov_exit" label: "__gcov_exit\n<built-in>" shape : ellipse }
+edge: { sourcename: "runners/test_runner.t.c:_sub_D_00100_1" targetname: "__gcov_exit" label: "runners/test_runner.c:2798:1" }
+}

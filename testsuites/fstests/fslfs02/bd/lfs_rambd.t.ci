@@ -1,0 +1,44 @@
+graph: { title: "bd/lfs_rambd.t.c"
+node: { title: "bd/lfs_rambd.t.c:__pretty_assert_print_int" label: "__pretty_assert_print_int\nbd/lfs_rambd.t.c:22:13\n16 bytes (static)" }
+node: { title: "__printf_chk" label: "__printf_chk\n/usr/include/x86_64-linux-gnu/bits/stdio2.h:95:12" shape : ellipse }
+edge: { sourcename: "bd/lfs_rambd.t.c:__pretty_assert_print_int" targetname: "__printf_chk" label: "/usr/include/x86_64-linux-gnu/bits/stdio2.h:112:10" }
+node: { title: "bd/lfs_rambd.t.c:__pretty_assert_fail.constprop.0" label: "__pretty_assert_fail.constprop\nbd/lfs_rambd.t.c:53:13\n32 bytes (static)" }
+edge: { sourcename: "bd/lfs_rambd.t.c:__pretty_assert_fail.constprop.0" targetname: "__printf_chk" label: "/usr/include/x86_64-linux-gnu/bits/stdio2.h:112:10" }
+edge: { sourcename: "bd/lfs_rambd.t.c:__pretty_assert_fail.constprop.0" targetname: "bd/lfs_rambd.t.c:__pretty_assert_print_int" label: "bd/lfs_rambd.t.c:60:5" }
+edge: { sourcename: "bd/lfs_rambd.t.c:__pretty_assert_fail.constprop.0" targetname: "__printf_chk" label: "/usr/include/x86_64-linux-gnu/bits/stdio2.h:112:10" }
+edge: { sourcename: "bd/lfs_rambd.t.c:__pretty_assert_fail.constprop.0" targetname: "bd/lfs_rambd.t.c:__pretty_assert_print_int" label: "bd/lfs_rambd.t.c:62:5" }
+edge: { sourcename: "bd/lfs_rambd.t.c:__pretty_assert_fail.constprop.0" targetname: "__printf_chk" label: "/usr/include/x86_64-linux-gnu/bits/stdio2.h:112:10" }
+node: { title: "fflush" label: "fflush\n/usr/include/stdio.h:230:12" shape : ellipse }
+edge: { sourcename: "bd/lfs_rambd.t.c:__pretty_assert_fail.constprop.0" targetname: "fflush" label: "bd/lfs_rambd.t.c:64:5" }
+node: { title: "raise" label: "raise\n/usr/include/signal.h:123:12" shape : ellipse }
+edge: { sourcename: "bd/lfs_rambd.t.c:__pretty_assert_fail.constprop.0" targetname: "raise" label: "bd/lfs_rambd.t.c:65:5" }
+node: { title: "lfs_rambd_create" label: "lfs_rambd_create\nbd/lfs_rambd.c:10:5\n32 bytes (static)" }
+node: { title: "malloc" label: "malloc\n/usr/include/stdlib.h:540:14" shape : ellipse }
+edge: { sourcename: "lfs_rambd_create" targetname: "malloc" label: "./lfs_util.h:221:12" }
+node: { title: "lfs_rambd_destroy" label: "lfs_rambd_destroy\nbd/lfs_rambd.c:44:5\n16 bytes (static)" }
+node: { title: "free" label: "free\n/usr/include/stdlib.h:555:13" shape : ellipse }
+edge: { sourcename: "lfs_rambd_destroy" targetname: "free" label: "./lfs_util.h:231:5" }
+node: { title: "lfs_rambd_read" label: "lfs_rambd_read\nbd/lfs_rambd.c:55:5\n80 bytes (static)" }
+edge: { sourcename: "lfs_rambd_read" targetname: "bd/lfs_rambd.t.c:__pretty_assert_fail.constprop.0" label: "bd/lfs_rambd.c:63:5" }
+edge: { sourcename: "lfs_rambd_read" targetname: "bd/lfs_rambd.t.c:__pretty_assert_fail.constprop.0" label: "bd/lfs_rambd.c:64:5" }
+edge: { sourcename: "lfs_rambd_read" targetname: "bd/lfs_rambd.t.c:__pretty_assert_fail.constprop.0" label: "bd/lfs_rambd.c:65:5" }
+edge: { sourcename: "lfs_rambd_read" targetname: "bd/lfs_rambd.t.c:__pretty_assert_fail.constprop.0" label: "bd/lfs_rambd.c:66:5" }
+node: { title: "__stack_chk_fail" label: "__stack_chk_fail\n<built-in>" shape : ellipse }
+edge: { sourcename: "lfs_rambd_read" targetname: "__stack_chk_fail" }
+node: { title: "lfs_rambd_prog" label: "lfs_rambd_prog\nbd/lfs_rambd.c:75:5\n80 bytes (static)" }
+edge: { sourcename: "lfs_rambd_prog" targetname: "bd/lfs_rambd.t.c:__pretty_assert_fail.constprop.0" label: "bd/lfs_rambd.c:83:5" }
+edge: { sourcename: "lfs_rambd_prog" targetname: "bd/lfs_rambd.t.c:__pretty_assert_fail.constprop.0" label: "bd/lfs_rambd.c:84:5" }
+edge: { sourcename: "lfs_rambd_prog" targetname: "bd/lfs_rambd.t.c:__pretty_assert_fail.constprop.0" label: "bd/lfs_rambd.c:85:5" }
+edge: { sourcename: "lfs_rambd_prog" targetname: "bd/lfs_rambd.t.c:__pretty_assert_fail.constprop.0" label: "bd/lfs_rambd.c:86:5" }
+edge: { sourcename: "lfs_rambd_prog" targetname: "__stack_chk_fail" }
+node: { title: "lfs_rambd_erase" label: "lfs_rambd_erase\nbd/lfs_rambd.c:95:5\n48 bytes (static)" }
+edge: { sourcename: "lfs_rambd_erase" targetname: "bd/lfs_rambd.t.c:__pretty_assert_fail.constprop.0" label: "bd/lfs_rambd.c:101:5" }
+edge: { sourcename: "lfs_rambd_erase" targetname: "__stack_chk_fail" }
+node: { title: "lfs_rambd_sync" label: "lfs_rambd_sync\nbd/lfs_rambd.c:110:5\n8 bytes (static)" }
+node: { title: "bd/lfs_rambd.t.c:_sub_I_00100_0" label: "_sub_I_00100_0\nbd/lfs_rambd.c:118:1\n8 bytes (static)" }
+node: { title: "__gcov_init" label: "__gcov_init\n<built-in>" shape : ellipse }
+edge: { sourcename: "bd/lfs_rambd.t.c:_sub_I_00100_0" targetname: "__gcov_init" label: "bd/lfs_rambd.c:118:1" }
+node: { title: "bd/lfs_rambd.t.c:_sub_D_00100_1" label: "_sub_D_00100_1\nbd/lfs_rambd.c:118:1\n8 bytes (static)" }
+node: { title: "__gcov_exit" label: "__gcov_exit\n<built-in>" shape : ellipse }
+edge: { sourcename: "bd/lfs_rambd.t.c:_sub_D_00100_1" targetname: "__gcov_exit" label: "bd/lfs_rambd.c:118:1" }
+}

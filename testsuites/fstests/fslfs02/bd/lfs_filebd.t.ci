@@ -1,0 +1,61 @@
+graph: { title: "bd/lfs_filebd.t.c"
+node: { title: "bd/lfs_filebd.t.c:__pretty_assert_print_int" label: "__pretty_assert_print_int\nbd/lfs_filebd.t.c:22:13\n16 bytes (static)" }
+node: { title: "__printf_chk" label: "__printf_chk\n/usr/include/x86_64-linux-gnu/bits/stdio2.h:95:12" shape : ellipse }
+edge: { sourcename: "bd/lfs_filebd.t.c:__pretty_assert_print_int" targetname: "__printf_chk" label: "/usr/include/x86_64-linux-gnu/bits/stdio2.h:112:10" }
+node: { title: "bd/lfs_filebd.t.c:__pretty_assert_fail.constprop.0" label: "__pretty_assert_fail.constprop\nbd/lfs_filebd.t.c:53:13\n32 bytes (static)" }
+edge: { sourcename: "bd/lfs_filebd.t.c:__pretty_assert_fail.constprop.0" targetname: "__printf_chk" label: "/usr/include/x86_64-linux-gnu/bits/stdio2.h:112:10" }
+edge: { sourcename: "bd/lfs_filebd.t.c:__pretty_assert_fail.constprop.0" targetname: "bd/lfs_filebd.t.c:__pretty_assert_print_int" label: "bd/lfs_filebd.t.c:60:5" }
+edge: { sourcename: "bd/lfs_filebd.t.c:__pretty_assert_fail.constprop.0" targetname: "__printf_chk" label: "/usr/include/x86_64-linux-gnu/bits/stdio2.h:112:10" }
+edge: { sourcename: "bd/lfs_filebd.t.c:__pretty_assert_fail.constprop.0" targetname: "bd/lfs_filebd.t.c:__pretty_assert_print_int" label: "bd/lfs_filebd.t.c:62:5" }
+edge: { sourcename: "bd/lfs_filebd.t.c:__pretty_assert_fail.constprop.0" targetname: "__printf_chk" label: "/usr/include/x86_64-linux-gnu/bits/stdio2.h:112:10" }
+node: { title: "fflush" label: "fflush\n/usr/include/stdio.h:230:12" shape : ellipse }
+edge: { sourcename: "bd/lfs_filebd.t.c:__pretty_assert_fail.constprop.0" targetname: "fflush" label: "bd/lfs_filebd.t.c:64:5" }
+node: { title: "raise" label: "raise\n/usr/include/signal.h:123:12" shape : ellipse }
+edge: { sourcename: "bd/lfs_filebd.t.c:__pretty_assert_fail.constprop.0" targetname: "raise" label: "bd/lfs_filebd.t.c:65:5" }
+node: { title: "lfs_filebd_create" label: "lfs_filebd_create\nbd/lfs_filebd.c:18:5\n16 bytes (static)" }
+node: { title: "*open" label: "__open_alias\n/usr/include/x86_64-linux-gnu/bits/fcntl2.h:27:12" shape : ellipse }
+edge: { sourcename: "lfs_filebd_create" targetname: "*open" label: "/usr/include/x86_64-linux-gnu/bits/fcntl2.h:53:14" }
+node: { title: "__errno_location" label: "__errno_location\n/usr/include/errno.h:37:13" shape : ellipse }
+edge: { sourcename: "lfs_filebd_create" targetname: "__errno_location" label: "bd/lfs_filebd.c:43:20" }
+node: { title: "lfs_filebd_destroy" label: "lfs_filebd_destroy\nbd/lfs_filebd.c:52:5\n16 bytes (static)" }
+node: { title: "close" label: "close\n/usr/include/unistd.h:358:12" shape : ellipse }
+edge: { sourcename: "lfs_filebd_destroy" targetname: "close" label: "bd/lfs_filebd.c:55:15" }
+edge: { sourcename: "lfs_filebd_destroy" targetname: "__errno_location" label: "bd/lfs_filebd.c:57:16" }
+node: { title: "lfs_filebd_read" label: "lfs_filebd_read\nbd/lfs_filebd.c:65:5\n80 bytes (static)" }
+edge: { sourcename: "lfs_filebd_read" targetname: "bd/lfs_filebd.t.c:__pretty_assert_fail.constprop.0" label: "bd/lfs_filebd.c:73:5" }
+edge: { sourcename: "lfs_filebd_read" targetname: "bd/lfs_filebd.t.c:__pretty_assert_fail.constprop.0" label: "bd/lfs_filebd.c:74:5" }
+edge: { sourcename: "lfs_filebd_read" targetname: "bd/lfs_filebd.t.c:__pretty_assert_fail.constprop.0" label: "bd/lfs_filebd.c:75:5" }
+edge: { sourcename: "lfs_filebd_read" targetname: "bd/lfs_filebd.t.c:__pretty_assert_fail.constprop.0" label: "bd/lfs_filebd.c:76:5" }
+node: { title: "lseek" label: "lseek\n/usr/include/unistd.h:339:16" shape : ellipse }
+edge: { sourcename: "lfs_filebd_read" targetname: "lseek" label: "bd/lfs_filebd.c:82:18" }
+edge: { sourcename: "lfs_filebd_read" targetname: "__errno_location" label: "bd/lfs_filebd.c:85:20" }
+node: { title: "*read" label: "__read_alias\n/usr/include/x86_64-linux-gnu/bits/unistd.h:26:16" shape : ellipse }
+edge: { sourcename: "lfs_filebd_read" targetname: "*read" label: "/usr/include/x86_64-linux-gnu/bits/unistd.h:38:10" }
+edge: { sourcename: "lfs_filebd_read" targetname: "__errno_location" label: "bd/lfs_filebd.c:92:20" }
+node: { title: "__stack_chk_fail" label: "__stack_chk_fail\n<built-in>" shape : ellipse }
+edge: { sourcename: "lfs_filebd_read" targetname: "__stack_chk_fail" }
+node: { title: "lfs_filebd_prog" label: "lfs_filebd_prog\nbd/lfs_filebd.c:101:5\n80 bytes (static)" }
+edge: { sourcename: "lfs_filebd_prog" targetname: "bd/lfs_filebd.t.c:__pretty_assert_fail.constprop.0" label: "bd/lfs_filebd.c:109:5" }
+edge: { sourcename: "lfs_filebd_prog" targetname: "bd/lfs_filebd.t.c:__pretty_assert_fail.constprop.0" label: "bd/lfs_filebd.c:110:5" }
+edge: { sourcename: "lfs_filebd_prog" targetname: "bd/lfs_filebd.t.c:__pretty_assert_fail.constprop.0" label: "bd/lfs_filebd.c:111:5" }
+edge: { sourcename: "lfs_filebd_prog" targetname: "bd/lfs_filebd.t.c:__pretty_assert_fail.constprop.0" label: "bd/lfs_filebd.c:112:5" }
+edge: { sourcename: "lfs_filebd_prog" targetname: "lseek" label: "bd/lfs_filebd.c:115:18" }
+edge: { sourcename: "lfs_filebd_prog" targetname: "__errno_location" label: "bd/lfs_filebd.c:118:20" }
+node: { title: "write" label: "write\n/usr/include/unistd.h:378:16" shape : ellipse }
+edge: { sourcename: "lfs_filebd_prog" targetname: "write" label: "bd/lfs_filebd.c:123:20" }
+edge: { sourcename: "lfs_filebd_prog" targetname: "__errno_location" label: "bd/lfs_filebd.c:125:20" }
+edge: { sourcename: "lfs_filebd_prog" targetname: "__stack_chk_fail" }
+node: { title: "lfs_filebd_erase" label: "lfs_filebd_erase\nbd/lfs_filebd.c:134:5\n48 bytes (static)" }
+edge: { sourcename: "lfs_filebd_erase" targetname: "bd/lfs_filebd.t.c:__pretty_assert_fail.constprop.0" label: "bd/lfs_filebd.c:140:5" }
+edge: { sourcename: "lfs_filebd_erase" targetname: "__stack_chk_fail" }
+node: { title: "lfs_filebd_sync" label: "lfs_filebd_sync\nbd/lfs_filebd.c:149:5\n16 bytes (static)" }
+node: { title: "fsync" label: "fsync\n/usr/include/unistd.h:989:12" shape : ellipse }
+edge: { sourcename: "lfs_filebd_sync" targetname: "fsync" label: "bd/lfs_filebd.c:157:15" }
+edge: { sourcename: "lfs_filebd_sync" targetname: "__errno_location" label: "bd/lfs_filebd.c:160:16" }
+node: { title: "bd/lfs_filebd.t.c:_sub_I_00100_0" label: "_sub_I_00100_0\nbd/lfs_filebd.c:167:1\n8 bytes (static)" }
+node: { title: "__gcov_init" label: "__gcov_init\n<built-in>" shape : ellipse }
+edge: { sourcename: "bd/lfs_filebd.t.c:_sub_I_00100_0" targetname: "__gcov_init" label: "bd/lfs_filebd.c:167:1" }
+node: { title: "bd/lfs_filebd.t.c:_sub_D_00100_1" label: "_sub_D_00100_1\nbd/lfs_filebd.c:167:1\n8 bytes (static)" }
+node: { title: "__gcov_exit" label: "__gcov_exit\n<built-in>" shape : ellipse }
+edge: { sourcename: "bd/lfs_filebd.t.c:_sub_D_00100_1" targetname: "__gcov_exit" label: "bd/lfs_filebd.c:167:1" }
+}
