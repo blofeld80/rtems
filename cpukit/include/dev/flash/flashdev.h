@@ -442,6 +442,20 @@ int rtems_flashdev_register(
 );
 
 /**
+ * @brief Deregister the flash device.
+ *
+ * This function removes the node allocated for the flash device.
+ *
+ * @param[in] flash_path The path to the flash device file.
+ *
+ * @retval 0 Successful operation.
+ * @retval non-zero Failed operation.
+ */
+int rtems_flashdev_deregister(
+  const char *flash_path
+);
+
+/**
  * @brief Destroys the flash device.
  *
  * @param[in] flash The flash device.

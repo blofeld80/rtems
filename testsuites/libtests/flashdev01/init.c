@@ -60,17 +60,18 @@ static void run_test(void) {
   int page_count;
   int type;
   size_t wb_size;
+  const char flash_path[] = "/dev/flashdev0";
 
   /* Initalize the flash device driver and flashdev */
   flash = test_flashdev_init();
   rtems_test_assert(flash != NULL);
 
   /* Register the flashdev as a device */
-  status = rtems_flashdev_register(flash, "dev/flashdev0");
+  status = rtems_flashdev_register(flash, flash_path);
   rtems_test_assert(!status);
 
   /* Open the flashdev */
-  file = fopen("dev/flashdev0", "r+");
+  file = fopen(flash_path, "r+");
   rtems_test_assert(file != NULL);
   fd = fileno(file);
 
@@ -159,6 +160,16 @@ static void run_test(void) {
   fseek(file, 0x400, SEEK_SET);
   fgets(buff, 11, file);
   rtems_test_assert(strncmp(buff, "HELLO WORLD", 11));
+
+  /* Close the file handle */
+  status = fclose(file);
+  rtems_test_assert(!status);
+
+  /* Deregister path */
+  status = rtems_flashdev_deregister(flash_path);
+  rtems_test_assert(!status);
+
+  test_flashdev_deinit(flash);
 }
 
 static void Init(rtems_task_argument arg)

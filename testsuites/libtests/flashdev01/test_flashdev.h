@@ -32,4 +32,6 @@
 
 rtems_flashdev* test_flashdev_init(void);
 
+void test_flashdev_deinit(rtems_flashdev* flash);
+
 #endif /* __TEST_FLASHDEV_H */

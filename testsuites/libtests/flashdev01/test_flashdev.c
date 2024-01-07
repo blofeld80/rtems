@@ -273,3 +273,27 @@ rtems_flashdev* test_flashdev_init(void)
 
   return flash;
 }
+
+/* Free Flashdev and underlying driver. */
+void test_flashdev_deinit(
+  rtems_flashdev* flash
+)
+{
+  if (NULL != flash)
+  {
+    if (NULL != flash->driver)
+    {
+      free(flash->region_table);
+    }
+    if (NULL != flash->driver)
+    {
+      test_flashdev* flash_driver = (test_flashdev*) flash->driver;
+      if (NULL != flash_driver->data)
+      {
+        free( flash_driver->data);
+      }
+      free(flash->driver);
+    }
+    rtems_flashdev_destroy_and_free(flash);
+  }
+}

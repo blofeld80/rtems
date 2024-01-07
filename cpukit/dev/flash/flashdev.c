@@ -484,6 +484,18 @@ int rtems_flashdev_register(
   return rv;
 }
 
+int rtems_flashdev_deregister(
+  const char *flash_path
+)
+{
+  rtems_filesystem_eval_path_context_t ctx;
+  int eval_flags = RTEMS_FS_FOLLOW_LINK;
+  const rtems_filesystem_location_info_t *currentloc =
+    rtems_filesystem_eval_path_start( &ctx , flash_path, eval_flags );
+
+  return IMFS_rmnod(NULL, currentloc);
+}
+
 static int rtems_flashdev_do_init(
   rtems_flashdev *flash,
   void ( *destroy )( rtems_flashdev *flash )
