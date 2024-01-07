@@ -33,6 +33,7 @@
 rtems_flashdev* test_flashdev_init(
   size_t page_count,
   size_t page_size,
+  size_t erase_block_size,
   size_t min_write_block_size
 );
 

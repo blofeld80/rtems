@@ -37,6 +37,7 @@
 size_t g_min_write_block_size = 0;
 size_t g_page_count = 0;
 size_t g_page_size = 0;
+size_t g_erase_block_size = 0;
 size_t g_test_data_size = 0;
 
 /**
@@ -50,18 +51,22 @@ typedef struct test_flashdev {
   rtems_flashdev_region regions[MAX_NUM_REGIONS];
 } test_flashdev;
 
-int test_flashdev_get_page_by_offset(
+int test_flashdev_get_page_info_by_offset(
   rtems_flashdev *flash,
   off_t search_offset,
   off_t *page_offset,
-  size_t *page_size
+  size_t *page_size,
+  off_t *erase_offset,
+  size_t *erase_size
 );
 
-int test_flashdev_get_page_by_index(
+int test_flashdev_get_page_info_by_index(
   rtems_flashdev *flash,
   off_t search_index,
   off_t *page_offset,
-  size_t *page_size
+  size_t *page_size,
+  off_t *erase_offset,
+  size_t *erase_size
 );
 
 int test_flashdev_get_page_count(
@@ -104,28 +109,36 @@ int test_flashdev_erase(
 );
 
 /* Get page info by offset handler */
-int test_flashdev_get_page_by_offset(
+int test_flashdev_get_page_info_by_offset(
   rtems_flashdev *flash,
   off_t search_offset,
   off_t *page_offset,
-  size_t *page_size
+  size_t *page_size,
+  off_t *erase_offset,
+  size_t *erase_size
 )
 {
   *page_offset = search_offset - (search_offset%g_page_size);
   *page_size = g_page_size;
+  *erase_size = g_erase_block_size;
+  *erase_offset = *page_offset - (*page_offset % *erase_size);
   return 0;
 }
 
 /* Get page by index handler */
-int test_flashdev_get_page_by_index(
+int test_flashdev_get_page_info_by_index(
   rtems_flashdev *flash,
   off_t search_index,
   off_t *page_offset,
-  size_t *page_size
+  size_t *page_size,
+  off_t *erase_offset,
+  size_t *erase_size
 )
 {
   *page_offset = search_index * g_page_size;
   *page_size = g_page_size;
+  *erase_size = g_erase_block_size;
+  *erase_offset = *page_offset - (*page_offset % *erase_size);
   return 0;
 }
 
@@ -234,6 +247,7 @@ int test_flashdev_erase(
 rtems_flashdev* test_flashdev_init(
   size_t page_count,
   size_t page_size,
+  size_t erase_block_size,
   size_t min_write_block_size
   )
 {
@@ -243,14 +257,27 @@ rtems_flashdev* test_flashdev_init(
   if (0 == page_size) {
     return NULL;
   }
+  if (0 == erase_block_size) {
+    return NULL;
+  }
   if (0 == min_write_block_size) {
     return NULL;
   }
-
   g_page_count = page_count;
   g_page_size = page_size;
+  g_erase_block_size = erase_block_size;
   g_min_write_block_size = min_write_block_size;
   g_test_data_size = g_page_size * g_page_count;
+
+  if (g_test_data_size % g_erase_block_size) {
+    return NULL;
+  }
+  if (g_erase_block_size % g_page_size) {
+    return NULL;
+  }
+  if (g_page_size % min_write_block_size) {
+    return NULL;
+  }
 
   rtems_flashdev *flash = rtems_flashdev_alloc_and_init(sizeof(rtems_flashdev));
 
@@ -285,8 +312,8 @@ rtems_flashdev* test_flashdev_init(
   flash->erase = &test_flashdev_erase;
   flash->get_jedec_id = &test_flashdev_get_jedec_id;
   flash->get_flash_type = &test_flashdev_get_type;
-  flash->get_page_info_by_offset = &test_flashdev_get_page_by_offset;
-  flash->get_page_info_by_index = &test_flashdev_get_page_by_index;
+  flash->get_page_info_by_offset = &test_flashdev_get_page_info_by_offset;
+  flash->get_page_info_by_index = &test_flashdev_get_page_info_by_index;
   flash->get_page_count = &test_flashdev_get_page_count;
   flash->get_min_write_block_size = &test_flashdev_get_min_write_block_size;
   flash->region_table = ftable;

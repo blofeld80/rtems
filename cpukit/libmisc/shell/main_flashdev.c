@@ -37,11 +37,11 @@ static int flashdev_shell_write(char *dev_path, int argc, char *argv[]);
 static int flashdev_shell_erase(char *dev_path, int argc, char *argv[]);
 static int flashdev_shell_get_type(char *dev_path);
 static int flashdev_shell_get_jedec_id(char *dev_path);
-static int flashdev_shell_get_page_by_off(
+static int flashdev_shell_get_page_info_by_offset(
   char *dev_path,
   int argc, char *argv[]
 );
-static int flashdev_shell_get_page_by_idx(
+static int flashdev_shell_get_page_info_by_index(
   char *dev_path,
   int argc,
   char *argv[]
@@ -112,10 +112,10 @@ static int rtems_flashdev_shell_main( int argc, char *argv[] ) {
         return flashdev_shell_get_jedec_id(dev_path);
       case ('o'):
         /* Get page info by offset */
-        return flashdev_shell_get_page_by_off(dev_path, argc, &argv[i]);
+        return flashdev_shell_get_page_info_by_offset(dev_path, argc, &argv[i]);
       case ('i'):
         /* Get page info by index */
-        return flashdev_shell_get_page_by_idx(dev_path, argc, &argv[i]);
+        return flashdev_shell_get_page_info_by_index(dev_path, argc, &argv[i]);
       case ('p'):
         /* Get page count */
         return flashdev_shell_get_page_count(dev_path);
@@ -437,7 +437,7 @@ int flashdev_shell_get_jedec_id( char *dev_path ) {
   return 0;
 }
 
-static int flashdev_shell_get_page_by_off(
+static int flashdev_shell_get_page_info_by_offset(
   char *dev_path,
   int argc,
   char *argv[]
@@ -451,7 +451,7 @@ static int flashdev_shell_get_page_by_off(
   );
 }
 
-static int flashdev_shell_get_page_by_idx(
+static int flashdev_shell_get_page_info_by_index(
   char *dev_path,
   int argc,
   char *argv[]
@@ -576,6 +576,12 @@ static int flashdev_shell_page(
     "Page offset: 0x%jx\nPage length: 0x%zx\n",
     pg_info.page_info.offset,
     pg_info.page_info.size
+  );
+
+  printf(
+    "Erase block offset: 0x%jx\nErase block length: 0x%zx\n",
+    pg_info.erase_info.offset,
+    pg_info.erase_info.size
   );
 
   /* Clean up */

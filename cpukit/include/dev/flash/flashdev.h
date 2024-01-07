@@ -214,6 +214,12 @@ typedef struct rtems_flashdev_ioctl_page_info {
    * base offset and size of page.
    */
   rtems_flashdev_region page_info;
+
+  /**
+   * @brief Erase information returned about the page. Including the
+   * base offset and size of the erase block.
+   */
+  rtems_flashdev_region erase_info;
 } rtems_flashdev_ioctl_page_info;
 
 /**
@@ -306,6 +312,8 @@ struct rtems_flashdev {
    * returned.
    * @param[out] page_offset The offset of the start of the page
    * @param[out] page_size The size of the page
+   * @param[out] erase_offset The offset of the start of the erase block
+   * @param[out] erase_size The erase block size
    *
    * @retval 0 Success.
    * @retval non-zero Failed.
@@ -314,7 +322,9 @@ struct rtems_flashdev {
     rtems_flashdev *flash,
     off_t search_offset,
     off_t *page_offset,
-    size_t *page_size
+    size_t *page_size,
+    off_t *erase_offset,
+    size_t *erase_size
   );
 
   /**
@@ -325,6 +335,8 @@ struct rtems_flashdev {
    * @param[in] search_index The index of the page which info is to be returned.
    * @param[out] page_offset The offset of the start of the page
    * @param[out] page_size The size of the page
+   * @param[out] erase_offset The offset of the start of the erase block
+   * @param[out] erase_size The erase block size
    *
    * @retval 0 Success.
    * @retval non-zero Failed.
@@ -333,7 +345,9 @@ struct rtems_flashdev {
     rtems_flashdev *flashdev,
     off_t search_index,
     off_t *page_offset,
-    size_t *page_size
+    size_t *page_size,
+    off_t *erase_offset,
+    size_t *erase_size
   );
 
   /**

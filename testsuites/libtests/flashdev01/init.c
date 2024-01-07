@@ -39,7 +39,7 @@
 #define TEST_DATA_SIZE (PAGE_SIZE * PAGE_COUNT)
 #define PAGE_COUNT 16
 #define PAGE_SIZE 128
-#define MIN_WRTIE_BLOCK_SIZE 1
+#define ERASE_BLOCK_SIZE 256
 
 const char rtems_test_name[] = "FLASHDEV 1";
 const char test_string[] = "My test string!";
@@ -70,6 +70,7 @@ static void run_test(void) {
     /* Initalize the flash device driver and flashdev */
     flash = test_flashdev_init( PAGE_COUNT,
                                 PAGE_SIZE,
+                                ERASE_BLOCK_SIZE,
                                 min_write_write_block_size_in[loop]);
     rtems_test_assert(flash != NULL);
 
@@ -131,6 +132,16 @@ static void run_test(void) {
     rtems_test_assert(!status);
     rtems_test_assert(type == RTEMS_FLASHDEV_NOR);
 
+    /* Test getting page info */
+    pg_info.location = 0;
+
+    status = ioctl(fd, RTEMS_FLASHDEV_IOCTL_GET_PAGEINFO_BY_OFFSET, &pg_info);
+    rtems_test_assert(!status);
+    rtems_test_assert(pg_info.page_info.offset == 0);
+    rtems_test_assert(pg_info.page_info.size == PAGE_SIZE);
+    rtems_test_assert(pg_info.erase_info.offset == 0);
+    rtems_test_assert(pg_info.erase_info.size == ERASE_BLOCK_SIZE);
+
     /* Test getting page info from offset */
     pg_info.location = PAGE_SIZE + PAGE_SIZE/2;
 
@@ -138,6 +149,8 @@ static void run_test(void) {
     rtems_test_assert(!status);
     rtems_test_assert(pg_info.page_info.offset == PAGE_SIZE);
     rtems_test_assert(pg_info.page_info.size == PAGE_SIZE);
+    rtems_test_assert(pg_info.erase_info.offset == 0);
+    rtems_test_assert(pg_info.erase_info.size == ERASE_BLOCK_SIZE);
 
     /* Test getting page info from index */
     pg_info.location = 2;
@@ -145,6 +158,8 @@ static void run_test(void) {
     rtems_test_assert(!status);
     rtems_test_assert(pg_info.page_info.offset == 2*PAGE_SIZE);
     rtems_test_assert(pg_info.page_info.size == PAGE_SIZE);
+    rtems_test_assert(pg_info.erase_info.offset == ERASE_BLOCK_SIZE);
+    rtems_test_assert(pg_info.erase_info.size == ERASE_BLOCK_SIZE);
 
     /* Test getting page count */
     status = ioctl(fd, RTEMS_FLASHDEV_IOCTL_GET_PAGE_COUNT, &page_count);
@@ -173,6 +188,7 @@ static void run_test(void) {
   /* Initalize the flash device driver and flashdev */
   flash = test_flashdev_init( PAGE_COUNT,
                               PAGE_SIZE,
+                              ERASE_BLOCK_SIZE,
                               min_write_write_block_size_in[1]);
   rtems_test_assert(flash != NULL);
 

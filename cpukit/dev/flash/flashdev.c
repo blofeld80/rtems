@@ -819,7 +819,9 @@ static int rtems_flashdev_ioctl_get_pageinfo_by_offset(
     return ( *flash->get_page_info_by_offset )( flash,
                                          page_info->location,
                                          &page_info->page_info.offset,
-                                         &page_info->page_info.size );
+                                         &page_info->page_info.size,
+                                         &page_info->erase_info.offset,
+                                         &page_info->erase_info.size );
   }
 }
 
@@ -838,7 +840,9 @@ static int rtems_flashdev_ioctl_get_pageinfo_by_index( rtems_flashdev *flash,
     return ( *flash->get_page_info_by_index )( flash,
                                            page_info->location,
                                            &page_info->page_info.offset,
-                                           &page_info->page_info.size );
+                                           &page_info->page_info.size,
+                                           &page_info->erase_info.offset,
+                                           &page_info->erase_info.size );
   }
 }
 
