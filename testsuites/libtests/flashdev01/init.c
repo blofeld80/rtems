@@ -42,6 +42,7 @@
 #define MIN_WRTIE_BLOCK_SIZE 1
 
 const char rtems_test_name[] = "FLASHDEV 1";
+const char test_string[] = "My test string!";
 
 static void run_test(void);
 
@@ -59,11 +60,116 @@ static void run_test(void) {
   uint32_t jedec;
   int page_count;
   int type;
-  size_t min_write_block_size;
+  size_t bytes_read;
+  size_t min_write_write_block_size_in[] = {1,8,16};
+  size_t min_write_write_block_size_out;
   const char flash_path[] = "/dev/flashdev0";
 
+  for ( int loop = 0; loop <= 2; loop++)
+  {
+    /* Initalize the flash device driver and flashdev */
+    flash = test_flashdev_init(min_write_write_block_size_in[loop]);
+    rtems_test_assert(flash != NULL);
+
+    /* Register the flashdev as a device */
+    status = rtems_flashdev_register(flash, flash_path);
+    rtems_test_assert(!status);
+
+    /* Open the flashdev */
+    file = fopen(flash_path, "r+");
+    rtems_test_assert(file != NULL);
+
+    /* Adjust the file buffering */
+    status = setvbuf(file, NULL, _IOFBF, min_write_write_block_size_in[loop]);
+    rtems_test_assert(!status);
+
+    fd = fileno(file);
+
+    /* Read data from flash */
+    read_data = fgets(buff, TEST_DATA_SIZE, file);
+    rtems_test_assert(read_data != NULL);
+
+    /* Fseek to start of flash and read again */
+    status = fseek(file, 0x0, SEEK_SET);
+    rtems_test_assert(!status);
+    bytes_read = fread(buff, 1, TEST_DATA_SIZE, file);
+    rtems_test_assert(bytes_read == TEST_DATA_SIZE);
+
+    /* Fseek to start of flash */
+    status = fseek(file, 0x0, SEEK_SET);
+    rtems_test_assert(!status);
+
+    /* Write the test name to the flash */
+    status = fwrite(test_string, 1, sizeof(test_string), file);
+    rtems_test_assert(status == sizeof(test_string));
+
+    /* Fseek to start of flash and read again */
+    status = fseek(file, 0x0, SEEK_SET);
+    rtems_test_assert(!status);
+    fgets(buff, TEST_DATA_SIZE, file);
+    rtems_test_assert(!strncmp(buff, test_string, sizeof(test_string)));
+
+    /* Test Erasing */
+    e_args.offset = 0x0;
+    e_args.size = PAGE_SIZE;
+    status = ioctl(fd, RTEMS_FLASHDEV_IOCTL_ERASE, &e_args);
+    rtems_test_assert(!status);
+
+    fseek(file, 0x0, SEEK_SET);
+    fgets(buff, TEST_DATA_SIZE, file);
+    rtems_test_assert(buff[0] == 0);
+
+    /* Test getting JEDEC ID */
+    status = ioctl(fd, RTEMS_FLASHDEV_IOCTL_GET_JEDEC_ID, &jedec);
+    rtems_test_assert(!status);
+    rtems_test_assert(jedec == 0x00ABCDEF);
+
+    /* Test getting flash type */
+    status = ioctl(fd, RTEMS_FLASHDEV_IOCTL_GET_TYPE, &type);
+    rtems_test_assert(!status);
+    rtems_test_assert(type == RTEMS_FLASHDEV_NOR);
+
+    /* Test getting page info from offset */
+    pg_info.location = PAGE_SIZE + PAGE_SIZE/2;
+
+    status = ioctl(fd, RTEMS_FLASHDEV_IOCTL_GET_PAGEINFO_BY_OFFSET, &pg_info);
+    rtems_test_assert(!status);
+    rtems_test_assert(pg_info.page_info.offset == PAGE_SIZE);
+    rtems_test_assert(pg_info.page_info.size == PAGE_SIZE);
+
+    /* Test getting page info from index */
+    pg_info.location = 2;
+    status = ioctl(fd, RTEMS_FLASHDEV_IOCTL_GET_PAGEINFO_BY_INDEX, &pg_info);
+    rtems_test_assert(!status);
+    rtems_test_assert(pg_info.page_info.offset == 2*PAGE_SIZE);
+    rtems_test_assert(pg_info.page_info.size == PAGE_SIZE);
+
+    /* Test getting page count */
+    status = ioctl(fd, RTEMS_FLASHDEV_IOCTL_GET_PAGE_COUNT, &page_count);
+    rtems_test_assert(!status);
+    rtems_test_assert(page_count == PAGE_COUNT);
+
+    /* Test getting min write size */
+    status = ioctl(fd, RTEMS_FLASHDEV_IOCTL_GET_MIN_WRITE_BLOCK_SIZE,
+                    &min_write_write_block_size_out);
+    rtems_test_assert(!status);
+    rtems_test_assert(0 == memcmp(&min_write_write_block_size_out,
+                                  &min_write_write_block_size_in[loop],
+                                  sizeof(size_t)));
+
+    /* Close the file handle */
+    status = fclose(file);
+    rtems_test_assert(!status);
+
+    /* Deregister path */
+    status = rtems_flashdev_deregister(flash_path);
+    rtems_test_assert(!status);
+
+    test_flashdev_deinit(flash);
+  }
+
   /* Initalize the flash device driver and flashdev */
-  flash = test_flashdev_init();
+  flash = test_flashdev_init(min_write_write_block_size_in[1]);
   rtems_test_assert(flash != NULL);
 
   /* Register the flashdev as a device */
@@ -72,72 +178,12 @@ static void run_test(void) {
 
   /* Open the flashdev */
   file = fopen(flash_path, "r+");
-  rtems_test_assert(file != NULL);
+
+  /* Adjust the file buffering */
+  status = setvbuf(file, NULL, _IOFBF, min_write_write_block_size_in[1]);
+  rtems_test_assert(!status);
+
   fd = fileno(file);
-
-  /* Read data from flash */
-  read_data = fgets(buff, TEST_DATA_SIZE, file);
-  rtems_test_assert(read_data != NULL);
-
-  /* Fseek to start of flash */
-  status = fseek(file, 0x0, SEEK_SET);
-  rtems_test_assert(!status);
-
-  /* Write the test name to the flash */
-  status = fwrite(rtems_test_name, TEST_NAME_LENGTH, 1, file);
-  rtems_test_assert(status == 1);
-
-  /* Fseek to start of flash and read again */
-  status = fseek(file, 0x0, SEEK_SET);
-  rtems_test_assert(!status);
-  fgets(buff, TEST_DATA_SIZE, file);
-  rtems_test_assert(!strncmp(buff, rtems_test_name, TEST_NAME_LENGTH));
-
-  /* Test Erasing */
-  e_args.offset = 0x0;
-  e_args.size = PAGE_SIZE;
-  status = ioctl(fd, RTEMS_FLASHDEV_IOCTL_ERASE, &e_args);
-  rtems_test_assert(!status);
-
-  fseek(file, 0x0, SEEK_SET);
-  fgets(buff, TEST_DATA_SIZE, file);
-  rtems_test_assert(buff[0] == 0);
-
-  /* Test getting JEDEC ID */
-  status = ioctl(fd, RTEMS_FLASHDEV_IOCTL_GET_JEDEC_ID, &jedec);
-  rtems_test_assert(!status);
-  rtems_test_assert(jedec == 0x00ABCDEF);
-
-  /* Test getting flash type */
-  status = ioctl(fd, RTEMS_FLASHDEV_IOCTL_GET_TYPE, &type);
-  rtems_test_assert(!status);
-  rtems_test_assert(type == RTEMS_FLASHDEV_NOR);
-
-  /* Test getting page info from offset */
-  pg_info.location = PAGE_SIZE + PAGE_SIZE/2;
-
-  status = ioctl(fd, RTEMS_FLASHDEV_IOCTL_GET_PAGEINFO_BY_OFFSET, &pg_info);
-  rtems_test_assert(!status);
-  rtems_test_assert(pg_info.page_info.offset == PAGE_SIZE);
-  rtems_test_assert(pg_info.page_info.size == PAGE_SIZE);
-
-  /* Test getting page info from index */
-  pg_info.location = 2;
-  status = ioctl(fd, RTEMS_FLASHDEV_IOCTL_GET_PAGEINFO_BY_INDEX, &pg_info);
-  rtems_test_assert(!status);
-  rtems_test_assert(pg_info.page_info.offset == 2*PAGE_SIZE);
-  rtems_test_assert(pg_info.page_info.size == PAGE_SIZE);
-
-  /* Test getting page count */
-  status = ioctl(fd, RTEMS_FLASHDEV_IOCTL_GET_PAGE_COUNT, &page_count);
-  rtems_test_assert(!status);
-  rtems_test_assert(page_count == PAGE_COUNT);
-
-  /* Test getting write block size */
-  status = ioctl(fd, RTEMS_FLASHDEV_IOCTL_GET_MIN_WRITE_BLOCK_SIZE,
-                  &min_write_block_size);
-  rtems_test_assert(!status);
-  rtems_test_assert(min_write_block_size == min_write_block_size);
 
   /* Test Regions */
   region.offset = 0x400;
@@ -145,10 +191,16 @@ static void run_test(void) {
   status = ioctl(fd, RTEMS_FLASHDEV_IOCTL_SET_REGION, &region);
   rtems_test_assert(!status);
 
+  /* Test read within then region */
+  status = fseek(file, 0x0, SEEK_SET);
+  rtems_test_assert(!status);
+  bytes_read = fread(buff, 1, 0x200, file);
+  rtems_test_assert(bytes_read == 0x200);
+
   /* Test read to larger then region */
   fseek(file, 0x0, SEEK_SET);
   read_data = fgets(buff, 2048, file);
-  rtems_test_assert(read_data == NULL);
+  rtems_test_assert(buff[0] == 0);
 
   /* Test fseek outside of region */
   status = fseek(file, 0x201, SEEK_SET);
@@ -156,11 +208,12 @@ static void run_test(void) {
 
   /* Write to base unset region and check the writes location */
   fseek(file, 0x0, SEEK_SET);
-  fwrite("HELLO WORLD", 11, 1, file);
+
+  fwrite("HELLO WORLD!!!!!", 1, 16, file);
   ioctl(fd, RTEMS_FLASHDEV_IOCTL_UNSET_REGION, NULL);
   fseek(file, 0x400, SEEK_SET);
-  fgets(buff, 11, file);
-  rtems_test_assert(strncmp(buff, "HELLO WORLD", 11));
+  fgets(buff, 16, file);
+  rtems_test_assert(strncmp(buff, "HELLO WORLD!!!!!", 16));
 
   /* Close the file handle */
   status = fclose(file);

@@ -33,10 +33,11 @@
 #define TEST_DATA_SIZE (PAGE_SIZE * PAGE_COUNT)
 #define PAGE_COUNT 16
 #define PAGE_SIZE 128
-#define MIN_WRITE_BLOCK_SIZE 1
 #define MAX_NUM_REGIONS 48
 #define BITALLOC_SIZE 32
 #define NUM_BITALLOC ((MAX_NUM_REGIONS + BITALLOC_SIZE - 1) / BITALLOC_SIZE)
+
+size_t g_min_write_block_size = 0;
 
 /**
  * This flash device driver is for testing flashdev
@@ -144,7 +145,7 @@ int test_flashdev_get_min_write_block_size(
   size_t *min_write_block_size
 )
 {
-  *min_write_block_size = MIN_WRITE_BLOCK_SIZE;
+  *min_write_block_size = g_min_write_block_size;
   return 0;
 }
 
@@ -230,8 +231,14 @@ int test_flashdev_erase(
 }
 
 /* Initialize Flashdev and underlying driver. */
-rtems_flashdev* test_flashdev_init(void)
+rtems_flashdev* test_flashdev_init(size_t min_write_block_size)
 {
+  if (0 == min_write_block_size) {
+    return NULL;
+  }
+
+  g_min_write_block_size = min_write_block_size;
+
   rtems_flashdev *flash = rtems_flashdev_alloc_and_init(sizeof(rtems_flashdev));
 
   if (flash == NULL) {
