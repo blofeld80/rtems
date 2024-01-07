@@ -221,6 +221,18 @@ static void run_test(void) {
 
   fd = fileno(file);
 
+  /* Test Regions - this one must fail */
+  region.offset = 0x401;
+  region.size = 0x200;
+  status = ioctl(fd, RTEMS_FLASHDEV_IOCTL_SET_REGION, &region);
+  rtems_test_assert(status);
+
+  /* Test Regions - this one must fail */
+  region.offset = 0x400;
+  region.size = 0xFF;
+  status = ioctl(fd, RTEMS_FLASHDEV_IOCTL_SET_REGION, &region);
+  rtems_test_assert(status);
+
   /* Test Regions */
   region.offset = 0x400;
   region.size = 0x200;

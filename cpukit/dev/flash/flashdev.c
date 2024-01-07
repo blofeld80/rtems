@@ -738,6 +738,13 @@ static int rtems_flashdev_ioctl_create_region(
   int i;
   rtems_flashdev_region_table *table = flash->region_table;
 
+  /* Region is only valid if it can be erased */
+  i = rtems_check_erase_valid(flash, region_in->offset, region_in->size);
+  if(i < 0)
+  {
+    return i;
+  }
+
   /* Find unallocated region slot */
   i = rtems_flashdev_find_unallocated_region(flash->region_table);
   if (i == RTEMS_FLASHDEV_REGION_ALLOC_FULL) {
@@ -763,6 +770,13 @@ static int rtems_flashdev_ioctl_update_region(
 {
   uint32_t region_index = rtems_flashdev_get_region_index( iop );
   rtems_flashdev_region_table *table = flash->region_table;
+
+  /* Region is only valid if it can be erased */
+  int i = rtems_check_erase_valid(flash, region_in->offset, region_in->size);
+  if(i < 0)
+  {
+    return i;
+  }
 
   /**
    * If region index is larger then maximum region index or region
