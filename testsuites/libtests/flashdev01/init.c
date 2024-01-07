@@ -215,11 +215,33 @@ static void run_test(void) {
   /* Open the flashdev */
   file = fopen(flash_path, "r+");
 
+  fd = fileno(file);
+
+  /* Write the test name to the flash - actually to newlib s buffer */
+  status = fwrite(test_string, 1, sizeof(test_string)-1, file);
+  /* False positive, rtems_flashdev_read_write was not called. String is still
+   * in buffer.
+   */
+  rtems_test_assert(status == sizeof(test_string)-1);
+  /* Flush will call rtems_flashdev_read_write and we see that things fail */
+  status = fflush(file);
+  rtems_test_assert(status);
+
   /* Adjust the file buffering */
   status = setvbuf(file, NULL, _IOFBF, min_write_write_block_size_in[1]);
   rtems_test_assert(!status);
 
-  fd = fileno(file);
+  fseek(file, 0x0, SEEK_SET);
+
+  /* Write the test name to the flash - actually to newlib s buffer */
+  status = fwrite(test_string, 1, sizeof(test_string)-1, file);
+  /* False positive, rtems_flashdev_read_write was not called. String is still
+   * in buffer.
+   */
+  rtems_test_assert(status == sizeof(test_string)-1);
+  /* Flush will call rtems_flashdev_read_write and we see that things fail */
+  status = fflush(file);
+  rtems_test_assert(status);
 
   /* Test Regions - this one must fail */
   region.offset = 0x401;

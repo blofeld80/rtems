@@ -323,6 +323,7 @@ static int rtems_flashdev_read_write(
   rtems_flashdev *flash = IMFS_generic_get_context_by_iop( iop );
   off_t addr;
   int status;
+  size_t min_write_block_size = 0;
 
   if ( read_buff == NULL && write_buff == NULL ) {
     rtems_set_errno_and_return_minus_one( EINVAL );
@@ -339,6 +340,16 @@ static int rtems_flashdev_read_write(
   if ( read_buff != NULL ) {
     status = ( *flash->read )( flash, addr, count, read_buff );
   } else if ( write_buff != NULL ) {
+    /* Make sure we have aligned writes in min. write block size is set */
+    ( *flash->get_min_write_block_size )( flash, &min_write_block_size );
+    if (min_write_block_size)
+    {
+      if((addr % min_write_block_size) || (count % min_write_block_size) )
+      {
+        rtems_flashdev_release( flash );
+        rtems_set_errno_and_return_minus_one( EINVAL );
+      }
+    }
     status = ( *flash->write )( flash, addr, count, write_buff );
   }
   rtems_flashdev_release( flash );
