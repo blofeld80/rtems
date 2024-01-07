@@ -34,8 +34,6 @@
 //#include <sys/ioccom.h>
 #include <dev/flash/flashdev.h>
 
-
-
 #ifdef __cplusplus
 extern "C" {
 #endif /* __cplusplus */
@@ -60,9 +58,6 @@ typedef struct rtems_lfs_mount_data rtems_lfs_mount_data;
  * @{
  */
 
-
-
-
 /**
  * @brief LFS mount data.
  *
@@ -82,18 +77,11 @@ struct rtems_lfs_mount_data {
   int32_t flashdev_fd;
 
   /**
-   * @brief Pointer to the flash partition. The partion must not neccessarily
+   * @brief Pointer to the flash region. The region must not neccessarily
    * be created within flashdev. It servers only to tell the LittleFS adapter
    * code about the flash geometry (offset, size) 
    */
-  rtems_flashdev_partition partition;
-
-  /**
-   * @brief Partition index to be used as returned by the flashdev
-   * partition create command, or -1 for signaling that no 
-   * partition is to be used
-   */
-  int32_t flashdev_partition_idx;
+  rtems_flashdev_region region;
 
   /**
    * @brief Flag to indicate if formating is allowed. It is required

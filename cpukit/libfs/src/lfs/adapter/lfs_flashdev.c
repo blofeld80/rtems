@@ -31,165 +31,28 @@
 #include "lfs_flashdev.h"
 #include "lfs_adapter.h"
 
-typedef enum 
-{
-	LS_ABORT = 1,
-	LS_OBTAIN_FLASH,
-	LS_GET_ACTIVE_PARTITION,
-	LS_DEACTIVATE_PARTITION,
-	LS_ACTIVATE_PARTITION,
-	LS_RETURN
-} lock_stages_t;
 
-typedef enum 
-{
-	HS_ABORT = 1,
-	HS_DEACTIVATE_PARTITION,
-	HS_ACTIVATE_PARTITION,
-	HS_RETURN
-} unlock_stages_t;
-
-static int32_t lock_flashdev_and_set_partition(
-	rtems_flashdev * flashdev, 
-	int32_t fd, 
-	int32_t * partition_idx, 
-	int32_t * partition_idx_store
-)
-{
-	int32_t status = 0;
-	bool done = false;
-	lock_stages_t stage = LS_OBTAIN_FLASH;
-
-	while ( !done ) {
-		switch ( stage ) {
-			case LS_OBTAIN_FLASH:
-				status = ioctl(fd, RTEMS_FLASHDEV_IOCTL_OBTAIN, NULL);
-				break;
-			case LS_GET_ACTIVE_PARTITION:
-			  status = ioctl(fd, RTEMS_FLASHDEV_IOCTL_GET_ACTIVATE_PARTITION_IDX,
-				  partition_idx_store);
-				break;
-			case LS_DEACTIVATE_PARTITION:
-				if (*partition_idx_store >= 0){
-					status = ioctl(fd, RTEMS_FLASHDEV_IOCTL_DEACTIVATE_PARTITION,
-					  partition_idx_store);
-				}
-				break;
-			case LS_ACTIVATE_PARTITION:
-				if (*partition_idx >= 0){
-			  	status = ioctl(fd, RTEMS_FLASHDEV_IOCTL_ACTIVATE_PARTITION, 
-					  partition_idx);
-				}
-				break;
-			case LS_RETURN:
-				status = 0;
-				done = true;
-				break;
-			default:
-			case LS_ABORT:
-				ioctl(fd, RTEMS_FLASHDEV_IOCTL_RELEASE, NULL);
-				done = true;
-				status = -1;
-				break;
-		}
-		if ( (status < 0) && !done )
-		{
-			stage = LS_ABORT;
-		} else {
-			stage++;
-		}
-	}
-	return status;
-}
-
-static int32_t unlock_flashdev_and_restore_partition(
-	rtems_flashdev * flashdev,
-	int32_t fd,
-	int32_t * partition_idx,
-	int32_t * partition_idx_store
-)
-{
-	int32_t status = 0;
-	bool done = false;
-	lock_stages_t stage = LS_OBTAIN_FLASH;
-
-	while ( !done ) {
-		switch ( stage ) {
-			case HS_DEACTIVATE_PARTITION:
-				if (*partition_idx >= 0){
-					status = ioctl(fd, RTEMS_FLASHDEV_IOCTL_DEACTIVATE_PARTITION,
-					  partition_idx);
-				}
-				break;
-			case HS_ACTIVATE_PARTITION:
-				if (*partition_idx_store >= 0){
-			  	status = ioctl(fd, RTEMS_FLASHDEV_IOCTL_ACTIVATE_PARTITION,
-					  partition_idx_store);
-				}
-				break;
-			case HS_RETURN:
-				status = ioctl(fd, RTEMS_FLASHDEV_IOCTL_RELEASE, NULL);
-				done = true;
-				break;
-			default:
-			case HS_ABORT:
-				ioctl(fd, RTEMS_FLASHDEV_IOCTL_RELEASE, NULL);
-				done = true;
-				status = -1;
-				break;
-		}
-		if ( (status < 0) && !done )
-		{
-			stage = HS_ABORT;
-		} else {
-			stage++;
-		}
-	}
-	return status;
-}
 
 int lfs_flashdev_read(
-  const struct lfs_config *c,
-	lfs_block_t block,
-	lfs_off_t off,
-	void *buffer,
-	lfs_size_t size
+const struct lfs_config *c,
+lfs_block_t block,
+lfs_off_t off,
+void *buffer,
+lfs_size_t size
 )
 {
-	int32_t store = 0;
-	int32_t ret = 0;
-	uint32_t address;
+  uint32_t address;
 
   if (c != NULL)
   {
     rtems_lfs_context_t* ctx = (rtems_lfs_context_t*) c->context;
     rtems_flashdev * flashdev = ctx->flashdev;
-		
-		if (ctx->flashdev_partition_idx >= 0)
-		{
-			if ( 0 == lock_flashdev_and_set_partition(flashdev, 
-				ctx->flashdev_fd, &ctx->flashdev_partition_idx, &store ) )
-			{
-				address = (uint32_t) block * 
-										(uint32_t) ctx->lfs_config.block_size + (uint32_t) off;
 
-				ret = flashdev->read(flashdev, (uintptr_t) address, (size_t) size, 
-								buffer);
-				
-				unlock_flashdev_and_restore_partition(flashdev, ctx->flashdev_fd, 
-					&ctx->flashdev_partition_idx, &store );
-				return ret;
-			}
-		}
-		else
-		{
-			address = (uint32_t) ctx->partition.offset + (uint32_t) block * 
-									(uint32_t) ctx->lfs_config.block_size + (uint32_t) off;
+    address = (uint32_t) ctx->region.offset + (uint32_t) block * 
+              (uint32_t) ctx->lfs_config.block_size + (uint32_t) off;
 
-			return flashdev->read(flashdev, (uintptr_t) address, (size_t) size, 
-												buffer);
-				
-		}
+    return flashdev->read(flashdev, (uintptr_t) address, (size_t) size, 
+                           buffer);
   }
 
   return LFS_ERR_INVAL;
@@ -197,46 +60,24 @@ int lfs_flashdev_read(
 
 
 int lfs_flashdev_prog(
-	const struct lfs_config *c,
-	lfs_block_t block,
-	lfs_off_t off,
-	const void *buffer,
-	lfs_size_t size
+  const struct lfs_config *c,
+  lfs_block_t block,
+  lfs_off_t off,
+  const void *buffer,
+  lfs_size_t size
 )
 {
-	int32_t store = 0;
-	int32_t ret = 0;
-	uint32_t address;
+  uint32_t address;
 
   if (c != NULL)
   {
     rtems_lfs_context_t* ctx = (rtems_lfs_context_t*) c->context;
     rtems_flashdev * flashdev = ctx->flashdev;
+    address = (uint32_t) ctx->region.offset + (uint32_t) block * 
+              (uint32_t) ctx->lfs_config.block_size + (uint32_t) off;
 
-		if (ctx->flashdev_partition_idx >= 0)
-		{
-
-			if ( 0 == lock_flashdev_and_set_partition(flashdev, 
-				ctx->flashdev_fd, &ctx->flashdev_partition_idx, &store ) )
-			{
-				uint32_t address = (uint32_t) block * 
-														(uint32_t) ctx->lfs_config.block_size + (uint32_t) off;
-				
-				ret = flashdev->write(flashdev, (uintptr_t) address, (size_t) size, 
-								buffer);
-				
-				unlock_flashdev_and_restore_partition(flashdev, ctx->flashdev_fd, 
-					&ctx->flashdev_partition_idx, &store );
-
-				return ret;
-			}
-		} else {
-			address = (uint32_t) ctx->partition.offset + (uint32_t) block * 
-									(uint32_t) ctx->lfs_config.block_size + (uint32_t) off;
-
-			return flashdev->write(flashdev, (uintptr_t) address, (size_t) size, 
-								buffer);
-		}
+    return flashdev->write(flashdev, (uintptr_t) address, (size_t) size, 
+                           buffer);
   }
 
   return LFS_ERR_INVAL;
@@ -244,39 +85,19 @@ int lfs_flashdev_prog(
 
 int lfs_flashdev_erase(const struct lfs_config *c, lfs_block_t block)
 {
-	int32_t store = 0;
-	int32_t ret = 0;
-	uint32_t address;
+  uint32_t address;
 
   if (c != NULL)
   {
     rtems_lfs_context_t* ctx = (rtems_lfs_context_t*) c->context;
     rtems_flashdev * flashdev = ctx->flashdev;
 
-		if (ctx->flashdev_partition_idx >= 0)
-		{
+    address = (uint32_t) ctx->region.offset + (uint32_t) block * 
+              (uint32_t) ctx->lfs_config.block_size;
 
-			if ( 0 == lock_flashdev_and_set_partition(flashdev, 
-				ctx->flashdev_fd, &ctx->flashdev_partition_idx, &store ) )
-			{
-				address = (uint32_t) block * (uint32_t) ctx->lfs_config.block_size;
-				
-				ret = flashdev->erase(flashdev, (uintptr_t) address, 
-								(size_t) ctx->lfs_config.block_size);
-				
-				unlock_flashdev_and_restore_partition(flashdev, ctx->flashdev_fd, 
-					&ctx->flashdev_partition_idx, &store );
-				return ret;
-			}
-		} else {
-			address = (uint32_t) ctx->partition.offset + (uint32_t) block * 
-									(uint32_t) ctx->lfs_config.block_size;
-
-			return flashdev->erase(flashdev, (uintptr_t) address, 
-								(size_t) ctx->lfs_config.block_size);
-		}
+    return flashdev->erase(flashdev, (uintptr_t) address, 
+                           (size_t) ctx->lfs_config.block_size);
   }
-
   return LFS_ERR_INVAL;
 }
 

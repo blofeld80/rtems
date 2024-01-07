@@ -101,9 +101,9 @@ int rtems_lfs_initialize(
 )
 {
   int status;
-  size_t erase_size;
-  size_t write_size;
+  size_t min_write_size = 0;
   rtems_lfs_mount_data *lfs_mount_data = data;
+  rtems_flashdev_ioctl_page_info pg_info;
 
   if ( lfs_mount_data == NULL ) {
     rtems_set_errno_and_return_minus_one( EINVAL );
@@ -123,32 +123,36 @@ int rtems_lfs_initialize(
   }
 
 
-  if ( lfs_mount_data->flashdev->get_min_write_size(
+  if ( lfs_mount_data->flashdev->get_min_write_block_size(
         lfs_mount_data->flashdev,
-        &write_size) )
+        &min_write_size) )
   {
     free(fs_info);
     rtems_set_errno_and_return_minus_one( EIO );
   }
 
-  if ( lfs_mount_data->flashdev->get_erase_size(
-        lfs_mount_data->flashdev,
-        &erase_size) )
+  pg_info.location = 0;
+  if (ioctl(lfs_mount_data->flashdev_fd, 
+            RTEMS_FLASHDEV_IOCTL_GET_PAGEINFO_BY_OFFSET, &pg_info))
   {
     free(fs_info);
     rtems_set_errno_and_return_minus_one( EIO );
   }
 
+  if( 0 == min_write_size)
+  {
+    min_write_size = pg_info.page_info.size;
+  }
 
-  if (!(lfs_mount_data->partition.size % erase_size) ||
-      !(lfs_mount_data->partition.offset % erase_size) )
+  if (!(lfs_mount_data->region.size % pg_info.erase_info.size) ||
+      !(lfs_mount_data->region.offset % pg_info.erase_info.size) )
   {
     memcpy(&fs_info->ctx.lfs_config, pCfg,  sizeof(struct lfs_config));
-    fs_info->ctx.lfs_config.read_size = (lfs_size_t) write_size;
-    fs_info->ctx.lfs_config.prog_size = (lfs_size_t) write_size;
-    fs_info->ctx.lfs_config.block_size = (lfs_size_t) erase_size;
+    fs_info->ctx.lfs_config.read_size = (lfs_size_t) min_write_size;
+    fs_info->ctx.lfs_config.prog_size = (lfs_size_t) min_write_size;
+    fs_info->ctx.lfs_config.block_size = (lfs_size_t) pg_info.erase_info.size;
     fs_info->ctx.lfs_config.block_count = 
-      (lfs_size_t) lfs_mount_data->partition.size / erase_size;
+      (lfs_size_t) lfs_mount_data->region.size / pg_info.erase_info.size;
     fs_info->ctx.lfs_config.read = lfs_flashdev_read;
     fs_info->ctx.lfs_config.prog = lfs_flashdev_prog;
     fs_info->ctx.lfs_config.erase = lfs_flashdev_erase;
@@ -156,7 +160,8 @@ int rtems_lfs_initialize(
     fs_info->ctx.lfs_config.context = (void*) &fs_info->ctx;
     fs_info->ctx.flashdev_fd = lfs_mount_data->flashdev_fd;
     fs_info->ctx.flashdev = lfs_mount_data->flashdev;
-    memcpy(&fs_info->ctx.partition, &lfs_mount_data->partition, sizeof(rtems_flashdev_partition));
+    memcpy(&fs_info->ctx.region, &lfs_mount_data->region, 
+            sizeof(rtems_flashdev_region));
     fs_info->ctx.lfs_config.context = (void*) &fs_info->ctx;
 
     status = lfs_mount(&fs_info->lfs, &fs_info->ctx.lfs_config);
@@ -175,10 +180,7 @@ int rtems_lfs_initialize(
 
       if (status == 0)
       {
-        char mtx_name[19];
-        sprintf(mtx_name, "LFS_MTX_%08x", (unsigned int) lfs_mount_data->flashdev);
-        rtems_recursive_mutex_init(&fs_info->s_mutex, (const char*) &mtx_name);
-        
+        rtems_recursive_mutex_init(&fs_info->s_mutex, "LFS_MTX");
         mt_entry->mt_fs_root->location.node_access = mt_entry->target;
         mt_entry->fs_info = fs_info;
         mt_entry->ops = &rtems_lfs_ops;
