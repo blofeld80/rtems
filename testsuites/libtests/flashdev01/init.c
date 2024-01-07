@@ -68,7 +68,9 @@ static void run_test(void) {
   for ( int loop = 0; loop <= 2; loop++)
   {
     /* Initalize the flash device driver and flashdev */
-    flash = test_flashdev_init(min_write_write_block_size_in[loop]);
+    flash = test_flashdev_init( PAGE_COUNT,
+                                PAGE_SIZE,
+                                min_write_write_block_size_in[loop]);
     rtems_test_assert(flash != NULL);
 
     /* Register the flashdev as a device */
@@ -169,7 +171,9 @@ static void run_test(void) {
   }
 
   /* Initalize the flash device driver and flashdev */
-  flash = test_flashdev_init(min_write_write_block_size_in[1]);
+  flash = test_flashdev_init( PAGE_COUNT,
+                              PAGE_SIZE,
+                              min_write_write_block_size_in[1]);
   rtems_test_assert(flash != NULL);
 
   /* Register the flashdev as a device */

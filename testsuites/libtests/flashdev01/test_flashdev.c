@@ -30,14 +30,14 @@
 
 #include <rtems/seterr.h>
 
-#define TEST_DATA_SIZE (PAGE_SIZE * PAGE_COUNT)
-#define PAGE_COUNT 16
-#define PAGE_SIZE 128
 #define MAX_NUM_REGIONS 48
 #define BITALLOC_SIZE 32
 #define NUM_BITALLOC ((MAX_NUM_REGIONS + BITALLOC_SIZE - 1) / BITALLOC_SIZE)
 
 size_t g_min_write_block_size = 0;
+size_t g_page_count = 0;
+size_t g_page_size = 0;
+size_t g_test_data_size = 0;
 
 /**
  * This flash device driver is for testing flashdev
@@ -111,8 +111,8 @@ int test_flashdev_get_page_by_offset(
   size_t *page_size
 )
 {
-  *page_offset = search_offset - (search_offset%PAGE_SIZE);
-  *page_size = PAGE_SIZE;
+  *page_offset = search_offset - (search_offset%g_page_size);
+  *page_size = g_page_size;
   return 0;
 }
 
@@ -124,8 +124,8 @@ int test_flashdev_get_page_by_index(
   size_t *page_size
 )
 {
-  *page_offset = search_index * PAGE_SIZE;
-  *page_size = PAGE_SIZE;
+  *page_offset = search_index * g_page_size;
+  *page_size = g_page_size;
   return 0;
 }
 
@@ -135,7 +135,7 @@ int test_flashdev_get_page_count(
   int *page_count
 )
 {
-  *page_count = PAGE_COUNT;
+  *page_count = g_page_count;
   return 0;
 }
 
@@ -181,7 +181,7 @@ int test_flashdev_read(
 {
   test_flashdev* driver = flash->driver;
 
-  if (offset + count > TEST_DATA_SIZE) {
+  if (offset + count > g_test_data_size) {
     rtems_set_errno_and_return_minus_one( EINVAL );
   }
 
@@ -200,7 +200,7 @@ int test_flashdev_write(
 {
   test_flashdev* driver = flash->driver;
 
-  if (offset + count > TEST_DATA_SIZE) {
+  if (offset + count > g_test_data_size) {
     rtems_set_errno_and_return_minus_one( EINVAL );
   }
 
@@ -218,11 +218,11 @@ int test_flashdev_erase(
 {
   test_flashdev* driver = flash->driver;
 
-  if (offset + count > TEST_DATA_SIZE) {
+  if (offset + count > g_test_data_size) {
     rtems_set_errno_and_return_minus_one( EINVAL );
   }
 
-  if (offset%PAGE_SIZE || count%PAGE_SIZE) {
+  if (offset%g_page_size || count%g_page_size) {
     rtems_set_errno_and_return_minus_one( EINVAL );
   }
 
@@ -231,13 +231,26 @@ int test_flashdev_erase(
 }
 
 /* Initialize Flashdev and underlying driver. */
-rtems_flashdev* test_flashdev_init(size_t min_write_block_size)
+rtems_flashdev* test_flashdev_init(
+  size_t page_count,
+  size_t page_size,
+  size_t min_write_block_size
+  )
 {
+  if (0 == page_count) {
+    return NULL;
+  }
+  if (0 == page_size) {
+    return NULL;
+  }
   if (0 == min_write_block_size) {
     return NULL;
   }
 
+  g_page_count = page_count;
+  g_page_size = page_size;
   g_min_write_block_size = min_write_block_size;
+  g_test_data_size = g_page_size * g_page_count;
 
   rtems_flashdev *flash = rtems_flashdev_alloc_and_init(sizeof(rtems_flashdev));
 
@@ -252,7 +265,7 @@ rtems_flashdev* test_flashdev_init(size_t min_write_block_size)
     return NULL;
   }
 
-  flash_driver->data = calloc(1, TEST_DATA_SIZE);
+  flash_driver->data = calloc(1, g_test_data_size);
   if (flash_driver->data == NULL) {
     free(flash_driver);
     rtems_flashdev_destroy_and_free(flash);
