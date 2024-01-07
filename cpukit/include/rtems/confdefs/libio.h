@@ -51,6 +51,7 @@
   #define CONFIGURE_FILESYSTEM_FTPFS
   #define CONFIGURE_FILESYSTEM_IMFS
   #define CONFIGURE_FILESYSTEM_JFFS2
+  #define CONFIGURE_FILESYSTEM_LITTLEFS
   #define CONFIGURE_FILESYSTEM_NFS
   #define CONFIGURE_FILESYSTEM_RFS
   #define CONFIGURE_FILESYSTEM_TFTPFS
@@ -120,6 +121,10 @@
     #error "CONFIGURE_APPLICATION_DISABLE_FILESYSTEM cannot be used together with CONFIGURE_FILESYSTEM_JFFS2"
   #endif
 
+  #ifdef CONFIGURE_FILESYSTEM_LITTLEFS
+    #error "CONFIGURE_APPLICATION_DISABLE_FILESYSTEM cannot be used together with CONFIGURE_FILESYSTEM_LITTLEFS"
+  #endif
+
   #ifdef CONFIGURE_FILESYSTEM_NFS
     #error "CONFIGURE_APPLICATION_DISABLE_FILESYSTEM cannot be used together with CONFIGURE_FILESYSTEM_NFS"
   #endif
@@ -155,6 +160,10 @@ const rtems_jffs2_config jffs2_config = {
   CONFIGURE_JFFS2_DELAYED_WRITE_TASK_PRIORITY,
 };
 
+#endif
+
+#ifdef CONFIGURE_FILESYSTEM_LITTLEFS
+#include <rtems/lfs.h>
 #endif
 
 #ifdef CONFIGURE_FILESYSTEM_NFS
@@ -305,6 +314,9 @@ const rtems_filesystem_table_t rtems_filesystem_table[] = {
   #endif
   #ifdef CONFIGURE_FILESYSTEM_JFFS2
     { RTEMS_FILESYSTEM_TYPE_JFFS2, rtems_jffs2_initialize },
+  #endif
+  #ifdef CONFIGURE_FILESYSTEM_LITTLEFS
+    { RTEMS_FILESYSTEM_TYPE_LITTLEFS, rtems_lfs_initialize },
   #endif
   #ifdef CONFIGURE_FILESYSTEM_NFS
     { RTEMS_FILESYSTEM_TYPE_NFS, rtems_nfs_initialize },

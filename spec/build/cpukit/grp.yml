@@ -3,6 +3,7 @@ build-type: group
 cflags:
 - ${CPUKIT_OPTIMIZATION_FLAGS}
 copyrights:
+- Copyright (C) 2023 Bernd Moessner
 - Copyright (C) 2020 embedded brains GmbH & Co. KG
 cppflags: []
 cxxflags:
@@ -40,6 +41,8 @@ links:
   uid: libtftpfs
 - role: build-dependency
   uid: libz
+- role: build-dependency
+  uid: liblfs
 type: build
 use-after: []
 use-before: []
