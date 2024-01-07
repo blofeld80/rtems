@@ -112,9 +112,25 @@ static void run_test(void) {
     fgets(buff, TEST_DATA_SIZE, file);
     rtems_test_assert(!strncmp(buff, test_string, sizeof(test_string)));
 
-    /* Test Erasing */
+    /* Test Erasing - this one must fail */
     e_args.offset = 0x0;
     e_args.size = PAGE_SIZE;
+    status = ioctl(fd, RTEMS_FLASHDEV_IOCTL_ERASE, &e_args);
+    rtems_test_assert(status);
+
+    /* Test Erasing - this one must fail */
+    e_args.offset = 0x1;
+    e_args.size = ERASE_BLOCK_SIZE;
+    status = ioctl(fd, RTEMS_FLASHDEV_IOCTL_ERASE, &e_args);
+    rtems_test_assert(status);
+
+    /* Test Erasing - this one must pass */
+    e_args.offset = 0x0;
+    status = ioctl(fd, RTEMS_FLASHDEV_IOCTL_ERASE, &e_args);
+    rtems_test_assert(!status);
+
+    /* Test Erasing - this one must pass */
+    e_args.size = 2*ERASE_BLOCK_SIZE;
     status = ioctl(fd, RTEMS_FLASHDEV_IOCTL_ERASE, &e_args);
     rtems_test_assert(!status);
 

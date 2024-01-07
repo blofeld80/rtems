@@ -60,6 +60,12 @@ static int rtems_flashdev_read_write(
   size_t count
 );
 
+static int rtems_check_erase_valid(
+  rtems_flashdev* flash,
+  off_t offset,
+  size_t count
+);
+
 static int rtems_flashdev_ioctl_erase(
   rtems_flashdev *flash,
   rtems_libio_t *iop,
@@ -339,6 +345,41 @@ static int rtems_flashdev_read_write(
 
   /* Update offset and return */
   return rtems_flashdev_update_and_return( iop, status, count );
+}
+
+static int rtems_check_erase_valid(
+  rtems_flashdev* flash,
+  off_t offset,
+  size_t count
+)
+{
+  rtems_flashdev_ioctl_page_info page_info;
+  page_info.location = offset;
+  off_t offset_max = offset + count;
+
+  while(page_info.location < offset_max)
+  {
+    ( *flash->get_page_info_by_offset )( flash,
+                                          page_info.location,
+                                          &page_info.page_info.offset,
+                                          &page_info.page_info.size,
+                                          &page_info.erase_info.offset,
+                                          &page_info.erase_info.size );
+
+    if (page_info.erase_info.offset != page_info.location)
+    {
+      rtems_set_errno_and_return_minus_one( EINVAL );
+    }
+
+    page_info.location += page_info.erase_info.size;
+  }
+
+  if (offset_max != page_info.location)
+  {
+    rtems_set_errno_and_return_minus_one( EINVAL );
+  }
+
+  return 0;
 }
 
 static int rtems_flashdev_ioctl(
@@ -643,8 +684,14 @@ static int rtems_flashdev_ioctl_erase(
   if ( status < 0 ) {
     return status;
   }
+  status = rtems_check_erase_valid( flash, new_offset, erase_args_1->size );
+  if ( status < 0 ) {
+    return status;
+  }
 
-  /* Erase flash */
+  /* Erase flash, not fragmented as the driver might want to use even
+   * a different erase size for speed
+   */
   status = ( *flash->erase )( flash, new_offset, erase_args_1->size );
   return status;
 }
