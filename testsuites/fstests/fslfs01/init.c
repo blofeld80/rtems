@@ -166,7 +166,7 @@ void mount_lfs(void)
   
 }
 
-void mount_lfs(void)
+void unmount_lfs(void)
 {
 
 }
