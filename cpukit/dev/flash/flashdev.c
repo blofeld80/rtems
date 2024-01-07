@@ -145,8 +145,7 @@ static int rtems_flashdev_get_abs_addr(
 static int rtems_flashdev_update_and_return(
   rtems_libio_t *iop,
   int status,
-  size_t count,
-  off_t new_offset
+  size_t count
 );
 
 static uint32_t rtems_flashdev_find_unallocated_region(
@@ -339,7 +338,7 @@ static int rtems_flashdev_read_write(
   rtems_flashdev_release( flash );
 
   /* Update offset and return */
-  return rtems_flashdev_update_and_return( iop, status, count, addr + count );
+  return rtems_flashdev_update_and_return( iop, status, count );
 }
 
 static int rtems_flashdev_ioctl(
@@ -599,13 +598,12 @@ static int rtems_flashdev_get_abs_addr(
 static int rtems_flashdev_update_and_return(
   rtems_libio_t *iop,
   int status,
-  size_t count,
-  off_t new_offset
+  size_t count
 )
 {
   /* Update offset and return */
   if ( status == 0 ) {
-    iop->offset = new_offset;
+    iop->offset += count;
     return count;
   } else {
     rtems_set_errno_and_return_minus_one( status );
